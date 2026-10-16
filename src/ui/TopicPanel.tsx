@@ -41,7 +41,7 @@ export default function TopicPanel() {
 
 function TopicPanelBody() {
   const [topic, setTopic] = useState('');
-  const [level, setLevel] = useState<Difficulty>('normal');
+  const [level, setLevel] = useState<Difficulty>(() => useUI.getState().topicLevel);
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const [server, setServer] = useState<Server>('checking');
   const [recent, setRecent] = useState<DomainPack[]>(() => loadRecent());

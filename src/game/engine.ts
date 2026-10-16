@@ -291,7 +291,7 @@ function hubStep(mx: number, my: number, h: number): void {
     hub.starting = false; hub.lockedPad = pad; hub.activePad = null; hub.hold = 0;
     input.clear();
     sfx.click();
-    useUI.setState({ topicOpen: true });
+    useUI.setState({ topicOpen: true, topicLevel: pad.difficulty });
     return;
   }
   if (pad) {

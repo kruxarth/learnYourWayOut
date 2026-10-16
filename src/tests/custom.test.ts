@@ -226,6 +226,7 @@ describe('hub Any Topic pad', () => {
     expect(padUnderPlayer(engine.hub!, pad.x, pad.z)).toBe(pad);
     advance(1.3);
     expect(useUI.getState().topicOpen).toBe(true);
+    expect(useUI.getState().topicLevel).toBe(pad.difficulty);
     expect(useUI.getState().screen).toBe('hub');
     expect(G.run).toBeNull();
     // closing the panel while still on the pad does not reopen it

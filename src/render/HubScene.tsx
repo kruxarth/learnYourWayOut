@@ -32,7 +32,8 @@ function PortalMesh({ portal }: { portal: HubPortal }) {
           <meshBasicMaterial color={portal.color} transparent opacity={0.5} side={DoubleSide} />
         </mesh>
       </group>
-      <mesh ref={label} position={[0, 5.9, 0]}>
+      {/* low, in front of the ring, so it is in view from the spawn rather than above the top of the screen */}
+      <mesh ref={label} position={[-1.6 * Math.sin(portal.angle), 1.3, 1.6 * Math.cos(portal.angle)]}>
         <planeGeometry args={[4.4, 2.2]} />
         <meshBasicMaterial map={tex} transparent />
       </mesh>

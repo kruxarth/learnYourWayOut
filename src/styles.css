@@ -231,7 +231,7 @@ button.chip[disabled] { opacity: 0.5; cursor: not-allowed; }
 .report-btn[disabled] { opacity: 0.6; cursor: default; }
 .lobby { width: min(620px, 100%); }
 .lobby-code-big { font-size: 64px; font-weight: 900; letter-spacing: 0.25em; text-align: center; color: var(--accent); user-select: text; -webkit-user-select: text; }
-.lobby-code { width: 7ch; text-transform: uppercase; letter-spacing: 0.2em; text-align: center; }
+.lobby-code { width: 11ch; text-transform: uppercase; letter-spacing: 0.2em; text-align: center; }
 .lobby-join { align-items: center; margin-top: 0; }
 .lobby-levels { margin-top: 10px; }
 .lobby-players { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; }

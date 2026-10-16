@@ -14,15 +14,15 @@ describe('hub', () => {
   it('has 5 portals and 13 pads; harder pads are closer to the portal', () => {
     const hub = buildHub();
     expect(hub.portals).toHaveLength(5);
-    expect(hub.pads).toHaveLength(13);
-    // Any Topic is at the centre of the arc with a single pad
+    expect(hub.pads).toHaveLength(15);
+    // Any Topic is at the centre of the arc with all three pads
     const any = hub.portals.find((p) => p.domainId === 'custom')!;
     expect(any.x).toBeCloseTo(0, 5);
     expect(any.z).toBeCloseTo(-16, 5);
-    expect(hub.pads.filter((p) => p.domainId === 'custom')).toHaveLength(1);
+    expect(hub.pads.filter((p) => p.domainId === 'custom')).toHaveLength(3);
     const angles = hub.portals.map((p) => Math.round((p.angle * 180) / Math.PI)).sort((a, b) => a - b);
     expect(angles).toEqual([-60, -30, 0, 30, 60]);
-    for (const portal of hub.portals.filter((p) => p.domainId !== 'custom')) {
+    for (const portal of hub.portals) {
       const pads = hub.pads.filter((p) => p.domainId === portal.domainId);
       const dist = (d: string) => { const p = pads.find((x) => x.difficulty === d)!; return Math.hypot(p.x - portal.x, p.z - portal.z); };
       expect(dist('hard')).toBeLessThan(dist('normal'));

@@ -72,6 +72,8 @@ export interface UIState {
   /** The Gauntlet button opens Quick Select with the Gauntlet mode preselected. */
   quickSelectGauntlet: boolean;
   topicOpen: boolean;
+  /** Difficulty the Topic panel starts on: the Any Topic pad the player stood on. */
+  topicLevel: Difficulty;
   /** F3: the multiplayer lobby panel, and the "Leave race?" menu (online runs cannot pause). */
   lobbyOpen: boolean;
   leaveMenuOpen: boolean;
@@ -119,6 +121,7 @@ export const useUI = create<UIState>(() => ({
   quickSelectOpen: false,
   quickSelectGauntlet: false,
   topicOpen: false,
+  topicLevel: 'normal',
   lobbyOpen: false,
   leaveMenuOpen: false,
   hubPad: null,

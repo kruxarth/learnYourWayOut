@@ -37,12 +37,12 @@ export function buildHub(): HubState {
   const world = makeWorld([], [floor], T.HUB_RADIUS);
   const portals: HubPortal[] = [];
   const pads: HubPad[] = [];
-  // Any Topic sits at the centre (φ = 0°); it has one pad, the "easy" spot, which opens the Topic panel
+  // Any Topic sits at the centre (φ = 0°); its pads open the Topic panel on that difficulty instead of starting a run
   const domains = [...questionSource.listDomains(), { id: 'custom' as DomainId, name: 'Any Topic', color: PORTAL_COLOR.custom }];
   for (const d of domains) {
     const phi = (PORTAL_PHI[d.id] * Math.PI) / 180;
     portals.push({ domainId: d.id, name: d.name, x: 16 * Math.sin(phi), z: -16 * Math.cos(phi), color: PORTAL_COLOR[d.id], angle: phi });
-    for (const diff of (d.id === 'custom' ? ['easy'] : ['easy', 'normal', 'hard']) as Difficulty[]) {
+    for (const diff of ['easy', 'normal', 'hard'] as Difficulty[]) {
       const r = PAD_RADIUS[diff];
       pads.push({ domainId: d.id, difficulty: diff, x: r * Math.sin(phi), z: -r * Math.cos(phi), color: PAD_COLOR[diff] });
     }
