@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: learn-your-way-out
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: LLM_API_KEY
+        sync: false # optional: only needed for "Any Topic"
