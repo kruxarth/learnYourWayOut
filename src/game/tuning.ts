@@ -14,10 +14,12 @@ export const T = {
   CAM_DIST: 10, CAM_HEIGHT: 8, CAM_TARGET_Y: 1.0, CAM_FOV: 55, CAM_LERP: 10, CAM_YAW_SENS: 0.005,
   // chase cam inside mazes: low, close and wide behind the bean's heading, blended in over CHASE_EASE (1/s).
   // A/D steer the bean at CHASE_TURN_RATE (rad/s) and W/S drive along its heading.
-  CHASE_DIST: 3.4, CHASE_HEIGHT: 0.7, CHASE_TARGET_Y: 1.4, CHASE_FOV: 78, CHASE_EASE: 3, CHASE_TURN_RATE: 4.5,
+  // It aims CHASE_LOOK_AHEAD (m) ahead of the bean at CHASE_LOOK_Y (m) so the corridor, not the bean, fills the view.
+  CHASE_DIST: 4.0, CHASE_HEIGHT: 1.2, CHASE_TARGET_Y: 1.4, CHASE_FOV: 78, CHASE_EASE: 3, CHASE_TURN_RATE: 4.5,
+  CHASE_LOOK_AHEAD: 5, CHASE_LOOK_Y: 1.2,
   // the drawn camera yaw eases toward the engine's (1/s); the camera is pulled in to stay CAM_CLIP_PAD (m) off walls,
   // lets go again at CAM_CLIP_RELEASE (1/s), and rises up to CAM_CLIP_RISE (m) when pulled all the way in, to look over the bean
-  CAM_YAW_LERP: 12, CAM_CLIP_PAD: 0.3, CAM_CLIP_RELEASE: 4, CAM_CLIP_RISE: 1.6,
+  CAM_YAW_LERP: 12, CAM_CLIP_PAD: 0.3, CAM_CLIP_RELEASE: 4, CAM_CLIP_RISE: 0.5,
   // junction signs fade out when the camera is closer than SIGN_NEAR_FADE[1] (m), gone at [0], so one behind the bean never fills the view
   SIGN_NEAR_FADE: [0.8, 2.0] as [number, number],
   // maze hedges are drawn this tall (m) so they tower over the chase cam; their collision boxes keep H_HEDGE

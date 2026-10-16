@@ -14,6 +14,7 @@ export default function CameraRig() {
   const snap = useRef(-1);
   const target = useRef(new Vector3());
   const desired = useRef(new Vector3());
+  const look = useRef(new Vector3());
   const shakeNow = useRef(0);
   const chase = useRef(0);
   const yaw = useRef(0);
@@ -61,6 +62,9 @@ export default function CameraRig() {
       d.z = t.z + (d.z - t.z) * reach.current;
       d.y += (1 - reach.current) * T.CAM_CLIP_RISE * k0;
     } else reach.current = 1;
+    // in mazes aim down the corridor ahead of the bean rather than at it
+    const ahead = T.CHASE_LOOK_AHEAD * k0;
+    look.current.set(t.x - Math.sin(yaw.current) * ahead, p.pos.y + T.CAM_TARGET_Y + (T.CHASE_LOOK_Y - T.CAM_TARGET_Y) * k0, t.z - Math.cos(yaw.current) * ahead);
     if (snapNow) {
       camera.position.copy(d);
       snap.current = cs.snapVersion;
@@ -80,7 +84,7 @@ export default function CameraRig() {
       camera.position.z += (Math.random() - 0.5) * cs.shake;
       cs.shake *= Math.exp(-6 * dt);
     } else cs.shake = 0;
-    camera.lookAt(t);
+    camera.lookAt(look.current);
   });
   return null;
 }
