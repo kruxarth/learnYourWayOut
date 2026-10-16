@@ -4,6 +4,8 @@ import { PerspectiveCamera, Vector3 } from 'three';
 import { engine } from '../game/engine';
 import { T } from '../game/tuning';
 import { inMazeSegment } from '../game/loop/visibility';
+import { angleDiff } from '../game/loop/navigation';
+import { cameraClearance } from '../game/loop/cameraClip';
 import { useUI } from '../ui/store';
 
 /** Third-person follow camera (spec §7.3, §8.8). Writes the R3F camera. */
@@ -14,6 +16,8 @@ export default function CameraRig() {
   const desired = useRef(new Vector3());
   const shakeNow = useRef(0);
   const chase = useRef(0);
+  const yaw = useRef(0);
+  const reach = useRef(1);
 
   useEffect(() => {
     const off = engine.events.on((e) => {
@@ -43,14 +47,31 @@ export default function CameraRig() {
     const ty = T.CAM_TARGET_Y + (T.CHASE_TARGET_Y - T.CAM_TARGET_Y) * k0;
     const fov = T.CAM_FOV + (T.CHASE_FOV - T.CAM_FOV) * k0;
     if (camera instanceof PerspectiveCamera && Math.abs(camera.fov - fov) > 0.01) { camera.fov = fov; camera.updateProjectionMatrix(); }
+    // in mazes the engine's yaw follows the bean's heading; ease toward it so the camera swings round behind
+    yaw.current = snapNow ? cs.yaw : yaw.current + angleDiff(yaw.current, cs.yaw) * (1 - Math.exp(-T.CAM_YAW_LERP * dt));
     t.set(p.pos.x, p.pos.y + ty, p.pos.z);
-    d.set(t.x + Math.sin(cs.yaw) * dist, t.y + height, t.z + Math.cos(cs.yaw) * dist);
+    d.set(t.x + Math.sin(yaw.current) * dist, t.y + height, t.z + Math.cos(yaw.current) * dist);
+    // the low chase cam must not sit inside a wall: pull it in toward the bean at once, let it out slowly.
+    // Only below the drawn maze-wall tops; the high view looks over them.
+    const clip = !!run && k0 > 0.01 && d.y < p.pos.y + T.MAZE_WALL_VIS_H + T.CAM_CLIP_PAD;
+    if (clip) {
+      const free = cameraClearance(run.world.nav, t.x, t.z, d.x, d.z, T.CAM_CLIP_PAD);
+      reach.current = snapNow || free < reach.current ? free : reach.current + (free - reach.current) * (1 - Math.exp(-T.CAM_CLIP_RELEASE * dt));
+      d.x = t.x + (d.x - t.x) * reach.current;
+      d.z = t.z + (d.z - t.z) * reach.current;
+      d.y += (1 - reach.current) * T.CAM_CLIP_RISE * k0;
+    } else reach.current = 1;
     if (snapNow) {
       camera.position.copy(d);
       snap.current = cs.snapVersion;
     } else {
       const k = 1 - Math.exp(-T.CAM_LERP * dt);
       camera.position.lerp(d, k);
+      // the lerp can still cut a corner while swinging round
+      if (clip) {
+        const f = cameraClearance(run.world.nav, t.x, t.z, camera.position.x, camera.position.z, T.CAM_CLIP_PAD);
+        if (f < 1) { camera.position.x = t.x + (camera.position.x - t.x) * f; camera.position.z = t.z + (camera.position.z - t.z) * f; }
+      }
     }
     shakeNow.current = cs.shake;
     if (cs.shake > 0.001) {

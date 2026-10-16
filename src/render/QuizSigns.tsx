@@ -5,9 +5,10 @@ import type { BranchRT, RoomRuntime, RunState } from '../game/runtime';
 import type { BranchLayout } from '../game/types';
 import { labelTexture } from './labels';
 import { PAL } from './materials';
+import { T } from '../game/tuning';
 import { visOpacity } from './visibility';
 
-const SIGN_W = 2.8, SIGN_H = 1.4, SIGN_Y = 2.75, INSET = 0.9;
+const SIGN_W = 2.8, SIGN_H = 1.4, SIGN_Y = 2.4, INSET = 0.9;
 
 function style(b: BranchRT): { text: string; bg: string; fg: string; border: string } {
   switch (b.state) {
@@ -37,7 +38,10 @@ function Sign({ layout, get }: { layout: BranchLayout; get: () => BranchRT }) {
     const r = root.current;
     if (!r) return;
     const b = get();
-    const op = visOpacity(x, z);
+    // fade a sign the camera is right beside (the corridor behind the bean), so it never fills the view
+    const [n0, n1] = T.SIGN_NEAR_FADE;
+    const near = Math.min(1, Math.max(0, (Math.hypot(camera.position.x - x, camera.position.z - z) - n0) / (n1 - n0)));
+    const op = visOpacity(x, z) * near;
     r.visible = op > 0.02;
     if (!r.visible) return;
     mat.opacity = op;

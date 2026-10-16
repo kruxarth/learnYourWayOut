@@ -123,7 +123,7 @@ function RunScene({ run }: { run: RunState }) {
   return (
     <>
       <StaticFloors floors={run.world.floors} />
-      <StaticWalls walls={run.world.walls} />
+      <StaticWalls walls={run.world.walls} segments={run.course.segments} />
       <DynamicEntities run={run} />
       <Slime />
       {debugBoxes && <DebugBoxes run={run} />}

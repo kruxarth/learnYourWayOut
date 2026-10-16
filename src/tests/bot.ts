@@ -10,7 +10,7 @@ import { G } from '../game/state';
 import { T } from '../game/tuning';
 import { params } from '../game/urlParams';
 import type { Difficulty, DomainId, SegmentInfo } from '../game/types';
-import { boot, steer } from './helpers';
+import { boot, steer, update } from './helpers';
 
 /**
  * A headless player for whole runs, driving the real controller. Used by the full-run test
@@ -77,7 +77,7 @@ function alive(): void {
 }
 
 function tick(): void {
-  engine.update(DT);
+  update(DT);
   alive();
 }
 

@@ -1,7 +1,8 @@
 const ROWS: [string, string][] = [
   ['Move', 'WASD or arrow keys'],
+  ['In mazes', 'A / D steer, W / S drive forward and back'],
   ['Jump', 'Space'],
-  ['Look around', 'Drag with the mouse'],
+  ['Look around', 'Drag with the mouse (outside mazes)'],
   ['50/50', 'Q'],
   ['Hint', 'E'],
   ['Drop block', 'F'],

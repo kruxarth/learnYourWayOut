@@ -7,33 +7,6 @@ import { labelTexture } from './labels';
 import { PAL, toonGradient } from './materials';
 import { withVisibility } from './visibility';
 
-/** The question on a sign above the locked gate. */
-function GateSign({ room }: { room: RoomRuntime }) {
-  const mat = useMemo(() => withVisibility(new MeshBasicMaterial({ transparent: true })), []);
-  const ref = useRef<Mesh>(null);
-  const last = useRef('');
-  useEffect(() => () => mat.dispose(), [mat]);
-  useFrame(() => {
-    const m = ref.current;
-    if (!m) return;
-    const q = room.question;
-    const show = !!q && room.state === 'active';
-    m.visible = show;
-    if (!show || !q) return;
-    if (q.id !== last.current) {
-      last.current = q.id;
-      mat.map = labelTexture({ text: q.prompt, w: 1024, h: 320, maxLines: 3, border: PAL.uiAccent, bg: '#FFFFFF' });
-      mat.needsUpdate = true;
-    }
-  });
-  const g = room.layout.hunt!.gate;
-  return (
-    <mesh ref={ref} position={[g.x, 4.2, g.z + 0.9]} material={mat} visible={false}>
-      <planeGeometry args={[7.5, 2.4]} />
-    </mesh>
-  );
-}
-
 /** A golden key with its answer floating above it. Carried keys follow the bean; crossed-out keys turn red. */
 function KeyMesh({ get }: { get: () => KeyRT | null }) {
   const root = useRef<Group>(null);
@@ -93,7 +66,6 @@ const MAX_KEYS = 4;
 export default function KeyHuntView({ room }: { room: RoomRuntime }) {
   return (
     <group>
-      <GateSign room={room} />
       {Array.from({ length: MAX_KEYS }, (_, i) => <KeyMesh key={i} get={() => room.keys[i] ?? null} />)}
     </group>
   );

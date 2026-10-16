@@ -2,9 +2,6 @@ import { questionSource } from '../content/source';
 import { engine } from '../game/engine';
 import { useUI } from './store';
 
-/** Rooms that paint the question on a board in the world: the chip keeps it for screen readers only. */
-const BOARD_ROOMS = new Set(['doorRush', 'junctionHall', 'slimeGate', 'launchPads', 'keyHunt', 'ruleMinefield']);
-
 function Squares({ placed, total }: { placed: number; total: number }) {
   return <span className="progress-squares" aria-label={`${placed} of ${total} placed`}>{'■'.repeat(placed)}{'□'.repeat(total - placed)}</span>;
 }
@@ -28,7 +25,7 @@ export default function QuestionPanel() {
           {gen && <span className="badge ai">{gen.model === 'hand-written' ? '✨ Example pack' : '✨ AI-made'}</span>}
         </span>
       </div>
-      <div className={BOARD_ROOMS.has(room.kind) ? 'prompt sr-only' : 'prompt'}>{room.prompt.replace(/`/g, '')}</div>
+      <div className="prompt">{room.prompt.replace(/`/g, '')}</div>
       {t && (
         <div className="timer-bar" aria-label="Time left"><div style={{ width: `${frac * 100}%`, background: color }} /></div>
       )}

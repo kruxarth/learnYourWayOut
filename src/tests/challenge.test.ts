@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { advance, boot, enterRoom, finish, place, room, steer, walkLateralThenForward, walkTo } from './helpers';
+import { advance, boot, enterRoom, finish, place, room, steer, update, walkLateralThenForward, walkTo } from './helpers';
 import { engine } from '../game/engine';
 import { compassTarget, comboSpeedMult, grantPowerup } from '../game/loop/powerups';
 import { computeZone } from '../game/loop/progression';
@@ -333,14 +333,15 @@ describe('power-ups and combo', () => {
     expect(visibilityRadius(run)).toBe(T.VIS_RADIUS.normal + T.LANTERN_BONUS);
     expect(engine.activatePowerup('compass')).toBe(true);
     expect(run.compassT).toBeCloseTo(T.COMPASS_TIME, 1);
-    // following the compass leads out of the maze
+    // following the compass leads out of the maze (hazards off: this checks the guidance, not dodging hammers)
+    run.godMode = true;
     for (let i = 0; i < 60 * 30; i++) {
       const p = G.player.pos;
       const tgt = compassTarget(run, p.x, p.z);
       if (!tgt || p.z < seg.z0 - seg.depth) break;
       const dx = tgt.x - p.x, dz = tgt.z - p.z, len = Math.hypot(dx, dz) || 1;
       steer(dx / len, -dz / len);
-      engine.update(1 / 60);
+      update();
     }
     steer(0, 0);
     expect(G.player.pos.z).toBeLessThan(seg.z0 - seg.depth + 1);

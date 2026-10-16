@@ -280,5 +280,16 @@ Each cell is slime@end for the perfect bot (short route) / P(elim) for the 60% p
 | Hard | 0.298 / 55% / 100% | 0.343 / 53% / 98% |
 
 These are within the targets (Easy 0.006/0/0, Normal 0.15/30/88, Hard 0.30/53/100), so there was no retune. A 60-seed bot sweep over both lanes passes.
-- Low chase cam in maze segments (CHASE_* in tuning.ts, blended in CameraRig); yaw still player-driven because movement is camera-relative, so no auto-follow of heading.
-- Quiz mazes prefer junctions whose right corridor does not run north (QUIZ_NORTH_PENALTY); the HUD chip hides the question text for rooms that show it on a world board.
+- Low chase cam in maze segments (CHASE_* in tuning.ts, blended in CameraRig).
+- Quiz mazes prefer junctions whose right corridor does not run north (QUIZ_NORTH_PENALTY).
+- Chase cam fix (supersedes the two lines above where they differ):
+- Question text has one home, the HUD chip, for every room: the world prompt boards (door walls, Slime Gate, Launch Pads, Key Hunt gate, Rule Minefield) are removed and `BOARD_ROOMS`/`.sr-only` are gone.
+- Mazes steer: `NavCtx.steer` (set from `inMazeSegment`) makes A/D/stick-x turn the bean at CHASE_TURN_RATE and W/S drive along its facing; the engine sets `camera.yaw = facing` each step and ignores mouse yaw there. Outside mazes nothing changed.
+- Steering undoes the input's unit-circle clip (circle-to-square), so W+D is full speed and a full-rate turn. S reverses at full speed without turning the bean round.
+- Leaving a maze sets the free camera yaw back to 0 (looking up the course; the rig eases the swing), because touch players cannot turn the camera themselves.
+- CHASE_TURN_RATE is 4.5 rad/s: at 3.6 the test bot crossed Shifting Maze plates slowly enough to answer them by accident; 4.5 also feels better in 4 m cells.
+- Chase cam is lower, closer and wider (CHASE_DIST 3.4, eye about 2.1 m, FOV 78). Maze hedges are drawn MAZE_WALL_VIS_H = 5.5 m tall (`isMazeHedge`: hedge centre inside a maze segment, plus the Shifting Maze hedges); collision boxes still use H_HEDGE.
+- The rendered camera yaw eases toward the engine's (CAM_YAW_LERP), also for mouse drags outside mazes.
+- Camera wall clip: `loop/cameraClip.ts` (`cameraClearance`, XZ only, pad CAM_CLIP_PAD, ignores invisible/disabled walls and the wall the bean hugs) pulls the chase cam in at once and lets it out at CAM_CLIP_RELEASE; it is off while the camera is above the drawn maze-wall tops.
+- QuizSigns hang at 2.4 m instead of 2.75 m so they stay in view of the low camera.
+- Test harness: `steer()` is now a world-direction wish that `update()` converts each frame (steering in mazes, rotated by camera yaw elsewhere); `stick()` sends raw input. The bot backs up instead of turning round for targets behind it. The Compass test turns god mode on so a hammer's timing cannot stall it.

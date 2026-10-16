@@ -25,6 +25,8 @@ export interface NavCtx {
   hubRadius: number | null;   // clamp distance from the origin in the hub
   /** On an ice patch: acceleration and braking are scaled by `T.ICE_FRICTION` while grounded. */
   ice?: boolean;
+  /** Chase-cam steering (mazes): moveX turns the bean, moveY drives along its facing. Otherwise input is camera-relative. */
+  steer?: boolean;
   hooks: NavHooks;
 }
 
@@ -145,7 +147,7 @@ export function rideFloors(p: PlayerState, ctx: NavCtx): void {
   }
 }
 
-function angleDiff(a: number, b: number): number {
+export function angleDiff(a: number, b: number): number {
   let d = (b - a) % (Math.PI * 2);
   if (d > Math.PI) d -= Math.PI * 2;
   if (d < -Math.PI) d += Math.PI * 2;
@@ -189,12 +191,23 @@ export function stepPlayer(p: PlayerState, ctx: NavCtx, moveX: number, moveY: nu
   if (p.inputLocked || p.stun > 0) { moveX = 0; moveY = 0; p.jumpBuffer = 0; }
 
   // 2-4. wish direction and target velocity
-  const s = Math.sin(ctx.yaw), c = Math.cos(ctx.yaw);
-  let wx = -s * moveY + c * moveX;
-  let wz = -c * moveY - s * moveX;
-  const wl = Math.hypot(wx, wz);
-  const wishLen = Math.min(1, Math.hypot(moveX, moveY));
-  if (wl > 1e-6) { wx /= wl; wz /= wl; } else { wx = 0; wz = 0; }
+  let wx: number, wz: number, wishLen: number;
+  if (ctx.steer) {
+    // the input arrives clipped to the unit circle; undo that so W+D is full speed and a full turn
+    const m = Math.hypot(moveX, moveY), sq = Math.max(Math.abs(moveX), Math.abs(moveY));
+    if (sq > 1e-6) { moveX *= m / sq; moveY *= m / sq; }
+    p.facing -= moveX * T.CHASE_TURN_RATE * h;
+    const dir = moveY < 0 ? -1 : 1;
+    wx = -Math.sin(p.facing) * dir; wz = -Math.cos(p.facing) * dir;
+    wishLen = Math.min(1, Math.abs(moveY));
+  } else {
+    const s = Math.sin(ctx.yaw), c = Math.cos(ctx.yaw);
+    wx = -s * moveY + c * moveX;
+    wz = -c * moveY - s * moveX;
+    const wl = Math.hypot(wx, wz);
+    wishLen = Math.min(1, Math.hypot(moveX, moveY));
+    if (wl > 1e-6) { wx /= wl; wz /= wl; } else { wx = 0; wz = 0; }
+  }
   let mult = 1;
   if (p.speedBoost > 0) mult *= T.SPEED_PAD_MULT;
   if (p.carrying) mult *= T.CARRY_SPEED_MULT;
@@ -239,9 +252,9 @@ export function stepPlayer(p: PlayerState, ctx: NavCtx, moveX: number, moveY: nu
   // 11. fall
   if (pos.y < T.FALL_Y) ctx.hooks.onFall();
 
-  // 12. facing
+  // 12. facing (steering sets it directly)
   const hs = Math.hypot(vel.x, vel.z);
-  if (hs > 0.5) {
+  if (hs > 0.5 && !ctx.steer) {
     const target = Math.atan2(-vel.x, -vel.z);
     const d = angleDiff(p.facing, target);
     const maxTurn = T.TURN_RATE * h;

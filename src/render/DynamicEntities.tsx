@@ -125,39 +125,9 @@ function Trapdoor({ x, z, getPanel }: { x: number; z: number; getPanel: () => Pa
   );
 }
 
-/** A floating board above a door wall that repeats the question (P1). */
-function QuestionBoard({ run, roomId, wallIndex, x, z }: { run: RunState; roomId: string; wallIndex: number; x: number; z: number }) {
-  const mat = useMemo(() => withVisibility(new MeshBasicMaterial({ transparent: true })), []);
-  const ref = useRef<Mesh>(null);
-  const last = useRef('');
-  useEffect(() => () => mat.dispose(), [mat]);
-  useFrame(() => {
-    const m = ref.current;
-    if (!m) return;
-    const room = run.roomMap.get(roomId)!;
-    const q = room.kind === 'slimeGate' ? room.wallQuestions[wallIndex] : room.question;
-    const show = !!q && room.state !== 'idle' && !(room.kind === 'slimeGate' && room.wallDone[wallIndex]);
-    m.visible = show;
-    if (!show || !q) return;
-    if (q.id !== last.current) {
-      last.current = q.id;
-      mat.map = labelTexture({ text: q.prompt, w: 1024, h: 320, maxLines: 3, border: PAL.uiAccent, bg: '#FFFFFF' });
-      mat.needsUpdate = true;
-    }
-  });
-  return (
-    <mesh ref={ref} position={[x, 4.6, z + 0.35]} material={mat} visible={false}>
-      <planeGeometry args={[11, 3.4]} />
-    </mesh>
-  );
-}
-
 function DoorWalls({ run }: { run: RunState }) {
   return (
     <>
-      {run.rooms.map((room) => room.layout.doorWalls.map((l, wi) => (
-        <QuestionBoard key={`qb:${room.id}:${wi}`} run={run} roomId={room.id} wallIndex={wi} x={room.layout.laneX} z={l.z} />
-      )))}
       {run.rooms.map((room) => room.kind === 'doorCarousel' ? null : room.doorWalls.map((dw, wi) => {
         const layout = room.layout.doorWalls[wi];
         return dw.panels.map((p, pi) => (

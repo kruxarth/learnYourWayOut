@@ -289,5 +289,3 @@ button.chip[disabled] { opacity: 0.5; cursor: not-allowed; }
 .net-banner { position: absolute; bottom: 150px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; font-weight: 800; max-width: calc(100vw - 32px); pointer-events: auto; background: #FFF3C4; z-index: 7; }
 .net-banner.lost { background: #FFD6DC; }
 .race-results .net-banner { position: static; transform: none; margin: 0 auto 8px; justify-content: center; }
-
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

@@ -32,7 +32,7 @@ Rules online: no pausing (Esc opens "Leave race?" while the game keeps running),
 In the race: the **race strip** (right, under the minimap) lists everyone by progress (rooms solved), with a tick for qualified, a skull for eliminated and a pause icon for disconnected; on a phone it collapses to "You: 3rd / 6" (tap to open). Rivals appear on the minimap as coloured dots and in the maze as 85%-opaque avatars with name tags; a rival with a bad connection fades and shows a 📶. **Emotes**: keys **6 7 8 9** (or the four buttons at the bottom) send 👋 👍 😄 GG, with a 3 s cooldown. When the race ends the results card opens on a **Race** tab: standings, a podium and awards (🧠 Brainiest, 🔥 Hot Streak, 🎯 Comeback). The host presses **Race again** (new seed, same room); everyone else can press **Back to hub**. Your own run is one tab away (**My run**). While the connection drops, a "Reconnecting…" banner shows and your run keeps going.
 
 ## Controls
-WASD/arrows move · Space jump · drag mouse to look · Q 50/50 · E hint · F drop block · 1–5 power-ups (5 = Shield) · R read aloud · M mute · Esc/P pause · Tab Quick Select (hub) · stand on the purple Wardrobe pad (south-west of the spawn) or press the Wardrobe button to dress your character; Esc closes it
+WASD/arrows move (camera-relative) · in mazes the camera drops in behind the bean: A/D (or the stick left/right) steer, W/S drive forward and back · Space jump · drag mouse to look (outside mazes) · the question is always in the card at the top · Q 50/50 · E hint · F drop block · 1–5 power-ups (5 = Shield) · R read aloud · M mute · Esc/P pause · Tab Quick Select (hub) · stand on the purple Wardrobe pad (south-west of the spawn) or press the Wardrobe button to dress your character; Esc closes it
 
 ## Difficulty
 | | Easy | Normal | Hard |
@@ -42,9 +42,9 @@ WASD/arrows move · Space jump · drag mouse to look · Q 50/50 · E hint · F d
 | Fork | free choice | Junction Hall | Junction Hall |
 | Door/Gate answer timer | — | — | 12 s (×2 with Relaxed timers) |
 | Glowing hints after misses | yes | yes | no |
-Key Hunt: the exit of this maze is a locked gate with the question on a sign. Keys labelled with answers lie in the dead ends. Walk over one to carry it (F drops it) and bring it to the gate: the right key opens it, a wrong key zaps you back 3 m and marks itself with an X. The minimap shows keys you have seen, the Compass points to the nearest unchecked key (then to the gate), and 50/50 crosses out a wrong key.
+Key Hunt: the exit of this maze is a locked gate; the question is in the question card. Keys labelled with answers lie in the dead ends. Walk over one to carry it (F drops it) and bring it to the gate: the right key opens it, a wrong key zaps you back 3 m and marks itself with an X. The minimap shows keys you have seen, the Compass points to the nearest unchecked key (then to the gate), and 50/50 crosses out a wrong key.
 
-Rule Minefield: a sign states a rule ("Step only on prime numbers"); cross a 4 x 3 grid of tiles over the slime, stepping only on items that fit it. A wrong tile drops you back and comes back as a red X. Uses the new `classify` question type.
+Rule Minefield: the question card states a rule ("Step only on prime numbers"); cross a 4 x 3 grid of tiles over the slime, stepping only on items that fit it. A wrong tile drops you back and comes back as a red X. Uses the new `classify` question type.
 
 Launch Pads: stand on the pad with the right answer until its ring fills and you are launched over a hedge with no door; a wrong pad drops you in a slime pond.
 

@@ -12,6 +12,7 @@ import { POWER_KINDS, comboSpeedMult, emptyPowerups } from './loop/powerups';
 import { buildCourse } from './loop/generation';
 import { stepPlayer, teleport, type NavCtx, type NavWorld } from './loop/navigation';
 import { checkOutcome, lose, win } from './loop/outcome';
+import { inMazeSegment } from './loop/visibility';
 import {
   respawnAtCheckpoint, setCheckpoint, stepCoins, stepSlime, stepTransition, useLifeline as spendLifeline, activatePowerup, wadeFactor,
 } from './loop/progression';
@@ -236,8 +237,12 @@ function runStep(run: RunState, mx: number, my: number, h: number): void {
   ctx.speedMult = comboSpeedMult(run);
   ctx.hubRadius = null;
   ctx.ice = onIce(run, player.pos.x, player.pos.z);
+  const steer = inMazeSegment(run);
+  if (ctx.steer && !steer) camera.yaw = 0; // out of a maze: swing back to looking up the course (touch has no other way to turn it)
+  ctx.steer = steer;
   moveHazards(run);
   stepPlayer(player, ctx, mx, my, h);
+  if (ctx.steer) camera.yaw = player.facing; // the chase cam sits behind the bean's heading
   stepHazards(run, player, h);
   if (run.phase === 'countdown') { stepCountdown(run, h); return; }
   if (run.phase === 'playing' || run.phase === 'transition') {
@@ -265,6 +270,7 @@ function hubStep(mx: number, my: number, h: number): void {
   ctx.wade = 1;
   ctx.speedMult = 1;
   ctx.ice = false;
+  ctx.steer = false;
   ctx.hubRadius = T.HUB_RADIUS;
   stepPlayer(player, ctx, mx, my, h);
   if (hubStartT >= 0) {
@@ -498,7 +504,7 @@ export const engine = {
     if (mode === 'run' && run?.paused) return;
     if (panelOpen) return;
 
-    camera.yaw += inp.yawDelta;
+    if (!(mode === 'run' && run && inMazeSegment(run))) camera.yaw += inp.yawDelta; // mazes: the yaw follows the heading
     ctx.yaw = camera.yaw;
     if (inp.jumpPressed) player.jumpBuffer = T.JUMP_BUFFER;
     if (mode === 'run' && run) {
@@ -521,7 +527,7 @@ export const engine = {
       else if (mode === 'hub') hubStep(inp.moveX, inp.moveY, T.STEP);
       else {
         G.clock += T.STEP;
-        ctx.world = world.nav; ctx.now = G.clock; ctx.wade = 1; ctx.speedMult = 1; ctx.hubRadius = null; ctx.ice = false;
+        ctx.world = world.nav; ctx.now = G.clock; ctx.wade = 1; ctx.speedMult = 1; ctx.hubRadius = null; ctx.ice = false; ctx.steer = false;
         stepPlayer(player, ctx, inp.moveX, inp.moveY, T.STEP);
       }
       acc -= T.STEP; steps++;

@@ -27,33 +27,6 @@ function Hedge({ run, room }: { run: RunState; room: RoomRuntime }) {
   );
 }
 
-/** The question, floating above the hedge. */
-function QuestionBoard({ run, room }: { run: RunState; room: RoomRuntime }) {
-  const L = room.layout.launch!;
-  const mat = useMemo(() => withVisibility(new MeshBasicMaterial({ transparent: true })), []);
-  const ref = useRef<Mesh>(null);
-  const last = useRef('');
-  useEffect(() => () => mat.dispose(), [mat]);
-  useFrame(() => {
-    const m = ref.current;
-    if (!m) return;
-    const q = room.question;
-    const show = !!q && room.state !== 'idle';
-    m.visible = show && run.phase !== 'won';
-    if (!show || !q) return;
-    if (q.id !== last.current) {
-      last.current = q.id;
-      mat.map = labelTexture({ text: q.prompt, w: 1024, h: 320, maxLines: 3, border: PAL.uiAccent, bg: '#FFFFFF' });
-      mat.needsUpdate = true;
-    }
-  });
-  return (
-    <mesh ref={ref} position={[room.layout.laneX, L.hedgeH + 2, L.hedgeZ + 0.5]} material={mat} visible={false}>
-      <planeGeometry args={[11, 3.4]} />
-    </mesh>
-  );
-}
-
 /** One pad: a disc, a ring that fills while the bean stands on it, and a floating answer label. */
 function Pad({ room, i }: { room: RoomRuntime; i: number }) {
   const root = useRef<Group>(null);
@@ -108,7 +81,6 @@ export default function LaunchPadsView({ run, room }: { run: RunState; room: Roo
   return (
     <group>
       <Hedge run={run} room={room} />
-      <QuestionBoard run={run} room={room} />
       {Array.from({ length: MAX_PADS }, (_, i) => <Pad key={i} room={room} i={i} />)}
     </group>
   );

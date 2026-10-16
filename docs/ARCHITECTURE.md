@@ -36,7 +36,7 @@ flowchart LR
 |---|---|
 | Domain/difficulty selection | `game/loop/selection.ts`, `ui/QuickSelect.tsx` |
 | Maze generation | `game/loop/generation.ts`, `maze.ts` (incl. crossroads quiz mazes), `segments.ts` |
-| Player navigation | `game/loop/navigation.ts`, `render/CameraRig.tsx`, `loop/visibility.ts` + `render/visibility.ts` (maze fade) |
+| Player navigation | `game/loop/navigation.ts` (camera-relative, or steering in mazes), `render/CameraRig.tsx` + `loop/cameraClip.ts`, `loop/visibility.ts` + `render/visibility.ts` (maze fade) |
 | Challenge at checkpoint | `game/loop/challenge.ts`, `roomCommon.ts` (incl. answer timers), `game/rooms/*` |
 | Answer evaluation | `game/loop/evaluation.ts` |
 | Progression or penalty | `game/loop/progression.ts`, `rooms/detour.ts`, `rooms/junctionHall.ts`, `loop/powerups.ts` |

@@ -7,7 +7,7 @@ import { surge } from '../loop/progression';
 import { beginRoom, celebrate, pickQuestion, resolveRoom, startRecord, syncRoomPanel } from '../loop/roomCommon';
 
 /**
- * Key Hunt (F4-3). The exit of the maze is a locked gate with the question on a sign. Keys lie in dead
+ * Key Hunt (F4-3). The exit of the maze is a locked gate (the question is in the HUD card). Keys lie in dead
  * ends, each labelled with an answer. Walk over a key to carry it (one at a time, F drops it) and bring
  * it to the gate. The right key opens the gate; a wrong key zaps the bean back about 3 m, goes home
  * marked with an X, and costs a surge (the first a full one, later ones x0.5).

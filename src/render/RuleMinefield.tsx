@@ -10,33 +10,6 @@ const THICK = 0.4;
 const GAP = 0.2;
 const SUNK_Y = -0.55;
 
-/** The rule, on a board that hangs over the entry platform. */
-function RuleBoard({ room }: { room: RoomRuntime }) {
-  const mat = useMemo(() => withVisibility(new MeshBasicMaterial({ transparent: true })), []);
-  const ref = useRef<Mesh>(null);
-  const last = useRef('');
-  useEffect(() => () => mat.dispose(), [mat]);
-  useFrame(() => {
-    const m = ref.current;
-    if (!m) return;
-    const q = room.question;
-    const show = !!q && room.state !== 'idle';
-    m.visible = show;
-    if (!show || !q) return;
-    if (q.id !== last.current) {
-      last.current = q.id;
-      mat.map = labelTexture({ text: q.prompt, w: 1024, h: 320, maxLines: 3, border: PAL.uiAccent, bg: '#FFFFFF' });
-      mat.needsUpdate = true;
-    }
-  });
-  const w = room.layout.mine!.walks[0];
-  return (
-    <mesh ref={ref} position={[room.layout.laneX, 4.6, w.minZ + 0.6]} material={mat} visible={false}>
-      <planeGeometry args={[11, 3.4]} />
-    </mesh>
-  );
-}
-
 /** One tile: a fitting tile locks green; a wrong one shakes, falls and comes back as a sunken red X. */
 function MineTile({ get }: { get: () => TileRT | null }) {
   const root = useRef<Group>(null);
@@ -96,7 +69,6 @@ function MineTile({ get }: { get: () => TileRT | null }) {
 export default function RuleMinefieldView({ room }: { room: RoomRuntime; run?: RunState }) {
   return (
     <group>
-      <RuleBoard room={room} />
       {room.stepRows.map((row, ri) => row.map((_, si) => (
         <MineTile key={`${room.id}:m${ri}:${si}`} get={() => room.stepRows[ri][si] ?? null} />
       )))}

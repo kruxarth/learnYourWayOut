@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createPlayer, stepPlayer, teleport, type NavCtx, type NavWorld } from '../game/loop/navigation';
 import { SpatialHash } from '../game/loop/spatialHash';
+import { cameraClearance } from '../game/loop/cameraClip';
 import type { FloorRect, WallBox } from '../game/types';
 import { T } from '../game/tuning';
 
@@ -100,5 +101,65 @@ describe('navigation', () => {
     for (let i = 0; i < 240; i++) { now += T.STEP; c.now = now; stepPlayer(p, c, 0, 1, T.STEP); }
     expect(touches.length).toBeGreaterThanOrEqual(1);
     expect(touches.length).toBeLessThanOrEqual(8);
+  });
+});
+
+describe('chase-cam steering (mazes)', () => {
+  const open = () => world([], [floor(0, -50, -50, 50, 50)]);
+  const grounded = () => { const p = createPlayer(); teleport(p, 0, 0, 0); p.grounded = true; return p; };
+
+  it('A/D turn the bean on the spot without moving it', () => {
+    const p = grounded(), c = ctx(open(), { steer: true });
+    for (let i = 0; i < 60; i++) stepPlayer(p, c, -1, 0, T.STEP); // A for 0.5 s
+    expect(p.facing).toBeCloseTo(T.CHASE_TURN_RATE * 0.5, 5); // left = facing up
+    expect(Math.hypot(p.pos.x, p.pos.z)).toBeLessThan(1e-6);
+    for (let i = 0; i < 120; i++) stepPlayer(p, c, 1, 0, T.STEP); // D for 1 s
+    expect(p.facing).toBeCloseTo(-T.CHASE_TURN_RATE * 0.5, 5);
+  });
+
+  it('W drives along the facing whatever the camera yaw; S backs up without turning round', () => {
+    const p = grounded();
+    p.facing = Math.PI / 2; // facing −X
+    const c = ctx(open(), { steer: true, yaw: 1.2 });
+    for (let i = 0; i < 120; i++) stepPlayer(p, c, 0, 1, T.STEP);
+    expect(p.pos.x).toBeLessThan(-5);
+    expect(Math.abs(p.pos.z)).toBeLessThan(1e-6);
+    const x1 = p.pos.x;
+    for (let i = 0; i < 240; i++) stepPlayer(p, c, 0, -1, T.STEP);
+    expect(p.pos.x).toBeGreaterThan(x1 + 5);
+    expect(p.facing).toBeCloseTo(Math.PI / 2, 9);
+  });
+
+  it('W+D (clipped to the unit circle by the input) still drives at full speed and turns at the full rate', () => {
+    const p = grounded(), c = ctx(open(), { steer: true });
+    const k = Math.SQRT1_2;
+    for (let i = 0; i < 12; i++) stepPlayer(p, c, k, k, T.STEP);
+    expect(p.facing).toBeCloseTo(-T.CHASE_TURN_RATE * 12 * T.STEP, 5);
+    for (let i = 0; i < 120; i++) { p.facing = 0; stepPlayer(p, c, k, k, T.STEP); }
+    expect(Math.hypot(p.vel.x, p.vel.z)).toBeGreaterThan(T.MAX_SPEED * 0.99);
+  });
+
+  it('without steering, input stays camera-relative and the facing follows the velocity', () => {
+    const p = grounded(), c = ctx(open());
+    for (let i = 0; i < 120; i++) stepPlayer(p, c, 1, 0, T.STEP); // D = strafe right (+X at yaw 0)
+    expect(p.pos.x).toBeGreaterThan(5);
+    expect(p.facing).toBeCloseTo(-Math.PI / 2, 2);
+  });
+});
+
+describe('camera clearance', () => {
+  it('pulls the camera in front of a wall between it and the bean', () => {
+    const w = world([wall(0, -5, 2, 5, 2.6)], []);
+    // bean at z 0, camera 4 m behind at z 4: the wall face (grown by 0.3) is at z 1.7
+    expect(cameraClearance(w, 0, 0, 0, 4, 0.3)).toBeCloseTo(1.7 / 4, 6);
+    // a clear line, an invisible wall and a disabled wall leave it alone
+    expect(cameraClearance(w, 0, 0, 4, 0, 0.3)).toBe(1);
+    expect(cameraClearance(world([wall(0, -5, 2, 5, 2.6, { kind: 'invisible' })], []), 0, 0, 0, 4, 0.3)).toBe(1);
+    expect(cameraClearance(world([wall(0, -5, 2, 5, 2.6, { enabled: false })], []), 0, 0, 0, 4, 0.3)).toBe(1);
+  });
+
+  it('ignores the wall the bean is hugging', () => {
+    const w = world([wall(0, -5, 0.5, 5, 1.1)], []);
+    expect(cameraClearance(w, 0, 0.3, 4, 0.3, 0.3)).toBe(1);
   });
 });

@@ -1,6 +1,8 @@
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import { BoxGeometry, Color, Matrix4, type InstancedMesh } from 'three';
-import type { WallBox, WallKind } from '../game/types';
+import type { SegmentInfo, WallBox, WallKind } from '../game/types';
+import { T } from '../game/tuning';
+import { isMazeHedge } from '../game/loop/visibility';
 import { PAL, tint, toon } from './materials';
 
 const COLORS: Partial<Record<WallKind, string>> = {
@@ -9,7 +11,12 @@ const COLORS: Partial<Record<WallKind, string>> = {
 
 const unit = new BoxGeometry(1, 1, 1);
 
-function Group({ kind, walls }: { kind: WallKind; walls: WallBox[] }) {
+/** Drawn top of a wall: maze hedges tower over the chase cam (collision keeps `maxY`). */
+function topOf(w: WallBox, tall: Set<number>): number {
+  return tall.has(w.id) ? w.minY + T.MAZE_WALL_VIS_H : w.maxY;
+}
+
+function Group({ kind, walls, tall }: { kind: WallKind; walls: WallBox[]; tall: Set<number> }) {
   const ref = useRef<InstancedMesh>(null);
   useLayoutEffect(() => {
     const mesh = ref.current;
@@ -19,8 +26,9 @@ function Group({ kind, walls }: { kind: WallKind; walls: WallBox[] }) {
     const base = COLORS[kind] ?? PAL.hedge;
     for (let i = 0; i < walls.length; i++) {
       const w = walls[i];
-      m.makeScale(w.maxX - w.minX, w.maxY - w.minY, w.maxZ - w.minZ);
-      m.setPosition((w.minX + w.maxX) / 2, (w.minY + w.maxY) / 2, (w.minZ + w.maxZ) / 2);
+      const top = topOf(w, tall);
+      m.makeScale(w.maxX - w.minX, top - w.minY, w.maxZ - w.minZ);
+      m.setPosition((w.minX + w.maxX) / 2, (w.minY + top) / 2, (w.minZ + w.maxZ) / 2);
       mesh.setMatrixAt(i, m);
       const jitter = kind === 'hedge' || kind === 'detourHedge' ? (((w.id * 2654435761) % 1000) / 1000 - 0.5) * 0.16 : 0;
       mesh.setColorAt(i, tint(base, jitter, c));
@@ -28,19 +36,19 @@ function Group({ kind, walls }: { kind: WallKind; walls: WallBox[] }) {
     mesh.instanceMatrix.needsUpdate = true;
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
     mesh.computeBoundingSphere();
-  }, [kind, walls]);
+  }, [kind, walls, tall]);
   const mat = toon('#ffffff', {}, 'white');
   const hedgeLike = kind === 'hedge' || kind === 'detourHedge';
   return (
     <>
       <instancedMesh ref={ref} args={[unit, mat, walls.length]} castShadow receiveShadow frustumCulled={false} />
-      {hedgeLike && <HedgeTops walls={walls} color={kind === 'hedge' ? PAL.hedgeTop : '#B9A2FF'} />}
+      {hedgeLike && <HedgeTops walls={walls} tall={tall} color={kind === 'hedge' ? PAL.hedgeTop : '#B9A2FF'} />}
     </>
   );
 }
 
 /** Thin lighter boxes on top of each hedge (P1 detail). */
-function HedgeTops({ walls, color }: { walls: WallBox[]; color: string }) {
+function HedgeTops({ walls, tall, color }: { walls: WallBox[]; tall: Set<number>; color: string }) {
   const ref = useRef<InstancedMesh>(null);
   useLayoutEffect(() => {
     const mesh = ref.current;
@@ -49,18 +57,19 @@ function HedgeTops({ walls, color }: { walls: WallBox[]; color: string }) {
     for (let i = 0; i < walls.length; i++) {
       const w = walls[i];
       m.makeScale(w.maxX - w.minX + 0.04, 0.12, w.maxZ - w.minZ + 0.04);
-      m.setPosition((w.minX + w.maxX) / 2, w.maxY - 0.05, (w.minZ + w.maxZ) / 2);
+      m.setPosition((w.minX + w.maxX) / 2, topOf(w, tall) - 0.05, (w.minZ + w.maxZ) / 2);
       mesh.setMatrixAt(i, m);
     }
     mesh.instanceMatrix.needsUpdate = true;
     mesh.computeBoundingSphere();
-  }, [walls]);
+  }, [walls, tall]);
   const mat = toon(color, {}, `top${color}`);
   return <instancedMesh ref={ref} args={[unit, mat, walls.length]} frustumCulled={false} />;
 }
 
-/** One InstancedMesh per static wall kind. Remount with a key when the wall list changes. */
-export default function StaticWalls({ walls }: { walls: WallBox[] }) {
+/** One InstancedMesh per static wall kind. Remount with a key when the wall list changes. `segments` marks the maze hedges to draw tall. */
+export default function StaticWalls({ walls, segments = [] }: { walls: WallBox[]; segments?: SegmentInfo[] }) {
+  const tall = useMemo(() => new Set(walls.filter((w) => isMazeHedge(w, segments)).map((w) => w.id)), [walls, segments]);
   const groups = useMemo(() => {
     const by = new Map<WallKind, WallBox[]>();
     for (const w of walls) {
@@ -73,7 +82,7 @@ export default function StaticWalls({ walls }: { walls: WallBox[] }) {
   }, [walls]);
   return (
     <>
-      {groups.map(([kind, list]) => <Group key={kind} kind={kind} walls={list} />)}
+      {groups.map(([kind, list]) => <Group key={kind} kind={kind} walls={list} tall={tall} />)}
     </>
   );
 }

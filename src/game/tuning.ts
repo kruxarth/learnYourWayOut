@@ -12,8 +12,16 @@ export const T = {
 
   // camera
   CAM_DIST: 10, CAM_HEIGHT: 8, CAM_TARGET_Y: 1.0, CAM_FOV: 55, CAM_LERP: 10, CAM_YAW_SENS: 0.005,
-  // low chase cam inside mazes: blends from the high follow view over CHASE_EASE (1/s)
-  CHASE_DIST: 5.5, CHASE_HEIGHT: 2.9, CHASE_TARGET_Y: 1.3, CHASE_FOV: 68, CHASE_EASE: 3,
+  // chase cam inside mazes: low, close and wide behind the bean's heading, blended in over CHASE_EASE (1/s).
+  // A/D steer the bean at CHASE_TURN_RATE (rad/s) and W/S drive along its heading.
+  CHASE_DIST: 3.4, CHASE_HEIGHT: 0.7, CHASE_TARGET_Y: 1.4, CHASE_FOV: 78, CHASE_EASE: 3, CHASE_TURN_RATE: 4.5,
+  // the drawn camera yaw eases toward the engine's (1/s); the camera is pulled in to stay CAM_CLIP_PAD (m) off walls,
+  // lets go again at CAM_CLIP_RELEASE (1/s), and rises up to CAM_CLIP_RISE (m) when pulled all the way in, to look over the bean
+  CAM_YAW_LERP: 12, CAM_CLIP_PAD: 0.3, CAM_CLIP_RELEASE: 4, CAM_CLIP_RISE: 1.6,
+  // junction signs fade out when the camera is closer than SIGN_NEAR_FADE[1] (m), gone at [0], so one behind the bean never fills the view
+  SIGN_NEAR_FADE: [0.8, 2.0] as [number, number],
+  // maze hedges are drawn this tall (m) so they tower over the chase cam; their collision boxes keep H_HEDGE
+  MAZE_WALL_VIS_H: 5.5,
   // quiz mazes: how many path cells a junction whose right corridor runs north counts as farther from its target, so the answer is not always "up"
   QUIZ_NORTH_PENALTY: 2,
 

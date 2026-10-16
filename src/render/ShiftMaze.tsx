@@ -52,7 +52,7 @@ function Hedges({ run, room }: { run: RunState; room: RoomRuntime }) {
       if (cur[i] === target && !(b.userData.init !== true)) continue;
       cur[i] += Math.max(-step, Math.min(step, target - cur[i]));
       changed = true;
-      const h = Math.max(0.0001, cur[i]) * (w.maxY - w.minY);
+      const h = Math.max(0.0001, cur[i]) * T.MAZE_WALL_VIS_H; // drawn tall like the static maze hedges
       const sx = w.maxX - w.minX, sz = w.maxZ - w.minZ;
       m.makeScale(sx, h, sz);
       m.setPosition((w.minX + w.maxX) / 2, h / 2, (w.minZ + w.maxZ) / 2);
