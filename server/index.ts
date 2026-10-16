@@ -18,12 +18,13 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url));
 loadEnvFile(join(here, '.env'));
+loadEnvFile(join(here, '..', '.env')); // root .env: DEEPSEEK_API
 const env = readEnv();
 const dataDir = join(here, 'data');
 const distDir = resolve(here, '..', 'dist');
 
 const llm = env.llmEnabled
-  ? new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model: env.llmModel })
+  ? new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model: env.llmModel, disableThinking: env.disableThinking })
   : null;
 
 const api = createApi({
@@ -110,7 +111,7 @@ attachMultiplayer(server);
 
 server.listen(env.port, () => {
   console.log(`Learn Your Way Out server on http://localhost:${env.port}`);
-  console.log(env.llmEnabled ? `Any Topic: ON (model ${env.llmModel})` : 'Any Topic: OFF (no LLM_API_KEY in server/.env)');
+  console.log(env.llmEnabled ? `Any Topic: ON (model ${env.llmModel})` : 'Any Topic: OFF (no DEEPSEEK_API in .env or LLM_API_KEY in server/.env)');
   console.log('Multiplayer: ON (/ws)');
   for (const u of lanUrls(env.port)) console.log(`  Other laptops on this network can open ${u}`);
   if (existsSync(distDir)) console.log('Serving the built game from dist/');

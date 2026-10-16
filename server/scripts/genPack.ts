@@ -8,6 +8,7 @@ import { OpenAiCompatClient } from '../llm/client';
 import { generatePack } from '../llm/pipeline';
 
 loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '.env'));
+loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '..', '.env')); // root .env: DEEPSEEK_API
 const env = readEnv();
 const [topic, levelArg = 'normal'] = process.argv.slice(2);
 if (!topic || !['easy', 'normal', 'hard'].includes(levelArg)) {
@@ -15,11 +16,11 @@ if (!topic || !['easy', 'normal', 'hard'].includes(levelArg)) {
   process.exit(2);
 }
 if (!env.llmEnabled) {
-  console.error('No LLM_API_KEY. Copy server/.env.example to server/.env and fill it in.');
+  console.error('No key. Set DEEPSEEK_API in .env (see .env.example) or LLM_API_KEY in server/.env.');
   process.exit(2);
 }
 
-const llm = new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model: env.llmModel });
+const llm = new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model: env.llmModel, disableThinking: env.disableThinking });
 try {
   const pack = await generatePack(topic, levelArg as Difficulty, llm, (stage, p) => console.error(`[${stage}] ${Math.round(p * 100)}%`), {
     model: env.llmModel, reviewModel: env.reviewModel,

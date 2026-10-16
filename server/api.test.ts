@@ -194,9 +194,17 @@ describe('rate limiter and env', () => {
     expect(rl.allow('x')).toBe(false);
   });
   it('reads env with defaults and disables the LLM without a key', () => {
-    expect(readEnv({})).toMatchObject({ port: 8787, llmEnabled: false, llmModel: 'deepseek-v4-flash', allowedOrigins: ['http://localhost:5173'] });
+    expect(readEnv({})).toMatchObject({ port: 8787, llmEnabled: false, llmModel: 'deepseek-flash', allowedOrigins: ['http://localhost:5173'] });
     expect(readEnv({ LLM_API_KEY: 'k', LLM_MODEL: 'm', LLM_REVIEW_MODEL: 'r', PORT: '9000', ALLOWED_ORIGINS: 'a, b' }))
       .toMatchObject({ port: 9000, llmEnabled: true, llmModel: 'm', reviewModel: 'r', allowedOrigins: ['a', 'b'] });
     expect(readEnv({ LLM_API_KEY: '...' }).llmEnabled).toBe(false);
+    // the root .env name works too; LLM_API_KEY wins when both are set
+    expect(readEnv({ DEEPSEEK_API: 'd' })).toMatchObject({ llmEnabled: true, llmApiKey: 'd', llmBaseUrl: 'https://api.deepseek.com' });
+    expect(readEnv({ DEEPSEEK_API: 'd', LLM_API_KEY: 'k' }).llmApiKey).toBe('k');
+    // DeepSeek reasoning is off by default (it eats max_tokens); other hosts are left alone unless asked
+    expect(readEnv({}).disableThinking).toBe(true);
+    expect(readEnv({ LLM_THINKING: 'on' }).disableThinking).toBe(false);
+    expect(readEnv({ LLM_BASE_URL: 'https://openrouter.ai/api/v1' }).disableThinking).toBe(false);
+    expect(readEnv({ LLM_BASE_URL: 'https://openrouter.ai/api/v1', LLM_THINKING: 'off' }).disableThinking).toBe(true);
   });
 });

@@ -28,6 +28,14 @@ describe('OpenAiCompatClient (fake fetch)', () => {
     const body = JSON.parse(calls[0].init.body as string);
     expect(body).toMatchObject({ model: 'review-model', max_tokens: 100, temperature: 0, response_format: { type: 'json_object' } });
     expect(body.messages.map((m: { role: string }) => m.role)).toEqual(['system', 'user']);
+    expect(body.thinking).toBeUndefined();
+  });
+
+  it('turns reasoning off when asked', async () => {
+    const calls: RequestInit[] = [];
+    const f = (async (_u: string, init: RequestInit) => { calls.push(init); return ok('{"a":1}'); }) as unknown as typeof fetch;
+    await new OpenAiCompatClient({ baseUrl: 'https://x', apiKey: 'k', model: 'm', fetch: f, disableThinking: true }).json(REQ);
+    expect(JSON.parse(calls[0].body as string).thinking).toEqual({ type: 'disabled' });
   });
 
   it('retries once on 429 and 5xx, with backoff', async () => {

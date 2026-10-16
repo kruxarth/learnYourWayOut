@@ -39,6 +39,8 @@ export interface OpenAiCompatOptions {
   baseUrl: string;
   apiKey: string;
   model: string;
+  /** Add `thinking: {type: "disabled"}` to every request (DeepSeek: reasoning would eat max_tokens). */
+  disableThinking?: boolean;
   timeoutMs?: number;
   fetch?: typeof fetch;
   sleep?: (ms: number) => Promise<void>;
@@ -79,6 +81,7 @@ export class OpenAiCompatClient implements LlmClient {
           max_tokens: req.maxTokens,
           temperature: req.temperature ?? 0.7,
           response_format: { type: 'json_object' },
+          ...(this.opts.disableThinking ? { thinking: { type: 'disabled' } } : {}),
         }),
         signal: ctrl.signal,
       });
