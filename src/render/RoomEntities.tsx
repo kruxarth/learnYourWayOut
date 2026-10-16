@@ -76,7 +76,8 @@ function TileMesh({ get }: { get: () => TileRT | null }) {
   return (
     <group ref={root}>
       <mesh ref={box} material={mats.box} receiveShadow castShadow><boxGeometry args={[1, 1, 1]} /></mesh>
-      <mesh ref={label} rotation={[-Math.PI / 2, 0, 0]} material={mats.label}><planeGeometry args={[1, 1]} /></mesh>
+      {/* drawn after the slime (renderOrder 3, no depth write) so the labels stay readable when it covers the floor */}
+      <mesh ref={label} rotation={[-Math.PI / 2, 0, 0]} material={mats.label} renderOrder={4}><planeGeometry args={[1, 1]} /></mesh>
     </group>
   );
 }
