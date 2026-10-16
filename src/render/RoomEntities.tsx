@@ -109,7 +109,7 @@ function Slab({ room, k }: { room: RoomRuntime; k: number }) {
       <mesh position={[0, -TILE_THICK / 2, 0]} material={mats.box} castShadow receiveShadow scale={[slab.sx - 0.1, TILE_THICK, slab.sz - 0.1]}>
         <boxGeometry args={[1, 1, 1]} />
       </mesh>
-      <mesh position={[0, 0.012, 0]} rotation={[-Math.PI / 2, 0, 0]} material={mats.label}>
+      <mesh position={[0, 0.012, 0]} rotation={[-Math.PI / 2, 0, 0]} material={mats.label} renderOrder={4}>
         <planeGeometry args={[slab.sx - 0.7, (slab.sx - 0.7) / 2.2]} />
       </mesh>
     </group>
