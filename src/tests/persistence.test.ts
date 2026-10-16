@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { DEFAULT_AVATAR } from '../game/avatar';
+import { DEFAULT_AVATAR, coinPrice, findItem, isUnlocked } from '../game/avatar';
 import { engine } from '../game/engine';
 import { stepBooths } from '../game/loop/selection';
 import { teleport } from '../game/loop/navigation';
-import { loadProgress, loadSave, recordRun, saveAvatar, savePlayerName } from '../game/persistence';
+import { buyItem, loadCoinBank, loadProgress, loadSave, recordRun, saveAvatar, savePlayerName } from '../game/persistence';
 import { G } from '../game/state';
 import { useUI } from '../ui/store';
 import { advance, fakeResult, finish } from './helpers';
@@ -31,7 +31,7 @@ describe('save data', () => {
     expect(d.bestTimes.math?.easy).toBe(5000);
     expect(d.avatar).toEqual(DEFAULT_AVATAR);
     expect(d.playerName).toBeUndefined();
-    expect(loadProgress()).toEqual({ stars: 0, correctTotal: 0, weakRuns: 0, achievements: [] });
+    expect(loadProgress()).toEqual({ stars: 0, correctTotal: 0, weakRuns: 0, achievements: [], owned: [] });
   });
 
   it('an empty or corrupt save does not throw', () => {
@@ -69,12 +69,30 @@ describe('save data', () => {
   it('demo runs do not change progress, but real ones do and report unlocks', () => {
     const r = fakeResult({ domainId: 'history', outcome: 'qualified', stars: 1, correct: 5 });
     expect(recordRun(r, true)).toEqual([]);
-    expect(loadProgress()).toEqual({ stars: 0, correctTotal: 0, weakRuns: 0, achievements: [] });
+    expect(loadProgress()).toEqual({ stars: 0, correctTotal: 0, weakRuns: 0, achievements: [], owned: [] });
     const unlocked = recordRun(r, false);
     expect(unlocked.map((u) => u.id)).toContain('laurel');
     expect(loadProgress()).toMatchObject({ stars: 1, correctTotal: 5, achievements: ['qualify_history'] });
     // the same run again unlocks nothing new
     expect(recordRun(r, false)).toEqual([]);
+  });
+});
+
+describe('coin outfits', () => {
+  it('banks run coins (not for demo runs) and spends them on a locked outfit once', () => {
+    const crown = findItem('hat', 'crown')!;
+    expect(isUnlocked(crown, loadProgress())).toBe(false);
+    expect(buyItem(crown)).toBe(false); // empty bank
+    const r = { ...fakeResult({ domainId: 'math', outcome: 'eliminated', stars: 0, correct: 0 }), coinsCollected: coinPrice(crown) + 3 };
+    recordRun(r, true);
+    expect(loadCoinBank()).toBe(0);
+    recordRun(r, false);
+    expect(loadCoinBank()).toBe(coinPrice(crown) + 3);
+    expect(buyItem(crown)).toBe(true);
+    expect(loadCoinBank()).toBe(3);
+    expect(isUnlocked(crown, loadProgress())).toBe(true);
+    expect(buyItem(crown)).toBe(false); // already owned, no double charge
+    expect(loadCoinBank()).toBe(3);
   });
 });
 

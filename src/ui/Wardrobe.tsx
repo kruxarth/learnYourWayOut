@@ -1,11 +1,11 @@
 import { useMemo, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
-  catalogFor, isUnlocked, randomAvatar, sanitizeAvatar, unlockText, type AvatarConfig, type CatalogItem, type Slot,
+  catalogFor, coinPrice, isUnlocked, randomAvatar, sanitizeAvatar, unlockText, type AvatarConfig, type CatalogItem, type Slot,
 } from '../game/avatar';
 import { cleanName, nameError, randomName } from '../game/names';
 import { BODY_COLORS } from '../game/palette';
-import { loadProgress, saveAvatar, savePlayerName } from '../game/persistence';
+import { buyItem, loadCoinBank, loadProgress, saveAvatar, savePlayerName } from '../game/persistence';
 import { mulberry32, newSeed } from '../game/rng';
 import Avatar, { Spinner } from '../render/avatar/Avatar';
 import { makePose } from '../render/avatar/pose';
@@ -41,19 +41,24 @@ function PreviewCanvas({ config }: { config: AvatarConfig }) {
   );
 }
 
-function Item({ item, selected, locked, onPick }: { item: CatalogItem; selected: boolean; locked: boolean; onPick: () => void }) {
+function Item({ item, selected, locked, bank, onPick, onBuy }: {
+  item: CatalogItem; selected: boolean; locked: boolean; bank: number; onPick: () => void; onBuy: () => void;
+}) {
+  const price = coinPrice(item);
+  const canBuy = locked && bank >= price;
   return (
     <button
-      className={`chip wd-item${locked ? ' locked' : ''}`}
+      className={`chip wd-item${locked ? ' locked' : ''}${canBuy ? ' buyable' : ''}`}
       role="radio"
       aria-checked={selected}
-      aria-disabled={locked}
-      title={locked ? unlockText(item.unlock) : item.name}
-      onClick={() => { if (!locked) onPick(); }}
+      aria-disabled={locked && !canBuy}
+      title={locked ? `${unlockText(item.unlock)}, or buy for ${price} coins` : item.name}
+      onClick={() => { if (!locked) onPick(); else if (canBuy) onBuy(); }}
     >
       {item.slot === 'body' && <span className="swatch" style={{ background: BODY_COLORS[item.id as keyof typeof BODY_COLORS] }} />}
       <span>{locked ? '🔒 ' : ''}{item.name}</span>
       {locked && <small>{unlockText(item.unlock)}</small>}
+      {locked && <small>{canBuy ? `Buy 🪙 ${price}` : `🪙 ${price}`}</small>}
     </button>
   );
 }
@@ -68,7 +73,8 @@ function WardrobePanel() {
   const avatar = useUI((s) => s.avatar);
   const playerName = useUI((s) => s.playerName);
   const [tab, setTab] = useState<Tab>('colour');
-  const progress = useMemo(() => loadProgress(), []);
+  const [progress, setProgress] = useState(loadProgress);
+  const [bank, setBank] = useState(loadCoinBank);
   const [draft, setDraft] = useState(playerName ?? '');
   const [error, setError] = useState('');
   const root = useRef<HTMLDivElement>(null);
@@ -91,13 +97,18 @@ function WardrobePanel() {
     const r = cleanName(raw);
     if (r.ok) { setError(''); setPlayerName(r.name); } else setError(nameError(r.reason));
   };
+  const buy = (item: CatalogItem) => {
+    if (!buyItem(item)) return;
+    setProgress(loadProgress()); setBank(loadCoinBank());
+    setAvatar({ ...avatar, [item.slot]: item.id });
+  };
   const suggest = () => commitName(randomName(mulberry32(newSeed())));
   const randomise = () => setAvatar(randomAvatar(progress, mulberry32(newSeed())));
 
   return (
     <div className="modal-back" role="dialog" aria-modal="true" aria-label="Wardrobe">
       <div className="modal card wardrobe" ref={root} onKeyDown={onKey}>
-        <h2>Wardrobe</h2>
+        <h2>Wardrobe <span className="stat-chip" title="Coins you collected in finished runs">🪙 {bank}</span></h2>
         <div className="wd-body">
           <div className="wd-preview" aria-label="Preview of your character"><PreviewCanvas config={avatar} /></div>
           <div className="wd-side">
@@ -116,7 +127,9 @@ function WardrobePanel() {
                       item={item}
                       selected={avatar[slot] === item.id}
                       locked={!isUnlocked(item, progress)}
+                      bank={bank}
                       onPick={() => setAvatar({ ...avatar, [slot]: item.id })}
+                      onBuy={() => buy(item)}
                     />
                   ))}
                 </div>

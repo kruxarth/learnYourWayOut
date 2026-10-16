@@ -195,6 +195,7 @@ button.chip[aria-selected="true"] { background: var(--accent); color: #fff; }
 .wd-item { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 84px; }
 .wd-item small { font-size: 11px; font-weight: 800; color: #6a6e8f; max-width: 110px; }
 .wd-item[aria-checked="true"] small { color: #fff; }
+.wd-item.locked.buyable { opacity: 1; cursor: pointer; background: #fff6d6; }
 .wd-item.locked { opacity: 0.6; cursor: not-allowed; background: #eee; }
 .wd-item .swatch { width: 26px; height: 26px; border-radius: 50%; border: 3px solid var(--text); }
 .wd-name { display: flex; gap: 8px; }

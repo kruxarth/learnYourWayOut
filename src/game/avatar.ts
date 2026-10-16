@@ -1,4 +1,5 @@
 // Avatar data (pure TS, no React). Catalog, sanitising and unlock rules (spec plan/F1_AVATARS.md §3).
+import { T } from './tuning';
 import type { DomainId, RunResult } from './types';
 
 export type BodyColorId = 'pink' | 'red' | 'orange' | 'yellow' | 'lime' | 'teal' | 'sky' | 'blue' | 'purple' | 'brown' | 'white' | 'black';
@@ -20,8 +21,8 @@ export const ACHIEVEMENT_IDS: AchievementId[] = [
 ];
 
 /** Lifetime counters that unlocks are computed from. */
-export interface Progress { stars: number; correctTotal: number; weakRuns: number; achievements: AchievementId[] }
-export const EMPTY_PROGRESS: Progress = { stars: 0, correctTotal: 0, weakRuns: 0, achievements: [] };
+export interface Progress { stars: number; correctTotal: number; weakRuns: number; achievements: AchievementId[]; /** Items bought with coins, as `slot:id`. */ owned: string[] }
+export const EMPTY_PROGRESS: Progress = { stars: 0, correctTotal: 0, weakRuns: 0, achievements: [], owned: [] };
 
 export type Unlock =
   | { kind: 'free' }
@@ -82,9 +83,19 @@ export function parseAvatarParam(s: string | null): AvatarConfig | null {
   return sanitizeAvatar({ body, eyes, mouth, hat, extra });
 }
 
+export const itemKey = (item: CatalogItem): string => `${item.slot}:${item.id}`;
+
+/** Coin price to buy a locked item outright (free items cost nothing). */
+export function coinPrice(item: CatalogItem): number {
+  const u = item.unlock;
+  if (u.kind === 'free') return 0;
+  return u.kind === 'stars' ? Math.max(T.OUTFIT_PRICE_MIN, u.n * T.OUTFIT_PRICE_PER_STAR) : T.OUTFIT_PRICE_ACHIEVEMENT;
+}
+
 export function isUnlocked(item: CatalogItem, p: Progress): boolean {
   const u = item.unlock;
   if (u.kind === 'free') return true;
+  if (p.owned.includes(itemKey(item))) return true;
   if (u.kind === 'stars') return p.stars >= u.n;
   return p.achievements.includes(u.id);
 }

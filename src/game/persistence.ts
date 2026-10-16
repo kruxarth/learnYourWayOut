@@ -1,6 +1,6 @@
 import type { Settings } from '../ui/store';
 import {
-  ACHIEVEMENT_IDS, applyRun, sanitizeAvatar, unlocksAfterRun, type AchievementId, type AvatarConfig, type CatalogItem, type Progress,
+  ACHIEVEMENT_IDS, AVATAR_CATALOG, applyRun, coinPrice, isUnlocked, itemKey, sanitizeAvatar, unlocksAfterRun, type AchievementId, type AvatarConfig, type CatalogItem, type Progress,
 } from './avatar';
 import { cleanName } from './names';
 import { params } from './urlParams';
@@ -21,6 +21,10 @@ export interface SaveData {
   correctTotal?: number;
   weakRuns?: number;
   achievements?: AchievementId[];
+  /** Coins banked from finished runs and not yet spent on outfits. */
+  coinBank?: number;
+  /** Outfits bought with coins (`slot:id`). */
+  owned?: string[];
 }
 
 const KEY = 'lywo:v1';
@@ -58,6 +62,8 @@ export function loadSave(): SaveData {
       stars: count(d.stars), correctTotal: count(d.correctTotal), weakRuns: count(d.weakRuns),
       achievements: Array.isArray(d.achievements)
         ? ACHIEVEMENT_IDS.filter((id) => (d.achievements as unknown[]).includes(id)) : [],
+      coinBank: count(d.coinBank),
+      owned: Array.isArray(d.owned) ? AVATAR_CATALOG.map(itemKey).filter((k) => (d.owned as unknown[]).includes(k)) : [],
     };
   } catch {
     return fresh();
@@ -86,22 +92,42 @@ export function savePlayerName(name: string): void {
   writeSave(d);
 }
 
+function progressOf(d: SaveData): Progress {
+  return { stars: d.stars ?? 0, correctTotal: d.correctTotal ?? 0, weakRuns: d.weakRuns ?? 0, achievements: d.achievements ?? [], owned: d.owned ?? [] };
+}
+
 export function loadProgress(): Progress {
+  return progressOf(loadSave());
+}
+
+/** Coins banked across runs and still unspent. */
+export function loadCoinBank(): number {
+  return loadSave().coinBank ?? 0;
+}
+
+/** Spend banked coins on a locked outfit. False (nothing changes) when it is already open or too dear. */
+export function buyItem(item: CatalogItem): boolean {
   const d = loadSave();
-  return { stars: d.stars ?? 0, correctTotal: d.correctTotal ?? 0, weakRuns: d.weakRuns ?? 0, achievements: d.achievements ?? [] };
+  const price = coinPrice(item);
+  if (isUnlocked(item, progressOf(d)) || (d.coinBank ?? 0) < price) return false;
+  d.coinBank = (d.coinBank ?? 0) - price;
+  d.owned = [...(d.owned ?? []), itemKey(item)];
+  writeSave(d);
+  return true;
 }
 
 /**
- * Count the run, keep the best qualified time per domain and difficulty, and update stars and achievements.
+ * Count the run, keep the best qualified time per domain and difficulty, and update stars, achievements and the coin bank.
  * Returns the cosmetics this run unlocked. Demo runs (`?demo=1`) change nothing about progress.
  */
 export function recordRun(result: RunResult, demo: boolean = params.demo): CatalogItem[] {
   const d = loadSave();
-  const before: Progress = { stars: d.stars ?? 0, correctTotal: d.correctTotal ?? 0, weakRuns: d.weakRuns ?? 0, achievements: d.achievements ?? [] };
+  const before = progressOf(d);
   let unlocked: CatalogItem[] = [];
   if (!demo) {
     const after = applyRun(before, result);
     d.stars = after.stars; d.correctTotal = after.correctTotal; d.weakRuns = after.weakRuns; d.achievements = after.achievements;
+    d.coinBank = (d.coinBank ?? 0) + result.coinsCollected;
     unlocked = unlocksAfterRun(before, after);
   }
   d.runs++;

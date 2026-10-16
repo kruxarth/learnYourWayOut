@@ -72,7 +72,7 @@ Build and upload `dist/` to Vercel or Netlify. Any Topic then needs the game ser
 Docs: see the `docs/` folder (ARCHITECTURE, DELIVERABLES, CONTENT_GUIDE, DEMO_SCRIPT, DECISIONS).
 
 ## Characters
-Pick a colour, face, hat and extra in the Wardrobe (hub), and type a name (a dice button suggests one). Choices are saved in this browser. More items unlock by learning: lifetime stars, qualifying in each domain, answering 50 questions right, finishing weak-spot runs. Demo runs (`?demo=1`) never change progress.
+Pick a colour, face, hat and extra in the Wardrobe (hub), and type a name (a dice button suggests one). Choices are saved in this browser. More items unlock by learning: lifetime stars, qualifying in each domain, answering 50 questions right, finishing weak-spot runs. Locked items can also be bought with coins: the coins you pick up in finished runs go into a bank (shown in the Wardrobe), and a locked item shows its price (stars-locked items cost their star count, at least 5; achievement items cost 20). Demo runs (`?demo=1`) never change progress.
 
 ## Daily Challenge
 The Daily button in the hub starts today's course: the same for everyone (seed from the UTC date, Normal difficulty, the domain rotates math, science, history, programming). Your best qualified run of the day is recorded as a translucent ghost that you race on later attempts. The hub shows your best time and your streak (consecutive UTC days with a qualified daily). Stored in this browser only (`lywo:daily:v1`, today and yesterday). Daily runs ignore the seen-questions list.
