@@ -20,6 +20,8 @@ export interface RoomPanel {
   canFifty: boolean; canHint: boolean; fiftyUsed: boolean; hintUsed: boolean;
   think: boolean;
   boss: boolean;
+  /** Crossroads: the corridors at the current junction, with the way each one lies from the camera. */
+  paths?: { label: string; arrow: '←' | '↑' | '→' | '↓'; state: 'idle' | 'open' | 'glow' | 'right' | 'wrong' | 'crossed' }[];
   /** Gold Door follow-up: answer buttons (click, or keys 1-4). */
   gold?: { done: boolean; options: { label: string; state: 'idle' | 'right' | 'wrong' }[] };
 }

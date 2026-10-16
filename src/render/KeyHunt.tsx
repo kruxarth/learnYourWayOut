@@ -15,7 +15,8 @@ function KeyMesh({ get }: { get: () => KeyRT | null }) {
   const camera = useThree((s) => s.camera);
   const mats = useMemo(() => ({
     gold: withVisibility(new MeshToonMaterial({ color: new Color(PAL.gold), gradientMap: toonGradient(), transparent: true, emissive: new Color(PAL.gold), emissiveIntensity: 0.35 })),
-    label: withVisibility(new MeshBasicMaterial({ transparent: true, depthTest: false })),
+    // depth-tested so hedges hide it: a label drawn through walls floats with nothing tying it to its dead end
+    label: withVisibility(new MeshBasicMaterial({ transparent: true, depthWrite: false })),
   }), []);
   useEffect(() => () => { mats.gold.dispose(); mats.label.dispose(); }, [mats]);
 

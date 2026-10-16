@@ -5,7 +5,9 @@ import { engine } from '../game/engine';
 import { slimeY } from '../game/loop/progression';
 import { PAL, toon } from './materials';
 
-const SIZE = 220, SEG = 64;
+// 2 m quads (on the same 2 m grid the plane snaps to): when the slime nears floor level its wave crests break
+// through the floor as rounded puddles; at the old 3.4 m quads they showed as flat green octagons
+const SIZE = 220, SEG = 110;
 
 /** The rising slime: a big wobbly plane that follows the player in XZ. Animated on the CPU at ~30 Hz. */
 export default function Slime() {

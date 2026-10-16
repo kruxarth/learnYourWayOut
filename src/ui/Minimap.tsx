@@ -1,21 +1,29 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { engine } from '../game/engine';
 import type { RunState } from '../game/runtime';
 import { BODY_COLORS } from '../game/palette';
 import { T } from '../game/tuning';
 import { remotes, useNet } from '../net/store';
 import { ROOM_INFO } from './roomInfo';
+import type { FloorRect } from '../game/types';
 
 const PX = 360;           // internal canvas size (CSS shows 180)
 const WINDOW_M = 64;      // meters shown
 const SCALE = PX / WINDOW_M;
 const CELL = 2;           // reveal grid cell (m)
 
-interface Grid { minX: number; minZ: number; w: number; h: number; cells: Uint8Array }
+/** `cells`: revealed (1) or not; `floor`: the cell centre is over a floor, so explored ground can be shaded. */
+interface Grid { minX: number; minZ: number; w: number; h: number; cells: Uint8Array; floor: Uint8Array }
 
-function makeGrid(minX: number, maxX: number, minZ: number, maxZ: number): Grid {
+function makeGrid(minX: number, maxX: number, minZ: number, maxZ: number, floors: FloorRect[]): Grid {
   const w = Math.ceil((maxX - minX) / CELL) + 1, h = Math.ceil((maxZ - minZ) / CELL) + 1;
-  return { minX, minZ, w, h, cells: new Uint8Array(w * h) };
+  const floor = new Uint8Array(w * h);
+  for (const f of floors) {
+    const ix0 = Math.max(0, Math.ceil((f.minX - minX) / CELL - 0.5)), ix1 = Math.min(w - 1, Math.floor((f.maxX - minX) / CELL - 0.5));
+    const iz0 = Math.max(0, Math.ceil((f.minZ - minZ) / CELL - 0.5)), iz1 = Math.min(h - 1, Math.floor((f.maxZ - minZ) / CELL - 0.5));
+    for (let iz = iz0; iz <= iz1; iz++) for (let ix = ix0; ix <= ix1; ix++) floor[iz * w + ix] = 1;
+  }
+  return { minX, minZ, w, h, cells: new Uint8Array(w * h), floor };
 }
 function isRevealed(g: Grid, x: number, z: number): boolean {
   const ix = Math.floor((x - g.minX) / CELL), iz = Math.floor((z - g.minZ) / CELL);
@@ -35,28 +43,35 @@ function reveal(g: Grid, px: number, pz: number, R: number): void {
 }
 
 
-function draw(ctx: CanvasRenderingContext2D, run: RunState, main: Grid, det: Grid): void {
+/** Draws the map; returns false when there is no map here (Hard, inside a crossroads maze). */
+function draw(ctx: CanvasRenderingContext2D, run: RunState, main: Grid, det: Grid): boolean {
   const p = engine.player.pos;
   const inDetour = p.x > 300;
   const g = inDetour ? det : main;
   const d = run.selection.difficulty;
+  // Hard: no map inside a crossroads maze (the component shows a small chip instead)
+  const seg = run.course.segments[run.segIndex];
+  if (!inDetour && T.MINIMAP_OFF_IN_QUIZ[d] && seg?.kind === 'quizMaze') return false;
   ctx.clearRect(0, 0, PX, PX);
   ctx.fillStyle = 'rgba(255,255,255,0.85)';
   ctx.beginPath(); ctx.roundRect(0, 0, PX, PX, 28); ctx.fill();
-  // Hard: no map inside a crossroads maze
-  const seg = run.course.segments[run.segIndex];
-  if (!inDetour && T.MINIMAP_OFF_IN_QUIZ[d] && seg?.kind === 'quizMaze') {
-    ctx.fillStyle = '#6a6e8f'; ctx.font = '800 30px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('NO MAP IN', PX / 2, PX / 2 - 20);
-    ctx.fillText('THE CROSSROADS', PX / 2, PX / 2 + 20);
-    return;
-  }
   reveal(g, p.x, p.z, T.MINIMAP_REVEAL[d]);
   ctx.save();
   ctx.beginPath(); ctx.roundRect(0, 0, PX, PX, 28); ctx.clip();
   const sx = (x: number) => (x - p.x) * SCALE + PX / 2;
   const sz = (z: number) => (z - p.z) * SCALE + PX / 2;
   const half = WINDOW_M / 2 + 2;
+
+  // explored ground: revealed cells over a floor, so the shape of where you've been reads, not just loose wall lines
+  ctx.fillStyle = '#FFE2B0';
+  const ix0 = Math.max(0, Math.floor((p.x - half - g.minX) / CELL)), ix1 = Math.min(g.w - 1, Math.floor((p.x + half - g.minX) / CELL));
+  const iz0 = Math.max(0, Math.floor((p.z - half - g.minZ) / CELL)), iz1 = Math.min(g.h - 1, Math.floor((p.z + half - g.minZ) / CELL));
+  for (let iz = iz0; iz <= iz1; iz++) {
+    for (let ix = ix0; ix <= ix1; ix++) {
+      const k = iz * g.w + ix;
+      if (g.cells[k] && g.floor[k]) ctx.fillRect(sx(g.minX + ix * CELL), sz(g.minZ + iz * CELL), CELL * SCALE + 0.5, CELL * SCALE + 0.5);
+    }
+  }
 
   for (const w of run.world.walls) {
     if (!w.enabled && w.kind !== 'gate') continue;
@@ -78,7 +93,7 @@ function draw(ctx: CanvasRenderingContext2D, run: RunState, main: Grid, det: Gri
     else if (w.kind === 'gate') ctx.fillStyle = '#FF7AB6';
     else if (w.kind === 'room' || w.kind === 'doorWall') ctx.fillStyle = '#6B4FC8';
     else ctx.fillStyle = '#2F7D46';
-    ctx.fillRect(sx(w.minX), sz(w.minZ), Math.max(2, (w.maxX - w.minX) * SCALE), Math.max(2, (w.maxZ - w.minZ) * SCALE));
+    ctx.fillRect(sx(w.minX), sz(w.minZ), Math.max(4, (w.maxX - w.minX) * SCALE), Math.max(4, (w.maxZ - w.minZ) * SCALE));
   }
 
   if (!inDetour) {
@@ -133,10 +148,12 @@ function draw(ctx: CanvasRenderingContext2D, run: RunState, main: Grid, det: Gri
   ctx.beginPath(); ctx.moveTo(0, -13); ctx.lineTo(10, 11); ctx.lineTo(-10, 11); ctx.closePath(); ctx.fill(); ctx.stroke();
   ctx.restore();
   ctx.restore();
+  return true;
 }
 
 export default function Minimap() {
   const ref = useRef<HTMLCanvasElement>(null);
+  const [off, setOff] = useState(false);
   useEffect(() => {
     const run = engine.run;
     const canvas = ref.current;
@@ -144,15 +161,20 @@ export default function Minimap() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     const b = run.course.bounds, d = run.course.detour.bounds;
-    const main = makeGrid(b.minX - 4, b.maxX + 4, b.minZ - 4, b.maxZ + 4);
-    const det = makeGrid(d.minX - 2, d.maxX + 2, d.minZ - 2, d.maxZ + 2);
-    const id = setInterval(() => draw(ctx, run, main, det), 100);
-    draw(ctx, run, main, det);
+    const main = makeGrid(b.minX - 4, b.maxX + 4, b.minZ - 4, b.maxZ + 4, run.course.floors.filter((f) => f.minX <= 300));
+    const det = makeGrid(d.minX - 2, d.maxX + 2, d.minZ - 2, d.maxZ + 2, run.course.floors.filter((f) => f.minX > 300));
+    const tick = () => setOff(!draw(ctx, run, main, det));
+    const id = setInterval(tick, 100);
+    tick();
     return () => clearInterval(id);
   }, []);
+  // the canvas stays mounted (it holds the reveal), hidden while there is no map
   return (
-    <div className="minimap card" aria-hidden="true">
-      <canvas ref={ref} width={PX} height={PX} />
-    </div>
+    <>
+      <div className="minimap card" aria-hidden="true" style={off ? { display: 'none' } : undefined}>
+        <canvas ref={ref} width={PX} height={PX} />
+      </div>
+      {off && <div className="minimap-off stat-chip">🧭 No map in the Crossroads</div>}
+    </>
   );
 }

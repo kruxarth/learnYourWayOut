@@ -13,6 +13,16 @@ import { beginRoom, celebrate, pickQuestion, resolveRoom, startRecord, syncRoomP
  * No teleport, no detour.
  */
 
+export type PathArrow = '←' | '↑' | '→' | '↓';
+
+/** Which way a corridor (world direction dx, dz) lies for a view facing `yaw` (forward = (−sin yaw, −cos yaw)). */
+export function branchArrow(dx: number, dz: number, yaw: number): PathArrow {
+  const fx = -Math.sin(yaw), fz = -Math.cos(yaw);
+  const ahead = dx * fx + dz * fz, right = -dx * fz + dz * fx;
+  if (Math.abs(ahead) >= Math.abs(right)) return ahead >= 0 ? '↑' : '↓';
+  return right > 0 ? '→' : '←';
+}
+
 export function makeJunctions(room: RoomRuntime): JunctionRT[] {
   return room.layout.junctions.map((j) => ({
     branches: j.branches.map((b) => ({ label: '?', correct: b.correct, state: 'idle' as const, glow: false })),

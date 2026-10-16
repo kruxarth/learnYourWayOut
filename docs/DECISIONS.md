@@ -301,3 +301,13 @@ These are within the targets (Easy 0.006/0/0, Normal 0.15/30/88, Hard 0.30/53/10
 - Rule Minefield tile labels and Bridge Builder slab labels also draw after the slime (renderOrder 4), like the Memory Floor tiles.
 - Hub: Any Topic now has Easy/Normal/Hard pads like the other portals (supersedes the single-pad note above); each opens the Topic panel preselected to its difficulty (`useUI.topicLevel`).
 - Hub: portal name signs moved from above the ring (y 5.9, off the top of the screen from spawn) to low in front of the ring (y 1.3), so they read from the spawn.
+
+## Crossroads and HUD UX fixes (2026-10-16)
+- Crossroads answer signs: one signpost per junction (a stacked board per corridor, inside the junction cell, billboarded) replaces the per-corridor signs 2.9 m down each side corridor, which hedge corners cut off. Each board carries an arrow (← ↑ → ↓) from the camera's heading (`branchArrow` in `rooms/quizMaze.ts`). `BranchLayout.signX/signZ` stay (tests and the bot walk to them).
+- The question card lists the crossroads corridors as chips with the same arrows (`RoomPanel.paths`, recomputed at HUD rate from `G.camera.yaw`), so the question can be answered even when the 3D view is bad.
+- Ice patches lost their ❄ decal (it read as a pickup and matched the Slime Freeze icon); they are a glossy sheet with shine streaks. The first ice of a run shows an "Ice! Slippery floor" toast (`RunState.iceSeen`).
+- Speed pads are orange (was cyan, next to ice and the Freeze tint), transparent (the rounded corners rendered black) and fade with the visibility radius.
+- Minimap: on Hard inside a crossroads it shows a small "No map" chip instead of a blank 180 px card; explored floor cells are shaded so the map shows shapes, and walls draw at least 4 px.
+- Slime plane is 110 segments (2 m quads, on its snap grid) instead of 64: near floor level its wave crests broke through as flat green octagons.
+- Key Hunt key labels are depth-tested: drawn through hedges they floated with nothing tying them to their dead end.
+- Lifeline bar keeps the safe-area inset at the bottom.

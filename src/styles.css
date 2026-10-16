@@ -66,6 +66,14 @@ button.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
 .question .feedback { margin-top: 6px; border-radius: 10px; padding: 6px 10px; font-weight: 800; }
 .question .feedback.good { background: #D8FFE6; color: #16794A; }
 .question .feedback.bad { background: #FFE0E5; color: #B02A3E; }
+.question .paths { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 4px; }
+.question .path-chip { flex: 1 1 150px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 900; font-size: 17px; padding: 6px 10px; background: #fff; border: 2px solid #9B7BFF; border-radius: 12px; }
+.question .path-chip .arrow { font-size: 22px; line-height: 1; color: #7A4DFF; }
+.question .path-chip.glow { background: #FFF6CC; border-color: #FFB800; }
+.question .path-chip.right { background: #D8FFE6; border-color: #3DDC84; }
+.question .path-chip.wrong, .question .path-chip.crossed { background: #F1F1F5; border-color: #C9CAD6; color: #9A9CB0; }
+.question .path-chip.wrong .label, .question .path-chip.crossed .label { text-decoration: line-through; }
+.question .path-chip.wrong .arrow, .question .path-chip.crossed .arrow { color: #B8B8C4; }
 .question .gold-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; margin: 8px 0 4px; }
 .question .gold-opt { text-align: left; font-weight: 800; font-size: 15px; padding: 8px 10px; background: #FFF3B0; border: 2px solid #FFB800; border-radius: 12px; cursor: pointer; }
 .question .gold-opt kbd { font-family: var(--font); font-size: 11px; background: rgba(43,45,66,.12); border-radius: 6px; padding: 1px 5px; margin-right: 4px; }
@@ -86,9 +94,10 @@ button.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
 
 .minimap { position: absolute; top: 64px; right: 12px; padding: 4px; line-height: 0; }
 .minimap canvas { width: 180px; height: 180px; border-radius: 14px; display: block; }
+.minimap-off { position: absolute; top: 64px; right: 12px; }
 .pause-btn { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; padding: 0; font-size: 18px; }
 
-.lifelines { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 8px; }
+.lifelines { position: absolute; left: 12px; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; gap: 8px; }
 .lifelines button.btn { font-size: 15px; padding: 8px 12px; }
 .lifelines button.shake { animation: shake 0.35s; }
 

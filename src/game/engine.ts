@@ -130,7 +130,7 @@ function createRun(sel: RunSelection): RunState {
     records: [], usedQuestionIds: new Set(), recentConcepts: [], wrongConcepts: new Set(), route: null, elapsedMs: 0,
     checkpoint: { ...course.spawn }, transition: null, detour: null, fx: { shake: 0 }, godMode: false,
     qRng: stream(sel.seed, 'questions'), endTimer: 0, zone: 'normal', segIndex: 0, heartbeat: 0, lastSlimeMsg: 0,
-    combo: 0, powerups: emptyPowerups(), puRng: stream(sel.seed, 'cosmetic'), freezeT: 0, compassT: 0, gold: null, hazardMs: 0, hazardIFrames: 0, hazardHits: 0, shield: false, lanternSeg: -1,
+    combo: 0, powerups: emptyPowerups(), puRng: stream(sel.seed, 'cosmetic'), freezeT: 0, compassT: 0, gold: null, hazardMs: 0, hazardIFrames: 0, hazardHits: 0, shield: false, lanternSeg: -1, iceSeen: false,
     seenIds: tracksSeen(sel) ? loadSeen() : new Set(),
   };
   run.rooms = createRooms(course, run);
@@ -237,6 +237,7 @@ function runStep(run: RunState, mx: number, my: number, h: number): void {
   ctx.speedMult = comboSpeedMult(run);
   ctx.hubRadius = null;
   ctx.ice = onIce(run, player.pos.x, player.pos.z);
+  if (ctx.ice && !run.iceSeen) { run.iceSeen = true; pushToast('Ice! Slippery floor', 'info'); }
   const steer = inMazeSegment(run);
   if (ctx.steer && !steer) camera.yaw = 0; // out of a maze: swing back to looking up the course (touch has no other way to turn it)
   ctx.steer = steer;

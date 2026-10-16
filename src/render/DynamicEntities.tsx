@@ -179,13 +179,16 @@ function Coins({ run }: { run: RunState }) {
 }
 
 function SpeedPads({ run }: { run: RunState }) {
-  const tex = useMemo(() => labelTexture({ text: '▲', bg: '#7DF9FF', fg: '#FFFFFF', border: '#FFFFFF', w: 256, h: 256 }), []);
+  // orange chevron pads, so they don't read as ice; transparent so the card's rounded corners aren't black
+  const mat = useMemo(() => withVisibility(new MeshBasicMaterial({
+    map: labelTexture({ text: '▲', bg: '#FF9A3D', fg: '#FFFFFF', border: '#FFFFFF', w: 256, h: 256 }), transparent: true,
+  })), []);
+  useEffect(() => () => mat.dispose(), [mat]);
   return (
     <>
       {run.course.speedPads.map((p, i) => (
-        <mesh key={i} position={[p.x, 0.03, p.z]} rotation={[-Math.PI / 2, 0, 0]}>
+        <mesh key={i} position={[p.x, 0.03, p.z]} rotation={[-Math.PI / 2, 0, 0]} material={mat}>
           <planeGeometry args={[3, 3]} />
-          <meshBasicMaterial map={tex} />
         </mesh>
       ))}
     </>

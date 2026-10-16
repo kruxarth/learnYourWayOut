@@ -10,6 +10,7 @@ import { T } from '../tuning';
 import { nextTier } from './evaluation';
 import { onAnswered } from './powerups';
 import { canFiftyRoom, pushback, questionPending } from './progression';
+import { branchArrow } from '../rooms/quizMaze';
 
 // ───────────────────────── question selection & records ─────────────────────────
 
@@ -193,6 +194,16 @@ export function buildRoomPanel(room: RoomRuntime): RoomPanel | null {
     const t = room.answerTimer;
     panel.timer = { remaining: t.remaining, total: t.total, started: t.started };
     if (!t.started) panel.footer = `${panel.footer} The clock starts when you move.`;
+  }
+  if (room.kind === 'quizMaze') {
+    // the corridors as answer chips with an arrow from the camera's heading (the panel syncs at HUD rate, so they follow turns)
+    const jl = room.layout.junctions[room.currentWall], jr = room.junctions[room.currentWall];
+    if (jl && jr) {
+      panel.paths = jr.branches.map((b, i) => ({
+        label: b.label, arrow: branchArrow(jl.branches[i].dx, jl.branches[i].dz, G.camera.yaw),
+        state: b.state === 'open' && b.glow ? 'glow' : b.state,
+      }));
+    }
   }
   if (room.kind === 'stepStones') {
     panel.steps = { index: Math.min(room.currentRow + 1, 4), total: 4, working: room.working.slice() };

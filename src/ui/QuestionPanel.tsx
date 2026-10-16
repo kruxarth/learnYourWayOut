@@ -1,9 +1,27 @@
 import { questionSource } from '../content/source';
 import { engine } from '../game/engine';
-import { useUI } from './store';
+import { useUI, type RoomPanel } from './store';
 
 function Squares({ placed, total }: { placed: number; total: number }) {
   return <span className="progress-squares" aria-label={`${placed} of ${total} placed`}>{'■'.repeat(placed)}{'□'.repeat(total - placed)}</span>;
+}
+
+const ARROW_ORDER = ['←', '↑', '→', '↓'];
+
+/** Crossroads: each corridor's answer with the way it lies, left to right as on screen. */
+function Paths({ paths }: { paths: NonNullable<RoomPanel['paths']> }) {
+  const sorted = paths.slice().sort((a, b) => ARROW_ORDER.indexOf(a.arrow) - ARROW_ORDER.indexOf(b.arrow));
+  return (
+    <div className="paths" role="list" aria-label="Corridors">
+      {sorted.map((p, i) => (
+        <span key={i} role="listitem" className={`path-chip ${p.state}`}>
+          {p.arrow !== '→' && <b className="arrow">{p.arrow}</b>}
+          <span className="label">{p.state === 'idle' ? '?' : p.label}</span>
+          {p.arrow === '→' && <b className="arrow">{p.arrow}</b>}
+        </span>
+      ))}
+    </div>
+  );
 }
 
 export default function QuestionPanel() {
@@ -29,6 +47,7 @@ export default function QuestionPanel() {
       {t && (
         <div className="timer-bar" aria-label="Time left"><div style={{ width: `${frac * 100}%`, background: color }} /></div>
       )}
+      {room.paths && <Paths paths={room.paths} />}
       {room.steps && (
         <div className="working">
           <strong>Step {room.steps.index} of {room.steps.total}</strong>

@@ -319,6 +319,7 @@ export interface RunState {
   hazardHits: number;
   shield: boolean;               // Shield power-up armed: blocks the next hazard hit
   lanternSeg: number;            // segment index lit by a lantern (−1 none)
+  iceSeen: boolean;              // the "slippery" toast has shown this run
   /** Question ids seen in earlier runs (scored lower). */
   seenIds: Set<string>;
 }

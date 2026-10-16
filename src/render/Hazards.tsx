@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Color, MeshBasicMaterial, type Group, type Mesh } from 'three';
+import { CanvasTexture, Color, MeshBasicMaterial, SRGBColorSpace, type Group, type Mesh } from 'three';
 import { engine } from '../game/engine';
 import { sweeperAngle } from '../game/loop/hazards';
 import type { RunState } from '../game/runtime';
 import { T } from '../game/tuning';
 import type { Hazard } from '../game/types';
-import { labelTexture } from './labels';
 import { PAL, toon } from './materials';
 import { withVisibility } from './visibility';
 
@@ -17,7 +16,6 @@ const TIP = toon(PAL.gold, {}, 'sweeperTip');
 const POST = toon('#FFFFFF', {}, 'sweeperPost');
 const HEAD = toon(PAL.bad, {}, 'hammerHead');
 const ROD = toon('#8D8DA8', {}, 'hammerRod');
-const ICE = toon('#A5E8FF', { transparent: true, opacity: 0.85, depthWrite: false }, 'ice');
 
 function Sweeper({ run, h }: { run: RunState; h: Hazard }) {
   const bar = useRef<Group>(null);
@@ -60,16 +58,38 @@ function Hammer({ h }: { h: Hazard }) {
   );
 }
 
+// ice reads as a glossy sheet with shine streaks: no symbol, so it can't be mistaken for a pickup or the Slime Freeze power-up
+let iceTex: CanvasTexture | null = null;
+function iceTexture(): CanvasTexture {
+  if (iceTex) return iceTex;
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d')!;
+  g.fillStyle = '#DDF6FF';
+  g.fillRect(0, 0, 256, 256);
+  g.strokeStyle = 'rgba(255,255,255,0.9)';
+  g.lineCap = 'round';
+  // [x0, y0, length, width]: fixed diagonal shine streaks
+  const streaks = [[30, 70, 90, 10], [70, 60, 40, 5], [120, 200, 110, 12], [160, 120, 60, 6], [40, 190, 50, 6], [190, 40, 50, 8]];
+  for (const [x, y, len, w] of streaks) {
+    g.lineWidth = w;
+    g.beginPath(); g.moveTo(x, y); g.lineTo(x + len * 0.7, y - len * 0.7); g.stroke();
+  }
+  g.strokeStyle = '#FFFFFF';
+  g.lineWidth = 10;
+  g.strokeRect(5, 5, 246, 246);
+  iceTex = new CanvasTexture(c);
+  iceTex.colorSpace = SRGBColorSpace;
+  return iceTex;
+}
+
 function IcePatch({ h }: { h: Hazard }) {
-  const flake = useMemo(() => withVisibility(new MeshBasicMaterial({
-    map: labelTexture({ text: '❄', bg: '#DFF8FF', fg: '#4FB6E8', border: '#FFFFFF', w: 256, h: 256 }), transparent: true, opacity: 0.9,
-  })), []);
-  useEffect(() => () => flake.dispose(), [flake]);
+  const mat = useMemo(() => withVisibility(new MeshBasicMaterial({ map: iceTexture(), transparent: true, opacity: 0.92, depthWrite: false })), []);
+  useEffect(() => () => mat.dispose(), [mat]);
   return (
-    <group position={[h.x, 0.025, h.z]} rotation={[-Math.PI / 2, 0, 0]}>
-      <mesh material={ICE}><planeGeometry args={[h.hw * 2, h.hd * 2]} /></mesh>
-      <mesh position={[0, 0, 0.005]} material={flake}><planeGeometry args={[1.6, 1.6]} /></mesh>
-    </group>
+    <mesh position={[h.x, 0.025, h.z]} rotation={[-Math.PI / 2, 0, 0]} material={mat}>
+      <planeGeometry args={[h.hw * 2, h.hd * 2]} />
+    </mesh>
   );
 }
 
