@@ -1,0 +1,1031 @@
+{
+  "id": "science",
+  "name": "Science",
+  "color": "#3DDC84",
+  "concepts": [
+    {
+      "id": "cells",
+      "name": "Cells & life"
+    },
+    {
+      "id": "forces-motion",
+      "name": "Forces & motion"
+    },
+    {
+      "id": "matter-chemistry",
+      "name": "Atoms & chemistry"
+    },
+    {
+      "id": "earth-space",
+      "name": "Earth & space"
+    }
+  ],
+  "questions": [
+    {
+      "id": "science-cells-001",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 1,
+      "prompt": "Which organelle releases most of a cell's usable energy (ATP)?",
+      "answer": "Mitochondria",
+      "distractors": [
+        "Ribosome",
+        "Nucleus",
+        "Golgi body"
+      ],
+      "hint": "It is often called the powerhouse of the cell.",
+      "explanation": "Mitochondria carry out aerobic respiration and make most of the cell's ATP."
+    },
+    {
+      "id": "science-cells-002",
+      "type": "truefalse",
+      "concept": "cells",
+      "tier": 1,
+      "prompt": "Plant cells have a cell wall, but animal cells do not.",
+      "answer": true,
+      "hint": "Think about what keeps a plant stem stiff.",
+      "explanation": "Plant cells have a cellulose cell wall. Animal cells have only a cell membrane."
+    },
+    {
+      "id": "science-cells-003",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 1,
+      "prompt": "Which part of a cell holds most of its DNA?",
+      "answer": "Nucleus",
+      "distractors": [
+        "Ribosome",
+        "Cell wall",
+        "Vacuole"
+      ],
+      "hint": "It acts like the control center.",
+      "explanation": "The nucleus stores the cell's DNA and controls the cell's activities."
+    },
+    {
+      "id": "science-cells-004",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 1,
+      "prompt": "What is the basic unit of life?",
+      "answer": "Cell",
+      "distractors": [
+        "Atom",
+        "Organ",
+        "Tissue"
+      ],
+      "hint": "Every living thing is made of at least one.",
+      "explanation": "The cell is the smallest unit that can carry out the functions of life."
+    },
+    {
+      "id": "science-cells-005",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 1,
+      "prompt": "What do we call the jelly-like fluid inside a cell?",
+      "answer": "Cytoplasm",
+      "distractors": [
+        "Cell wall",
+        "Chromosome",
+        "Membrane"
+      ],
+      "hint": "Organelles float in it.",
+      "explanation": "Cytoplasm fills the cell. Organelles are suspended in it and many reactions happen there."
+    },
+    {
+      "id": "science-cells-006",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 2,
+      "prompt": "Which organelle carries out photosynthesis in a plant cell?",
+      "answer": "Chloroplast",
+      "distractors": [
+        "Mitochondria",
+        "Nucleus",
+        "Vacuole"
+      ],
+      "hint": "It contains the green pigment chlorophyll.",
+      "explanation": "Chloroplasts contain chlorophyll and turn light, water and carbon dioxide into glucose.",
+      "workedExample": "Leaf cells have many chloroplasts. Root cells have none."
+    },
+    {
+      "id": "science-cells-007",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 2,
+      "prompt": "What is the main job of ribosomes?",
+      "answer": "Make proteins",
+      "distractors": [
+        "Make ATP",
+        "Store DNA",
+        "Digest waste"
+      ],
+      "hint": "They read instructions copied from DNA.",
+      "explanation": "Ribosomes join amino acids together to build proteins."
+    },
+    {
+      "id": "science-cells-008",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 2,
+      "prompt": "Which structure controls what enters and leaves a cell?",
+      "answer": "Cell membrane",
+      "distractors": [
+        "Cell wall",
+        "Nucleus",
+        "Cytoplasm"
+      ],
+      "hint": "Every cell has this thin outer layer.",
+      "explanation": "The cell membrane is selectively permeable, so it controls which substances pass through."
+    },
+    {
+      "id": "science-cells-009",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 3,
+      "prompt": "Mature red blood cells have no nucleus. What is a likely benefit?",
+      "answer": "More space for oxygen",
+      "distractors": [
+        "Faster cell division",
+        "Better DNA repair",
+        "Stronger cell wall"
+      ],
+      "hint": "Think about what the cell must carry.",
+      "explanation": "Without a nucleus there is more room for hemoglobin, the protein that carries oxygen."
+    },
+    {
+      "id": "science-cells-010",
+      "type": "mcq",
+      "concept": "cells",
+      "tier": 3,
+      "prompt": "Why does a plant cell in pure water not burst, while an animal cell can?",
+      "answer": "The cell wall",
+      "distractors": [
+        "The nucleus",
+        "Ribosomes",
+        "Mitochondria"
+      ],
+      "hint": "Think about which cell has a rigid outer layer.",
+      "explanation": "Water enters by osmosis. The strong cell wall resists the pressure, but an animal cell membrane can burst."
+    },
+    {
+      "id": "science-cells-011",
+      "type": "truefalse",
+      "concept": "cells",
+      "tier": 1,
+      "prompt": "All living things are made of one or more cells.",
+      "answer": true,
+      "hint": "This is a main idea of cell theory.",
+      "explanation": "Cell theory says every living thing is made of cells, and new cells come from existing cells."
+    },
+    {
+      "id": "science-cells-012",
+      "type": "truefalse",
+      "concept": "cells",
+      "tier": 2,
+      "prompt": "Animal cells contain chloroplasts.",
+      "answer": false,
+      "hint": "Animals do not make food from sunlight.",
+      "explanation": "Only plant cells and some other organisms such as algae have chloroplasts."
+    },
+    {
+      "id": "science-cells-013",
+      "type": "truefalse",
+      "concept": "cells",
+      "tier": 2,
+      "prompt": "Bacterial cells do not have a membrane-bound nucleus.",
+      "answer": true,
+      "hint": "Bacteria are prokaryotes.",
+      "explanation": "Prokaryotic cells such as bacteria keep their DNA in the cytoplasm, not in a nucleus."
+    },
+    {
+      "id": "science-cells-014",
+      "type": "order",
+      "concept": "cells",
+      "tier": 1,
+      "prompt": "Put these levels of life in order, smallest first.",
+      "items": [
+        "Cell",
+        "Tissue",
+        "Organ",
+        "Organ system"
+      ],
+      "hint": "Many of one level join to make the next.",
+      "explanation": "Cells form tissues, tissues form organs, and organs work together as an organ system."
+    },
+    {
+      "id": "science-cells-015",
+      "type": "order",
+      "concept": "cells",
+      "tier": 2,
+      "prompt": "Put the stages of mitosis in order.",
+      "items": [
+        "Prophase",
+        "Metaphase",
+        "Anaphase",
+        "Telophase"
+      ],
+      "hint": "Chromosomes condense, line up, split, then two nuclei form.",
+      "explanation": "Mitosis runs: prophase, metaphase, anaphase, telophase (remember PMAT)."
+    },
+    {
+      "id": "science-forces-motion-001",
+      "type": "steps",
+      "concept": "forces-motion",
+      "tier": 1,
+      "prompt": "A car travels 150 km in 3 hours. Find its average speed.",
+      "steps": [
+        {
+          "correct": "v = d ÷ t",
+          "wrong": [
+            "v = d × t",
+            "v = t ÷ d"
+          ],
+          "why": "Speed is distance per unit time."
+        },
+        {
+          "correct": "v = 150 ÷ 3",
+          "wrong": [
+            "v = 150 × 3"
+          ]
+        },
+        {
+          "correct": "v = 50",
+          "wrong": [
+            "v = 450",
+            "v = 0.02"
+          ]
+        },
+        {
+          "correct": "50 km/h",
+          "wrong": [
+            "50 h/km",
+            "50 km"
+          ],
+          "why": "km divided by h gives km/h."
+        }
+      ],
+      "hint": "Speed = distance ÷ time.",
+      "explanation": "Average speed = 150 km ÷ 3 h = 50 km/h."
+    },
+    {
+      "id": "science-forces-motion-002",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 1,
+      "prompt": "What is the SI unit of force?",
+      "answer": "Newton",
+      "distractors": [
+        "Joule",
+        "Watt",
+        "Pascal"
+      ],
+      "hint": "It is named after a famous scientist.",
+      "explanation": "Force is measured in newtons (N). One newton accelerates 1 kg at 1 m/s²."
+    },
+    {
+      "id": "science-forces-motion-003",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 1,
+      "prompt": "Which force pulls objects toward the center of the Earth?",
+      "answer": "Gravity",
+      "distractors": [
+        "Friction",
+        "Magnetism",
+        "Tension"
+      ],
+      "hint": "It makes a dropped ball fall.",
+      "explanation": "Gravity is the attraction between masses. Earth's gravity pulls everything toward its center."
+    },
+    {
+      "id": "science-forces-motion-004",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 1,
+      "prompt": "Which force slows down a box sliding across the floor?",
+      "answer": "Friction",
+      "distractors": [
+        "Gravity",
+        "Magnetism",
+        "Thrust"
+      ],
+      "hint": "Rough surfaces make it stronger.",
+      "explanation": "Friction acts between touching surfaces and opposes their motion."
+    },
+    {
+      "id": "science-forces-motion-005",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 2,
+      "prompt": "A 10 kg object gets a net force of 20 N. What is its acceleration?",
+      "answer": "2 m/s²",
+      "distractors": [
+        "200 m/s²",
+        "0.5 m/s²",
+        "30 m/s²"
+      ],
+      "hint": "Use a = F ÷ m.",
+      "explanation": "a = F ÷ m = 20 N ÷ 10 kg = 2 m/s².",
+      "workedExample": "A 4 kg cart with net force 12 N: a = 12 ÷ 4 = 3 m/s²."
+    },
+    {
+      "id": "science-forces-motion-006",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 2,
+      "prompt": "A cyclist rides 36 km in 2 hours. What is the average speed?",
+      "answer": "18 km/h",
+      "distractors": [
+        "72 km/h",
+        "34 km/h",
+        "38 km/h"
+      ],
+      "hint": "Divide distance by time.",
+      "explanation": "36 km ÷ 2 h = 18 km/h.",
+      "workedExample": "120 km in 4 h → 120 ÷ 4 = 30 km/h."
+    },
+    {
+      "id": "science-forces-motion-007",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 2,
+      "prompt": "Which of these has both a size and a direction?",
+      "answer": "Velocity",
+      "distractors": [
+        "Speed",
+        "Mass",
+        "Time"
+      ],
+      "hint": "Speed plus a direction.",
+      "explanation": "Velocity is a vector: speed in a given direction. Speed, mass and time have size only."
+    },
+    {
+      "id": "science-forces-motion-008",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 2,
+      "prompt": "Which law says every action has an equal and opposite reaction?",
+      "answer": "Newton's third law",
+      "distractors": [
+        "Newton's first law",
+        "Newton's second law",
+        "Law of gravity"
+      ],
+      "hint": "Think of a rocket pushing gas backward.",
+      "explanation": "Newton's third law: if A pushes on B, then B pushes back on A with an equal force in the opposite direction."
+    },
+    {
+      "id": "science-forces-motion-009",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 3,
+      "prompt": "An object moves in a straight line at constant speed. What is the net force on it?",
+      "answer": "Zero",
+      "distractors": [
+        "Equal to its weight",
+        "Constant and forward",
+        "Depends on speed"
+      ],
+      "hint": "Think about Newton's first law.",
+      "explanation": "With no change in velocity there is no acceleration, so the net force is zero."
+    },
+    {
+      "id": "science-forces-motion-010",
+      "type": "mcq",
+      "concept": "forces-motion",
+      "tier": 3,
+      "prompt": "An astronaut goes from Earth to the Moon. What happens to their mass?",
+      "answer": "It stays the same",
+      "distractors": [
+        "Six times smaller",
+        "Six times bigger",
+        "It becomes zero"
+      ],
+      "hint": "Mass is the amount of matter, not the pull on it.",
+      "explanation": "Mass does not change with place. Only weight changes, because the Moon's gravity is about one sixth of Earth's."
+    },
+    {
+      "id": "science-forces-motion-011",
+      "type": "truefalse",
+      "concept": "forces-motion",
+      "tier": 1,
+      "prompt": "A force can change the speed of an object.",
+      "answer": true,
+      "hint": "Think of kicking a ball.",
+      "explanation": "A net force makes an object speed up, slow down or change direction."
+    },
+    {
+      "id": "science-forces-motion-012",
+      "type": "truefalse",
+      "concept": "forces-motion",
+      "tier": 1,
+      "prompt": "Friction is a force that opposes motion between two surfaces.",
+      "answer": true,
+      "hint": "Why do your shoes grip the floor?",
+      "explanation": "Friction acts against the direction of sliding between two touching surfaces."
+    },
+    {
+      "id": "science-forces-motion-013",
+      "type": "truefalse",
+      "concept": "forces-motion",
+      "tier": 2,
+      "prompt": "Mass and weight are the same thing.",
+      "answer": false,
+      "hint": "Mass is in kilograms. Weight is a force.",
+      "explanation": "Mass is the amount of matter (kg). Weight is the pull of gravity on it, measured in newtons."
+    },
+    {
+      "id": "science-forces-motion-014",
+      "type": "truefalse",
+      "concept": "forces-motion",
+      "tier": 2,
+      "prompt": "In a vacuum, a heavy ball and a light ball fall at the same rate.",
+      "answer": true,
+      "hint": "Air resistance is missing in a vacuum.",
+      "explanation": "Without air resistance every object accelerates at the same rate (about 9.8 m/s² on Earth)."
+    },
+    {
+      "id": "science-forces-motion-015",
+      "type": "steps",
+      "concept": "forces-motion",
+      "tier": 2,
+      "prompt": "What force gives a 5 kg cart an acceleration of 3 m/s²?",
+      "steps": [
+        {
+          "correct": "F = m × a",
+          "wrong": [
+            "F = m ÷ a",
+            "F = a ÷ m"
+          ],
+          "why": "This is Newton's second law."
+        },
+        {
+          "correct": "F = 5 × 3",
+          "wrong": [
+            "F = 5 ÷ 3",
+            "F = 5 + 3"
+          ]
+        },
+        {
+          "correct": "F = 15",
+          "wrong": [
+            "F = 1.67",
+            "F = 8"
+          ]
+        },
+        {
+          "correct": "15 N",
+          "wrong": [
+            "15 kg",
+            "15 m/s²"
+          ],
+          "why": "Force is measured in newtons."
+        }
+      ],
+      "hint": "Force = mass × acceleration.",
+      "explanation": "F = m × a = 5 kg × 3 m/s² = 15 N."
+    },
+    {
+      "id": "science-forces-motion-016",
+      "type": "order",
+      "concept": "forces-motion",
+      "tier": 1,
+      "prompt": "Put these in order of typical speed, slowest first.",
+      "items": [
+        "Walking person",
+        "Bicycle",
+        "Car on a highway",
+        "Passenger jet"
+      ],
+      "hint": "Think of meters per second for each.",
+      "explanation": "Walking is about 1.4 m/s, cycling about 5 m/s, a highway car about 30 m/s and a jet about 250 m/s."
+    },
+    {
+      "id": "science-matter-chemistry-001",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 1,
+      "prompt": "What is the chemical formula of water?",
+      "answer": "H₂O",
+      "distractors": [
+        "CO₂",
+        "O₂",
+        "H₂O₂"
+      ],
+      "hint": "Two hydrogen atoms and one oxygen atom.",
+      "explanation": "A water molecule has two hydrogen atoms bonded to one oxygen atom: H₂O."
+    },
+    {
+      "id": "science-matter-chemistry-002",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 1,
+      "prompt": "What is the chemical symbol for gold?",
+      "answer": "Au",
+      "distractors": [
+        "Ag",
+        "Go",
+        "Gd"
+      ],
+      "hint": "It comes from the Latin word aurum.",
+      "explanation": "Gold is Au, from Latin aurum. Ag is silver."
+    },
+    {
+      "id": "science-matter-chemistry-003",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 1,
+      "prompt": "Which particle in an atom has a negative charge?",
+      "answer": "Electron",
+      "distractors": [
+        "Proton",
+        "Neutron",
+        "Nucleus"
+      ],
+      "hint": "It moves around the outside of the nucleus.",
+      "explanation": "Electrons are negative, protons are positive and neutrons have no charge."
+    },
+    {
+      "id": "science-matter-chemistry-004",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 1,
+      "prompt": "Which state of matter has a fixed shape and a fixed volume?",
+      "answer": "Solid",
+      "distractors": [
+        "Liquid",
+        "Gas",
+        "Plasma"
+      ],
+      "hint": "Particles are packed tightly and only vibrate.",
+      "explanation": "In a solid the particles are held in fixed positions, so it keeps its shape and volume."
+    },
+    {
+      "id": "science-matter-chemistry-005",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 2,
+      "prompt": "How many protons does a carbon atom have?",
+      "answer": "6",
+      "distractors": [
+        "12",
+        "8",
+        "4"
+      ],
+      "hint": "It is the atomic number of carbon.",
+      "explanation": "Carbon has atomic number 6, so every carbon atom has 6 protons."
+    },
+    {
+      "id": "science-matter-chemistry-006",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 2,
+      "prompt": "A solution has a pH of 2. What kind of substance is it?",
+      "answer": "An acid",
+      "distractors": [
+        "A base",
+        "Neutral",
+        "A salt"
+      ],
+      "hint": "Compare it with pH 7.",
+      "explanation": "A pH below 7 is acidic. Pure water is neutral at pH 7, and bases are above 7."
+    },
+    {
+      "id": "science-matter-chemistry-007",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 2,
+      "prompt": "Which of these is a chemical change?",
+      "answer": "Iron rusting",
+      "distractors": [
+        "Ice melting",
+        "Water boiling",
+        "Sugar dissolving"
+      ],
+      "hint": "A new substance is formed.",
+      "explanation": "Rusting makes iron oxide, a new substance. Melting, boiling and dissolving are physical changes."
+    },
+    {
+      "id": "science-matter-chemistry-008",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 3,
+      "prompt": "An atom has 11 protons and 12 neutrons. What is its mass number?",
+      "answer": "23",
+      "distractors": [
+        "11",
+        "12",
+        "24"
+      ],
+      "hint": "Count the particles in the nucleus.",
+      "explanation": "Mass number = protons + neutrons = 11 + 12 = 23. This atom is sodium-23."
+    },
+    {
+      "id": "science-matter-chemistry-009",
+      "type": "mcq",
+      "concept": "matter-chemistry",
+      "tier": 3,
+      "prompt": "Why do the noble gases rarely react with other elements?",
+      "answer": "Full outer shell",
+      "distractors": [
+        "Very large atoms",
+        "High melting point",
+        "Too many protons"
+      ],
+      "hint": "Think about the outer electrons.",
+      "explanation": "Noble gases already have a full outer electron shell, so they have little tendency to gain, lose or share electrons."
+    },
+    {
+      "id": "science-matter-chemistry-010",
+      "type": "truefalse",
+      "concept": "matter-chemistry",
+      "tier": 1,
+      "prompt": "Water is made of the elements hydrogen and oxygen.",
+      "answer": true,
+      "hint": "Remember H₂O.",
+      "explanation": "Water is a compound of hydrogen and oxygen."
+    },
+    {
+      "id": "science-matter-chemistry-011",
+      "type": "truefalse",
+      "concept": "matter-chemistry",
+      "tier": 1,
+      "prompt": "An element is made of only one kind of atom.",
+      "answer": true,
+      "hint": "Think of pure gold or pure oxygen.",
+      "explanation": "Every atom in an element has the same number of protons."
+    },
+    {
+      "id": "science-matter-chemistry-012",
+      "type": "truefalse",
+      "concept": "matter-chemistry",
+      "tier": 2,
+      "prompt": "Salt dissolved in water is a compound.",
+      "answer": false,
+      "hint": "The salt can be recovered by evaporating the water.",
+      "explanation": "Salt water is a mixture (a solution). Salt itself is a compound, but it is not chemically joined to the water."
+    },
+    {
+      "id": "science-matter-chemistry-013",
+      "type": "truefalse",
+      "concept": "matter-chemistry",
+      "tier": 2,
+      "prompt": "Protons and neutrons are found in the nucleus of an atom.",
+      "answer": true,
+      "hint": "The electrons are the ones outside.",
+      "explanation": "The nucleus contains protons and neutrons. Electrons move around it."
+    },
+    {
+      "id": "science-matter-chemistry-014",
+      "type": "steps",
+      "concept": "matter-chemistry",
+      "tier": 3,
+      "prompt": "Balance the equation H₂ + O₂ → H₂O",
+      "steps": [
+        {
+          "correct": "O: 2 left, 1 right",
+          "wrong": [
+            "O: 1 left, 2 right",
+            "H: 2 left, 1 right"
+          ],
+          "why": "Count the atoms on each side."
+        },
+        {
+          "correct": "Put 2 before H₂O",
+          "wrong": [
+            "Put 2 before O₂",
+            "Change H₂O to H₂O₂"
+          ],
+          "why": "Never change the little numbers in a formula."
+        },
+        {
+          "correct": "Now H: 2 left, 4 right",
+          "wrong": [
+            "Now H: 4 left, 2 right",
+            "Now H: 2 left, 2 right"
+          ]
+        },
+        {
+          "correct": "2H₂ + O₂ → 2H₂O",
+          "wrong": [
+            "H₂ + O₂ → 2H₂O",
+            "2H₂ + 2O₂ → 2H₂O"
+          ],
+          "why": "Put 2 before H₂ to balance hydrogen."
+        }
+      ],
+      "hint": "Balance oxygen first, then hydrogen.",
+      "explanation": "Put 2 before H₂O to get 2 oxygen atoms, then 2 before H₂ to get 4 hydrogen atoms. Both sides now balance."
+    },
+    {
+      "id": "science-matter-chemistry-015",
+      "type": "order",
+      "concept": "matter-chemistry",
+      "tier": 2,
+      "prompt": "Put these states of matter in order of particle energy, lowest first.",
+      "items": [
+        "Solid",
+        "Liquid",
+        "Gas",
+        "Plasma"
+      ],
+      "hint": "Heating moves matter up the list.",
+      "explanation": "Heating takes a substance from solid to liquid to gas, and extreme heat can make a plasma."
+    },
+    {
+      "id": "science-earth-space-001",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 1,
+      "prompt": "Which planet is closest to the Sun?",
+      "answer": "Mercury",
+      "distractors": [
+        "Venus",
+        "Mars",
+        "Earth"
+      ],
+      "hint": "It is the smallest planet.",
+      "explanation": "Mercury is the closest planet to the Sun, followed by Venus, Earth and Mars."
+    },
+    {
+      "id": "science-earth-space-002",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 1,
+      "prompt": "What causes day and night on Earth?",
+      "answer": "Earth's rotation",
+      "distractors": [
+        "Earth's orbit",
+        "The Moon's orbit",
+        "The Sun moving"
+      ],
+      "hint": "Earth does it once in about 24 hours.",
+      "explanation": "Earth spins on its axis about once a day, so each place turns toward and away from the Sun."
+    },
+    {
+      "id": "science-earth-space-003",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 1,
+      "prompt": "Which gas makes up most of Earth's atmosphere?",
+      "answer": "Nitrogen",
+      "distractors": [
+        "Oxygen",
+        "Carbon dioxide",
+        "Hydrogen"
+      ],
+      "hint": "It is about 78% of the air.",
+      "explanation": "Air is about 78% nitrogen and 21% oxygen."
+    },
+    {
+      "id": "science-earth-space-004",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 2,
+      "prompt": "What causes the seasons on Earth?",
+      "answer": "Tilt of Earth's axis",
+      "distractors": [
+        "Distance from the Sun",
+        "The Moon's pull",
+        "Solar flares"
+      ],
+      "hint": "Earth's axis is not straight up and down.",
+      "explanation": "Earth's axis is tilted about 23.5°, so each hemisphere gets more direct sunlight at different times of year."
+    },
+    {
+      "id": "science-earth-space-005",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 2,
+      "prompt": "Which layer of the Earth is liquid metal?",
+      "answer": "Outer core",
+      "distractors": [
+        "Mantle",
+        "Inner core",
+        "Crust"
+      ],
+      "hint": "It lies between the mantle and the inner core.",
+      "explanation": "The outer core is liquid iron and nickel. The inner core is solid because of the huge pressure."
+    },
+    {
+      "id": "science-earth-space-006",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 2,
+      "prompt": "Which type of rock forms when magma cools and hardens?",
+      "answer": "Igneous",
+      "distractors": [
+        "Sedimentary",
+        "Metamorphic",
+        "Fossil"
+      ],
+      "hint": "The name comes from a Latin word for fire.",
+      "explanation": "Igneous rock forms from cooled magma or lava. Granite and basalt are examples."
+    },
+    {
+      "id": "science-earth-space-007",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 2,
+      "prompt": "About how long does sunlight take to reach Earth?",
+      "answer": "8 minutes",
+      "distractors": [
+        "8 seconds",
+        "8 hours",
+        "1 second"
+      ],
+      "hint": "Light is fast, but the Sun is very far away.",
+      "explanation": "The Sun is about 150 million km away. Light travels there in about 500 seconds, or 8 minutes."
+    },
+    {
+      "id": "science-earth-space-008",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 3,
+      "prompt": "What causes a lunar eclipse?",
+      "answer": "Earth blocks sunlight",
+      "distractors": [
+        "Moon blocks sunlight",
+        "Clouds cover the Moon",
+        "The Sun switches off"
+      ],
+      "hint": "Think about whose shadow falls on whom.",
+      "explanation": "In a lunar eclipse Earth is between the Sun and the Moon, so Earth's shadow falls on the Moon."
+    },
+    {
+      "id": "science-earth-space-009",
+      "type": "mcq",
+      "concept": "earth-space",
+      "tier": 3,
+      "prompt": "Why do we always see the same side of the Moon from Earth?",
+      "answer": "Rotation equals orbit",
+      "distractors": [
+        "It does not rotate",
+        "Earth's tides hold it",
+        "It is flat"
+      ],
+      "hint": "Compare how long it takes to spin and to orbit.",
+      "explanation": "The Moon takes the same time to spin once as to orbit Earth once (tidal locking), so the same face points at us."
+    },
+    {
+      "id": "science-earth-space-010",
+      "type": "truefalse",
+      "concept": "earth-space",
+      "tier": 1,
+      "prompt": "The Sun is a star.",
+      "answer": true,
+      "hint": "It makes its own light and heat.",
+      "explanation": "The Sun is the star at the center of our solar system."
+    },
+    {
+      "id": "science-earth-space-011",
+      "type": "truefalse",
+      "concept": "earth-space",
+      "tier": 1,
+      "prompt": "Earth takes about 365 days to orbit the Sun once.",
+      "answer": true,
+      "hint": "That is the length of a year.",
+      "explanation": "One orbit takes about 365.25 days, which is why we have a leap year every four years."
+    },
+    {
+      "id": "science-earth-space-012",
+      "type": "truefalse",
+      "concept": "earth-space",
+      "tier": 2,
+      "prompt": "The Moon makes its own light.",
+      "answer": false,
+      "hint": "Where does moonlight come from?",
+      "explanation": "The Moon reflects sunlight. It does not produce light of its own."
+    },
+    {
+      "id": "science-earth-space-013",
+      "type": "truefalse",
+      "concept": "earth-space",
+      "tier": 2,
+      "prompt": "Summer happens because Earth is closer to the Sun.",
+      "answer": false,
+      "hint": "Both hemispheres cannot have summer at the same time.",
+      "explanation": "Seasons come from Earth's tilt. Earth is actually slightly closer to the Sun in January."
+    },
+    {
+      "id": "science-earth-space-014",
+      "type": "steps",
+      "concept": "earth-space",
+      "tier": 2,
+      "prompt": "Sunlight travels 150 million km at 300 000 km/s. How long does it take?",
+      "steps": [
+        {
+          "correct": "t = d ÷ v",
+          "wrong": [
+            "t = d × v",
+            "t = v ÷ d"
+          ],
+          "why": "Time = distance ÷ speed."
+        },
+        {
+          "correct": "150 000 000 ÷ 300 000",
+          "wrong": [
+            "150 000 000 × 300 000",
+            "300 000 ÷ 150 000 000"
+          ]
+        },
+        {
+          "correct": "t = 500",
+          "wrong": [
+            "t = 50",
+            "t = 0.002"
+          ]
+        },
+        {
+          "correct": "500 s ≈ 8.3 minutes",
+          "wrong": [
+            "500 s ≈ 50 minutes",
+            "500 s ≈ 8.3 hours"
+          ],
+          "why": "Divide seconds by 60."
+        }
+      ],
+      "hint": "Time = distance ÷ speed.",
+      "explanation": "150 000 000 ÷ 300 000 = 500 seconds, which is about 8.3 minutes."
+    },
+    {
+      "id": "science-earth-space-015",
+      "type": "order",
+      "concept": "earth-space",
+      "tier": 1,
+      "prompt": "Put these planets in order, closest to the Sun first.",
+      "items": [
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars"
+      ],
+      "hint": "Hotter planets are nearer to the Sun.",
+      "explanation": "The order from the Sun is Mercury, Venus, Earth, Mars, then Jupiter, Saturn, Uranus, Neptune."
+    },
+    { "id": "science-cells-016", "type": "classify", "concept": "cells", "tier": 1,
+      "prompt": "Step only on living things.",
+      "items": [
+        {"label": "Oak tree", "fits": true},
+        {"label": "Mushroom", "fits": true},
+        {"label": "Frog", "fits": true},
+        {"label": "Bacterium", "fits": true},
+        {"label": "Moss", "fits": true},
+        {"label": "Rock", "fits": false},
+        {"label": "Sand", "fits": false},
+        {"label": "Water", "fits": false},
+        {"label": "Car", "fits": false},
+        {"label": "Candle flame", "fits": false}
+      ],
+      "hint": "Living things grow, reproduce and are made of cells.",
+      "explanation": "Trees, mushrooms, frogs, bacteria and moss are alive and made of cells. Rocks, sand, water, cars and flames are not." },
+    { "id": "science-forces-motion-017", "type": "classify", "concept": "forces-motion", "tier": 1,
+      "prompt": "Step only on forces.",
+      "items": [
+        {"label": "Gravity", "fits": true},
+        {"label": "Friction", "fits": true},
+        {"label": "Air resistance", "fits": true},
+        {"label": "Tension", "fits": true},
+        {"label": "Magnetic force", "fits": true},
+        {"label": "Mass", "fits": false},
+        {"label": "Speed", "fits": false},
+        {"label": "Distance", "fits": false},
+        {"label": "Time", "fits": false},
+        {"label": "Energy", "fits": false}
+      ],
+      "hint": "A force is a push or a pull.",
+      "explanation": "Gravity, friction, air resistance, tension and magnetic force are pushes or pulls. Mass, speed, distance, time and energy are not forces." },
+    { "id": "science-matter-chemistry-016", "type": "classify", "concept": "matter-chemistry", "tier": 2,
+      "prompt": "Step only on chemical elements.",
+      "items": [
+        {"label": "Oxygen", "fits": true},
+        {"label": "Iron", "fits": true},
+        {"label": "Gold", "fits": true},
+        {"label": "Carbon", "fits": true},
+        {"label": "Helium", "fits": true},
+        {"label": "Water", "fits": false},
+        {"label": "Salt", "fits": false},
+        {"label": "Carbon dioxide", "fits": false},
+        {"label": "Sugar", "fits": false},
+        {"label": "Rust", "fits": false}
+      ],
+      "hint": "An element has only one kind of atom.",
+      "explanation": "Oxygen, iron, gold, carbon and helium are elements. Water, salt, carbon dioxide, sugar and rust are compounds made of different atoms." },
+    { "id": "science-earth-space-016", "type": "classify", "concept": "earth-space", "tier": 3,
+      "prompt": "Step only on planets of our Solar System.",
+      "items": [
+        {"label": "Mars", "fits": true},
+        {"label": "Venus", "fits": true},
+        {"label": "Jupiter", "fits": true},
+        {"label": "Neptune", "fits": true},
+        {"label": "Earth", "fits": true},
+        {"label": "Pluto", "fits": false},
+        {"label": "Moon", "fits": false},
+        {"label": "Sun", "fits": false},
+        {"label": "Ceres", "fits": false},
+        {"label": "Halley's Comet", "fits": false}
+      ],
+      "hint": "There are eight planets. Pluto was reclassified.",
+      "explanation": "The eight planets are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus and Neptune. Pluto and Ceres are dwarf planets, the Moon is a moon, the Sun is a star." }
+  ]
+}

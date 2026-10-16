@@ -1,0 +1,949 @@
+{
+  "id": "history",
+  "name": "History",
+  "color": "#FF9F43",
+  "concepts": [
+    {
+      "id": "ancient-world",
+      "name": "Ancient world"
+    },
+    {
+      "id": "medieval-world",
+      "name": "Medieval world"
+    },
+    {
+      "id": "modern-world",
+      "name": "Modern world (1750–1950)"
+    },
+    {
+      "id": "indian-history",
+      "name": "Indian history"
+    }
+  ],
+  "questions": [
+    {
+      "id": "history-ancient-world-001",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 1,
+      "prompt": "Which ancient people built the pyramids at Giza?",
+      "answer": "Egyptians",
+      "distractors": [
+        "Romans",
+        "Greeks",
+        "Persians"
+      ],
+      "hint": "They lived along the Nile.",
+      "explanation": "The pyramids at Giza were built by ancient Egyptians as tombs for their pharaohs, about 4,500 years ago."
+    },
+    {
+      "id": "history-ancient-world-002",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 1,
+      "prompt": "In which ancient city-state did democracy begin?",
+      "answer": "Athens",
+      "distractors": [
+        "Sparta",
+        "Rome",
+        "Thebes"
+      ],
+      "hint": "It is the capital of modern Greece.",
+      "explanation": "Athens developed the first known democracy in the 500s BCE, where citizens voted directly on laws."
+    },
+    {
+      "id": "history-ancient-world-003",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 1,
+      "prompt": "Which river was the center of ancient Egyptian life?",
+      "answer": "Nile",
+      "distractors": [
+        "Tigris",
+        "Indus",
+        "Euphrates"
+      ],
+      "hint": "It flows north into the Mediterranean Sea.",
+      "explanation": "The yearly flood of the Nile made the land fertile and fed Egyptian civilization."
+    },
+    {
+      "id": "history-ancient-world-004",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 2,
+      "prompt": "Who was the first emperor of Rome?",
+      "answer": "Augustus",
+      "distractors": [
+        "Julius Caesar",
+        "Nero",
+        "Constantine"
+      ],
+      "hint": "He was Julius Caesar's adopted heir.",
+      "explanation": "Augustus became the first Roman emperor in 27 BCE. Julius Caesar was a dictator, not an emperor."
+    },
+    {
+      "id": "history-ancient-world-005",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 2,
+      "prompt": "Which writing system was invented in ancient Mesopotamia?",
+      "answer": "Cuneiform",
+      "distractors": [
+        "Hieroglyphs",
+        "Latin alphabet",
+        "Devanagari"
+      ],
+      "hint": "Scribes pressed wedge shapes into wet clay.",
+      "explanation": "The Sumerians created cuneiform around 3400 BCE, one of the earliest writing systems."
+    },
+    {
+      "id": "history-ancient-world-006",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 2,
+      "prompt": "Which kingdom did Alexander the Great rule before he conquered Persia?",
+      "answer": "Macedonia",
+      "distractors": [
+        "Sparta",
+        "Egypt",
+        "Babylon"
+      ],
+      "hint": "It lay north of Greece.",
+      "explanation": "Alexander inherited the kingdom of Macedonia from his father Philip II and built a huge empire."
+    },
+    {
+      "id": "history-ancient-world-007",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 3,
+      "prompt": "Why was the Rosetta Stone so important for historians?",
+      "answer": "Key to hieroglyphs",
+      "distractors": [
+        "Map of the Nile",
+        "Roman law code",
+        "Greek calendar"
+      ],
+      "hint": "It repeats one text in three scripts.",
+      "explanation": "The same decree is written in Greek, Demotic and hieroglyphs, which let scholars read Egyptian hieroglyphs."
+    },
+    {
+      "id": "history-ancient-world-008",
+      "type": "mcq",
+      "concept": "ancient-world",
+      "tier": 3,
+      "prompt": "The Code of Hammurabi is famous as one of the earliest...",
+      "answer": "Written law codes",
+      "distractors": [
+        "Trade treaties",
+        "Calendars",
+        "Maps"
+      ],
+      "hint": "It was carved on a tall stone pillar.",
+      "explanation": "King Hammurabi of Babylon had about 280 laws written on a stele around 1754 BCE."
+    },
+    {
+      "id": "history-ancient-world-009",
+      "type": "truefalse",
+      "concept": "ancient-world",
+      "tier": 1,
+      "prompt": "The ancient Egyptians built pyramids as tombs for their pharaohs.",
+      "answer": true,
+      "hint": "Pharaohs were buried with treasures.",
+      "explanation": "Pyramids were royal tombs designed to protect the pharaoh in the afterlife."
+    },
+    {
+      "id": "history-ancient-world-010",
+      "type": "truefalse",
+      "concept": "ancient-world",
+      "tier": 1,
+      "prompt": "The ancient Olympic Games began in Greece.",
+      "answer": true,
+      "hint": "The modern Games are named after a place in that country.",
+      "explanation": "The first recorded ancient Olympics were held at Olympia, Greece, in 776 BCE."
+    },
+    {
+      "id": "history-ancient-world-011",
+      "type": "truefalse",
+      "concept": "ancient-world",
+      "tier": 2,
+      "prompt": "Julius Caesar was the first emperor of Rome.",
+      "answer": false,
+      "hint": "Think about his adopted heir.",
+      "explanation": "Caesar was a dictator. His heir Augustus became the first emperor."
+    },
+    {
+      "id": "history-ancient-world-012",
+      "type": "truefalse",
+      "concept": "ancient-world",
+      "tier": 3,
+      "prompt": "Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid.",
+      "answer": true,
+      "hint": "Count the years in both directions.",
+      "explanation": "The Great Pyramid is about 4,500 years old. Cleopatra died in 30 BCE, around 2,000 years before 1969."
+    },
+    {
+      "id": "history-ancient-world-013",
+      "type": "steps",
+      "concept": "ancient-world",
+      "tier": 3,
+      "prompt": "Rome's empire began in 27 BCE. The western half fell in 476 CE. How long was that?",
+      "steps": [
+        {
+          "correct": "Add BCE and CE years",
+          "wrong": [
+            "Subtract 27 from 476",
+            "Multiply 27 × 476"
+          ],
+          "why": "BCE years count backward to year 1."
+        },
+        {
+          "correct": "27 + 476 = 503",
+          "wrong": [
+            "476 − 27 = 449",
+            "27 × 476 = 12852"
+          ]
+        },
+        {
+          "correct": "No year 0: take off 1",
+          "wrong": [
+            "Add 1 for year 0",
+            "Double the result"
+          ],
+          "why": "The calendar goes from 1 BCE to 1 CE."
+        },
+        {
+          "correct": "About 502 years",
+          "wrong": [
+            "About 449 years",
+            "About 1000 years"
+          ]
+        }
+      ],
+      "hint": "There is no year 0 between BCE and CE.",
+      "explanation": "27 BCE to 476 CE is 27 + 476 − 1 = 502 years, so about 500 years."
+    },
+    {
+      "id": "history-ancient-world-014",
+      "type": "order",
+      "concept": "ancient-world",
+      "tier": 1,
+      "prompt": "Put these events in order, earliest first.",
+      "items": [
+        "Pyramids of Giza built",
+        "First Olympic Games",
+        "Alexander's conquests",
+        "Fall of Western Rome"
+      ],
+      "hint": "Two events are BCE before the Greek ones.",
+      "explanation": "The Giza pyramids (about 2500 BCE), first Olympics (776 BCE), Alexander's conquests (334–323 BCE) and the fall of Western Rome (476 CE)."
+    },
+    {
+      "id": "history-medieval-world-001",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 1,
+      "prompt": "Which empire had its capital at Constantinople until 1453?",
+      "answer": "Byzantine Empire",
+      "distractors": [
+        "Holy Roman Empire",
+        "Mongol Empire",
+        "Persian Empire"
+      ],
+      "hint": "It was the eastern half of the old Roman Empire.",
+      "explanation": "The Byzantine Empire continued the Roman Empire in the east until the Ottomans captured Constantinople in 1453."
+    },
+    {
+      "id": "history-medieval-world-002",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 1,
+      "prompt": "What was the main job of a knight in medieval Europe?",
+      "answer": "Fight for a lord",
+      "distractors": [
+        "Collect taxes",
+        "Farm the land",
+        "Copy books"
+      ],
+      "hint": "Knights wore armor and rode horses.",
+      "explanation": "Knights were mounted warriors who served a lord and received land in return."
+    },
+    {
+      "id": "history-medieval-world-003",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 1,
+      "prompt": "Which deadly plague killed millions of people in Europe in the 1300s?",
+      "answer": "Black Death",
+      "distractors": [
+        "Smallpox",
+        "Cholera",
+        "Measles"
+      ],
+      "hint": "It spread along trade routes, carried by fleas on rats.",
+      "explanation": "The Black Death reached Europe in 1347 and killed perhaps a third of its people."
+    },
+    {
+      "id": "history-medieval-world-004",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 2,
+      "prompt": "Which system gave land to nobles in return for loyalty and military service?",
+      "answer": "Feudalism",
+      "distractors": [
+        "Mercantilism",
+        "Democracy",
+        "Capitalism"
+      ],
+      "hint": "Kings, lords, knights and peasants formed a pyramid.",
+      "explanation": "In feudalism a king gave land to lords, who gave land to knights, who were protected by their loyalty."
+    },
+    {
+      "id": "history-medieval-world-005",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 2,
+      "prompt": "Which document, sealed in 1215, limited the power of the English king?",
+      "answer": "Magna Carta",
+      "distractors": [
+        "Domesday Book",
+        "Bill of Rights",
+        "Mayflower Compact"
+      ],
+      "hint": "Its name means Great Charter in Latin.",
+      "explanation": "King John was forced by his barons to accept Magna Carta, which said even the king must obey the law."
+    },
+    {
+      "id": "history-medieval-world-006",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 2,
+      "prompt": "Who founded the Mongol Empire in 1206?",
+      "answer": "Genghis Khan",
+      "distractors": [
+        "Kublai Khan",
+        "Attila",
+        "Timur"
+      ],
+      "hint": "His grandson Kublai later ruled China.",
+      "explanation": "Temujin was named Genghis Khan in 1206 and united the Mongol tribes into a vast empire."
+    },
+    {
+      "id": "history-medieval-world-007",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 3,
+      "prompt": "The Hundred Years' War was fought between which two kingdoms?",
+      "answer": "England and France",
+      "distractors": [
+        "Spain and Portugal",
+        "France and Germany",
+        "England and Scotland"
+      ],
+      "hint": "The English kings claimed the French crown.",
+      "explanation": "From 1337 to 1453 England and France fought over who should rule France."
+    },
+    {
+      "id": "history-medieval-world-008",
+      "type": "mcq",
+      "concept": "medieval-world",
+      "tier": 3,
+      "prompt": "Whose book The Canon of Medicine was used in European universities for centuries?",
+      "answer": "Ibn Sina (Avicenna)",
+      "distractors": [
+        "Al-Khwarizmi",
+        "Ibn Battuta",
+        "Saladin"
+      ],
+      "hint": "He was a Persian scholar from around the year 1000.",
+      "explanation": "Ibn Sina, known as Avicenna, wrote The Canon of Medicine in the early 1000s. It was a standard text in Europe until the 1600s."
+    },
+    {
+      "id": "history-medieval-world-009",
+      "type": "truefalse",
+      "concept": "medieval-world",
+      "tier": 1,
+      "prompt": "Most medieval peasants owned large farms.",
+      "answer": false,
+      "hint": "Peasants worked land for a lord.",
+      "explanation": "Most peasants worked small plots and farmed the lord's land in return for protection."
+    },
+    {
+      "id": "history-medieval-world-010",
+      "type": "truefalse",
+      "concept": "medieval-world",
+      "tier": 1,
+      "prompt": "The Black Death reached Europe in the 14th century.",
+      "answer": true,
+      "hint": "The 14th century covers the 1300s.",
+      "explanation": "The plague arrived in Europe in 1347 and swept across the continent within a few years."
+    },
+    {
+      "id": "history-medieval-world-011",
+      "type": "truefalse",
+      "concept": "medieval-world",
+      "tier": 2,
+      "prompt": "Magna Carta was agreed by King John of England.",
+      "answer": true,
+      "hint": "He was Richard the Lionheart's brother.",
+      "explanation": "King John accepted Magna Carta at Runnymede in 1215 under pressure from his barons."
+    },
+    {
+      "id": "history-medieval-world-012",
+      "type": "truefalse",
+      "concept": "medieval-world",
+      "tier": 3,
+      "prompt": "The Hundred Years' War lasted exactly 100 years.",
+      "answer": false,
+      "hint": "Check the start and end dates: 1337 and 1453.",
+      "explanation": "The conflict ran from 1337 to 1453, which is 116 years. The name is only a rough description."
+    },
+    {
+      "id": "history-medieval-world-013",
+      "type": "steps",
+      "concept": "medieval-world",
+      "tier": 2,
+      "prompt": "How many years passed between the Norman conquest (1066) and Magna Carta (1215)?",
+      "steps": [
+        {
+          "correct": "Later − earlier year",
+          "wrong": [
+            "Earlier − later year",
+            "Add the two years"
+          ]
+        },
+        {
+          "correct": "1215 − 1066",
+          "wrong": [
+            "1066 − 1215",
+            "1215 + 1066"
+          ]
+        },
+        {
+          "correct": "= 149",
+          "wrong": [
+            "= 139",
+            "= 2281"
+          ]
+        },
+        {
+          "correct": "149 years",
+          "wrong": [
+            "149 months",
+            "1490 years"
+          ],
+          "why": "The answer is in years."
+        }
+      ],
+      "hint": "Take the earlier date from the later date.",
+      "explanation": "1215 − 1066 = 149, so Magna Carta came 149 years after the Norman conquest."
+    },
+    {
+      "id": "history-medieval-world-014",
+      "type": "order",
+      "concept": "medieval-world",
+      "tier": 2,
+      "prompt": "Put these events in order, earliest first.",
+      "items": [
+        "Charlemagne crowned",
+        "Norman conquest",
+        "Magna Carta signed",
+        "Black Death in Europe"
+      ],
+      "hint": "The dates run from 800 to the 1300s.",
+      "explanation": "Charlemagne was crowned in 800, the Normans conquered England in 1066, Magna Carta came in 1215 and the Black Death arrived in 1347."
+    },
+    {
+      "id": "history-modern-world-001",
+      "type": "order",
+      "concept": "modern-world",
+      "tier": 2,
+      "prompt": "Put these events in order, earliest first.",
+      "items": [
+        "US independence",
+        "French Revolution",
+        "World War I begins",
+        "Indian independence"
+      ],
+      "hint": "Two are in the 1700s and two are in the 1900s.",
+      "explanation": "US Declaration of Independence 1776, French Revolution 1789, World War I 1914, Indian independence 1947."
+    },
+    {
+      "id": "history-modern-world-002",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 1,
+      "prompt": "In which year did World War II end?",
+      "answer": "1945",
+      "distractors": [
+        "1939",
+        "1918",
+        "1950"
+      ],
+      "hint": "It was the middle of the 1940s.",
+      "explanation": "World War II ended in 1945, with Germany surrendering in May and Japan in August and September."
+    },
+    {
+      "id": "history-modern-world-003",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 1,
+      "prompt": "Which country was the birthplace of the Industrial Revolution?",
+      "answer": "Britain",
+      "distractors": [
+        "Germany",
+        "Russia",
+        "Japan"
+      ],
+      "hint": "Factories, coal and steam appeared there in the 1700s.",
+      "explanation": "The Industrial Revolution began in Britain in the late 1700s, with textile mills and steam power."
+    },
+    {
+      "id": "history-modern-world-004",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 1,
+      "prompt": "Which war was fought from 1914 to 1918?",
+      "answer": "World War I",
+      "distractors": [
+        "World War II",
+        "Crimean War",
+        "Korean War"
+      ],
+      "hint": "It was once called the Great War.",
+      "explanation": "World War I lasted from 1914 to 1918 and involved most of the great powers."
+    },
+    {
+      "id": "history-modern-world-005",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 2,
+      "prompt": "Which event of July 1789 is seen as the start of the French Revolution?",
+      "answer": "Storming the Bastille",
+      "distractors": [
+        "Execution of the king",
+        "Rise of Napoleon",
+        "Congress of Vienna"
+      ],
+      "hint": "Crowds attacked a royal prison in Paris.",
+      "explanation": "On 14 July 1789 a crowd stormed the Bastille. The king was executed later, in 1793."
+    },
+    {
+      "id": "history-modern-world-006",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 2,
+      "prompt": "Who is credited with patenting the first practical telephone in 1876?",
+      "answer": "Alexander Graham Bell",
+      "distractors": [
+        "Thomas Edison",
+        "Nikola Tesla",
+        "Samuel Morse"
+      ],
+      "hint": "He was born in Scotland.",
+      "explanation": "Alexander Graham Bell received the first US telephone patent in 1876."
+    },
+    {
+      "id": "history-modern-world-007",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 2,
+      "prompt": "Which treaty of 1919 formally ended World War I with Germany?",
+      "answer": "Treaty of Versailles",
+      "distractors": [
+        "Treaty of Paris",
+        "Treaty of Vienna",
+        "Treaty of Tordesillas"
+      ],
+      "hint": "It was signed in a palace near Paris.",
+      "explanation": "The Treaty of Versailles was signed in June 1919 and placed heavy terms on Germany."
+    },
+    {
+      "id": "history-modern-world-008",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 3,
+      "prompt": "Which party took power in Russia in the October Revolution of 1917?",
+      "answer": "Bolsheviks",
+      "distractors": [
+        "Mensheviks",
+        "Tsarists",
+        "Liberal Cadets"
+      ],
+      "hint": "Their leader was Lenin.",
+      "explanation": "The Bolsheviks under Lenin seized power in October 1917, replacing the Provisional Government."
+    },
+    {
+      "id": "history-modern-world-009",
+      "type": "mcq",
+      "concept": "modern-world",
+      "tier": 3,
+      "prompt": "The Berlin Conference of 1884–85 set rules for European colonization of which continent?",
+      "answer": "Africa",
+      "distractors": [
+        "South America",
+        "Australia",
+        "Antarctica"
+      ],
+      "hint": "It led to the 'Scramble' for territory.",
+      "explanation": "European powers met in Berlin to agree how to divide and claim land in Africa, with no African leaders present."
+    },
+    {
+      "id": "history-modern-world-010",
+      "type": "truefalse",
+      "concept": "modern-world",
+      "tier": 1,
+      "prompt": "The Industrial Revolution began in Britain.",
+      "answer": true,
+      "hint": "Think about steam engines and textile mills.",
+      "explanation": "Britain led the way in factories, coal, iron and steam power from the late 1700s."
+    },
+    {
+      "id": "history-modern-world-011",
+      "type": "truefalse",
+      "concept": "modern-world",
+      "tier": 1,
+      "prompt": "World War II ended in 1945.",
+      "answer": true,
+      "hint": "It was the middle of the 1940s.",
+      "explanation": "The war in Europe ended in May 1945, and the war with Japan ended in September 1945."
+    },
+    {
+      "id": "history-modern-world-012",
+      "type": "truefalse",
+      "concept": "modern-world",
+      "tier": 2,
+      "prompt": "The French Revolution began before American independence was declared.",
+      "answer": false,
+      "hint": "Compare 1776 with 1789.",
+      "explanation": "The Americans declared independence in 1776. The French Revolution began in 1789."
+    },
+    {
+      "id": "history-modern-world-013",
+      "type": "truefalse",
+      "concept": "modern-world",
+      "tier": 2,
+      "prompt": "The Titanic sank during World War I.",
+      "answer": false,
+      "hint": "The war began in 1914.",
+      "explanation": "The Titanic sank in April 1912, two years before World War I began."
+    },
+    {
+      "id": "history-modern-world-014",
+      "type": "steps",
+      "concept": "modern-world",
+      "tier": 2,
+      "prompt": "Which century does the year 1789 belong to?",
+      "steps": [
+        {
+          "correct": "Divide the year by 100",
+          "wrong": [
+            "Subtract 100 from year",
+            "Divide the year by 10"
+          ]
+        },
+        {
+          "correct": "1789 ÷ 100 = 17.89",
+          "wrong": [
+            "1789 ÷ 100 = 1.789",
+            "1789 ÷ 10 = 178.9"
+          ]
+        },
+        {
+          "correct": "Round UP to 18",
+          "wrong": [
+            "Round down to 17",
+            "Round to 17.9"
+          ],
+          "why": "Years 1701–1800 are the 18th century."
+        },
+        {
+          "correct": "18th century",
+          "wrong": [
+            "17th century",
+            "19th century"
+          ]
+        }
+      ],
+      "hint": "The 1st century is years 1 to 100.",
+      "explanation": "Century numbers round up, so 1789 is in the 18th century (1701–1800)."
+    },
+    {
+      "id": "history-indian-history-001",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 1,
+      "prompt": "Who was the first Prime Minister of India?",
+      "answer": "Jawaharlal Nehru",
+      "distractors": [
+        "Sardar Patel",
+        "Rajendra Prasad",
+        "B. R. Ambedkar"
+      ],
+      "hint": "He served from 1947 until 1964.",
+      "explanation": "Jawaharlal Nehru became Prime Minister at independence in 1947. Rajendra Prasad was the first President."
+    },
+    {
+      "id": "history-indian-history-002",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 1,
+      "prompt": "In which year did India become independent from British rule?",
+      "answer": "1947",
+      "distractors": [
+        "1857",
+        "1950",
+        "1942"
+      ],
+      "hint": "It was on 15 August.",
+      "explanation": "India became independent on 15 August 1947."
+    },
+    {
+      "id": "history-indian-history-003",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 1,
+      "prompt": "Who is widely called the 'Father of the Nation' in India?",
+      "answer": "Mahatma Gandhi",
+      "distractors": [
+        "Subhas Chandra Bose",
+        "Bhagat Singh",
+        "B. R. Ambedkar"
+      ],
+      "hint": "He led nonviolent protests such as the Salt March.",
+      "explanation": "Mohandas Karamchand Gandhi led the nonviolent freedom movement and is called the Father of the Nation."
+    },
+    {
+      "id": "history-indian-history-004",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 2,
+      "prompt": "Which Mauryan emperor turned toward Buddhism after the Kalinga War?",
+      "answer": "Ashoka",
+      "distractors": [
+        "Akbar",
+        "Chandragupta",
+        "Shah Jahan"
+      ],
+      "hint": "He ruled in the 200s BCE.",
+      "explanation": "Ashoka was horrified by the suffering in the Kalinga War (about 261 BCE) and later promoted peace and Buddhism."
+    },
+    {
+      "id": "history-indian-history-005",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 2,
+      "prompt": "Which Mughal emperor built the Taj Mahal?",
+      "answer": "Shah Jahan",
+      "distractors": [
+        "Akbar",
+        "Aurangzeb",
+        "Babur"
+      ],
+      "hint": "He built it as a tomb for his wife Mumtaz Mahal.",
+      "explanation": "Shah Jahan ordered the Taj Mahal in Agra in memory of his wife Mumtaz Mahal. It was completed around 1653."
+    },
+    {
+      "id": "history-indian-history-006",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 2,
+      "prompt": "Gandhi's Dandi March of 1930 was a protest against the British tax on what?",
+      "answer": "Salt",
+      "distractors": [
+        "Cotton",
+        "Tea",
+        "Land"
+      ],
+      "hint": "Everyone needs it in food.",
+      "explanation": "The 1930 march to Dandi challenged the British salt tax and monopoly and began the Civil Disobedience Movement."
+    },
+    {
+      "id": "history-indian-history-007",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 3,
+      "prompt": "Which 1757 battle helped the East India Company gain control of Bengal?",
+      "answer": "Battle of Plassey",
+      "distractors": [
+        "Battle of Panipat",
+        "Battle of Haldighati",
+        "Battle of Talikota"
+      ],
+      "hint": "It was fought against the Nawab of Bengal.",
+      "explanation": "At Plassey in 1757 Robert Clive's forces defeated Siraj ud-Daulah, the Nawab of Bengal."
+    },
+    {
+      "id": "history-indian-history-008",
+      "type": "mcq",
+      "concept": "indian-history",
+      "tier": 3,
+      "prompt": "In which year was the Quit India Movement launched?",
+      "answer": "1942",
+      "distractors": [
+        "1930",
+        "1947",
+        "1919"
+      ],
+      "hint": "It happened during World War II.",
+      "explanation": "Gandhi called for 'Do or Die' and an end to British rule in August 1942."
+    },
+    {
+      "id": "history-indian-history-009",
+      "type": "truefalse",
+      "concept": "indian-history",
+      "tier": 1,
+      "prompt": "India became independent in 1947.",
+      "answer": true,
+      "hint": "It is celebrated on 15 August.",
+      "explanation": "India gained independence from British rule on 15 August 1947."
+    },
+    {
+      "id": "history-indian-history-010",
+      "type": "truefalse",
+      "concept": "indian-history",
+      "tier": 1,
+      "prompt": "The Taj Mahal is in the city of Agra.",
+      "answer": true,
+      "hint": "It stands on the Yamuna river.",
+      "explanation": "The Taj Mahal is in Agra, Uttar Pradesh, on the banks of the Yamuna."
+    },
+    {
+      "id": "history-indian-history-011",
+      "type": "truefalse",
+      "concept": "indian-history",
+      "tier": 2,
+      "prompt": "Rajendra Prasad was the first Prime Minister of India.",
+      "answer": false,
+      "hint": "He held a different office.",
+      "explanation": "Rajendra Prasad was the first President. Jawaharlal Nehru was the first Prime Minister."
+    },
+    {
+      "id": "history-indian-history-012",
+      "type": "truefalse",
+      "concept": "indian-history",
+      "tier": 2,
+      "prompt": "Ashoka was an emperor of the Mauryan dynasty.",
+      "answer": true,
+      "hint": "His grandfather was Chandragupta Maurya.",
+      "explanation": "Ashoka ruled the Mauryan Empire from about 268 to 232 BCE."
+    },
+    {
+      "id": "history-indian-history-013",
+      "type": "steps",
+      "concept": "indian-history",
+      "tier": 1,
+      "prompt": "How many years passed between the 1857 revolt and independence in 1947?",
+      "steps": [
+        {
+          "correct": "Later − earlier year",
+          "wrong": [
+            "Add the two years",
+            "Earlier − later year"
+          ]
+        },
+        {
+          "correct": "1947 − 1857",
+          "wrong": [
+            "1947 + 1857",
+            "1857 − 1947"
+          ]
+        },
+        {
+          "correct": "= 90",
+          "wrong": [
+            "= 100",
+            "= 3804"
+          ]
+        },
+        {
+          "correct": "90 years",
+          "wrong": [
+            "90 centuries",
+            "9 years"
+          ]
+        }
+      ],
+      "hint": "Take the earlier date from the later date.",
+      "explanation": "1947 − 1857 = 90, so independence came 90 years after the 1857 revolt."
+    },
+    {
+      "id": "history-indian-history-014",
+      "type": "order",
+      "concept": "indian-history",
+      "tier": 2,
+      "prompt": "Put these in order, earliest first.",
+      "items": [
+        "Indus Valley cities",
+        "Mauryan Empire",
+        "Mughal Empire begins",
+        "Indian independence"
+      ],
+      "hint": "One is thousands of years BCE.",
+      "explanation": "Indus Valley cities (about 2600 BCE), the Mauryan Empire (322 BCE), the Mughal Empire (1526) and independence (1947)."
+    },
+    { "id": "history-ancient-world-015", "type": "classify", "concept": "ancient-world", "tier": 1,
+      "prompt": "Step only on things built by the Romans.",
+      "items": [
+        {"label": "Colosseum", "fits": true},
+        {"label": "Aqueducts", "fits": true},
+        {"label": "Roman roads", "fits": true},
+        {"label": "Pantheon", "fits": true},
+        {"label": "Hadrian's Wall", "fits": true},
+        {"label": "Parthenon", "fits": false},
+        {"label": "Great Pyramid", "fits": false},
+        {"label": "Great Wall of China", "fits": false},
+        {"label": "Stonehenge", "fits": false},
+        {"label": "Machu Picchu", "fits": false}
+      ],
+      "hint": "Think of Rome, not Greece or Egypt.",
+      "explanation": "The Romans built the Colosseum, aqueducts, roads, the Pantheon and Hadrian's Wall. The Parthenon is Greek and the Great Pyramid is Egyptian." },
+    { "id": "history-medieval-world-015", "type": "classify", "concept": "medieval-world", "tier": 2,
+      "prompt": "Step only on events of the Middle Ages (about 500 to 1500).",
+      "items": [
+        {"label": "Magna Carta (1215)", "fits": true},
+        {"label": "Black Death (1347)", "fits": true},
+        {"label": "First Crusade (1096)", "fits": true},
+        {"label": "Norman conquest (1066)", "fits": true},
+        {"label": "Charlemagne crowned", "fits": true},
+        {"label": "French Revolution", "fits": false},
+        {"label": "Moon landing", "fits": false},
+        {"label": "World War 1", "fits": false},
+        {"label": "Caesar killed (44 BC)", "fits": false},
+        {"label": "Colosseum opens", "fits": false}
+      ],
+      "hint": "Check the date of each event.",
+      "explanation": "Magna Carta, the Black Death, the First Crusade, the Norman conquest and Charlemagne's crowning (800) are medieval. The others happened much earlier or later." },
+    { "id": "history-modern-world-015", "type": "classify", "concept": "modern-world", "tier": 2,
+      "prompt": "Step only on events of World War 2.",
+      "items": [
+        {"label": "Battle of Britain", "fits": true},
+        {"label": "D-Day landings", "fits": true},
+        {"label": "Pearl Harbor attack", "fits": true},
+        {"label": "Battle of Stalingrad", "fits": true},
+        {"label": "Battle of Midway", "fits": true},
+        {"label": "Battle of the Somme", "fits": false},
+        {"label": "Storming the Bastille", "fits": false},
+        {"label": "Battle of Waterloo", "fits": false},
+        {"label": "Russian Revolution", "fits": false},
+        {"label": "Sinking of the Titanic", "fits": false}
+      ],
+      "hint": "World War 2 lasted from 1939 to 1945.",
+      "explanation": "The Battle of Britain, D-Day, Pearl Harbor, Stalingrad and Midway were in World War 2. The Somme was World War 1; the others were earlier still or in between." },
+    { "id": "history-indian-history-015", "type": "classify", "concept": "indian-history", "tier": 3,
+      "prompt": "Step only on rulers of the Mughal Empire.",
+      "items": [
+        {"label": "Babur", "fits": true},
+        {"label": "Akbar", "fits": true},
+        {"label": "Jahangir", "fits": true},
+        {"label": "Shah Jahan", "fits": true},
+        {"label": "Aurangzeb", "fits": true},
+        {"label": "Ashoka", "fits": false},
+        {"label": "Chandragupta Maurya", "fits": false},
+        {"label": "Shivaji", "fits": false},
+        {"label": "Tipu Sultan", "fits": false},
+        {"label": "Rani Lakshmibai", "fits": false}
+      ],
+      "hint": "The Mughal Empire began in 1526 with Babur.",
+      "explanation": "Babur, Akbar, Jahangir, Shah Jahan and Aurangzeb were Mughal emperors. Ashoka and Chandragupta were Mauryan, Shivaji was Maratha, Tipu Sultan ruled Mysore." }
+  ]
+}

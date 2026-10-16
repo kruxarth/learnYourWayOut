@@ -1,0 +1,857 @@
+{
+  "id": "custom",
+  "name": "Volcanoes",
+  "color": "#FFB86B",
+  "concepts": [
+    {
+      "id": "what-is",
+      "name": "What is a volcano?",
+      "facts": [
+        "A volcano is an opening in Earth's crust.",
+        "Hot melted rock can escape through a volcano.",
+        "Many volcanoes are shaped like mountains."
+      ]
+    },
+    {
+      "id": "inside",
+      "name": "Inside a volcano",
+      "facts": [
+        "Melted rock under the ground is called magma.",
+        "Magma that flows out onto the surface is called lava.",
+        "A crater is a bowl-shaped hollow at the top."
+      ]
+    },
+    {
+      "id": "eruptions",
+      "name": "Eruptions",
+      "facts": [
+        "Lava cools and hardens into new rock.",
+        "Ash and gas can shoot high into the sky.",
+        "Scientists watch volcanoes to warn people."
+      ]
+    },
+    {
+      "id": "world",
+      "name": "Famous volcanoes",
+      "facts": [
+        "Mount Fuji is a famous volcano in Japan.",
+        "Many volcanoes lie around the Pacific, in the Ring of Fire.",
+        "The islands of Hawaii were built by volcanoes."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "custom-what-is-001",
+      "type": "mcq",
+      "concept": "what-is",
+      "tier": 1,
+      "prompt": "What is a volcano?",
+      "answer": "An opening in Earth",
+      "distractors": [
+        "A kind of lake",
+        "A type of cloud",
+        "A big sand dune"
+      ],
+      "hint": "Think of fire and rock coming out of a mountain.",
+      "explanation": "A volcano is an opening in Earth's crust where hot melted rock, ash and gas can escape."
+    },
+    {
+      "id": "custom-what-is-002",
+      "type": "mcq",
+      "concept": "what-is",
+      "tier": 1,
+      "prompt": "What comes out of a volcano when it erupts?",
+      "answer": "Lava and ash",
+      "distractors": [
+        "Snow and ice",
+        "Sand and water",
+        "Rain and wind"
+      ],
+      "hint": "It is very hot.",
+      "explanation": "An erupting volcano can throw out lava, ash and gases."
+    },
+    {
+      "id": "custom-what-is-003",
+      "type": "mcq",
+      "concept": "what-is",
+      "tier": 1,
+      "prompt": "Which shape do many volcanoes have?",
+      "answer": "Cone-shaped mountain",
+      "distractors": [
+        "Flat square",
+        "Long tunnel",
+        "Round lake"
+      ],
+      "hint": "Think of a pointed hill.",
+      "explanation": "Many volcanoes are cone-shaped mountains built from layers of lava and ash."
+    },
+    {
+      "id": "custom-what-is-004",
+      "type": "mcq",
+      "concept": "what-is",
+      "tier": 2,
+      "prompt": "How do volcanoes build mountains?",
+      "answer": "Lava and ash pile up",
+      "distractors": [
+        "Wind blows sand",
+        "Rivers carve rock",
+        "Rain makes rocks"
+      ],
+      "hint": "Think about what is left after each eruption.",
+      "explanation": "Each eruption adds layers of lava and ash. Over time the layers build a mountain."
+    },
+    {
+      "id": "custom-what-is-005",
+      "type": "mcq",
+      "concept": "what-is",
+      "tier": 2,
+      "prompt": "What is an active volcano?",
+      "answer": "One that can erupt",
+      "distractors": [
+        "One full of water",
+        "One made of ice",
+        "One with no top"
+      ],
+      "hint": "It is not asleep.",
+      "explanation": "An active volcano has erupted recently or may erupt again. A dormant one is asleep but could wake up."
+    },
+    {
+      "id": "custom-what-is-006",
+      "type": "mcq",
+      "concept": "what-is",
+      "tier": 2,
+      "prompt": "A volcano that will probably never erupt again is called what?",
+      "answer": "Extinct",
+      "distractors": [
+        "Active",
+        "Rising",
+        "Frozen"
+      ],
+      "hint": "Like animals that have died out.",
+      "explanation": "An extinct volcano is one that scientists think will not erupt again."
+    },
+    {
+      "id": "custom-what-is-007",
+      "type": "mcq",
+      "concept": "what-is",
+      "tier": 3,
+      "prompt": "Why are many volcanoes found at the edges of plates?",
+      "answer": "Plates let magma rise",
+      "distractors": [
+        "Wind is stronger there",
+        "Oceans are deeper",
+        "The air is colder"
+      ],
+      "hint": "Earth's crust is broken into big pieces.",
+      "explanation": "Earth's crust is split into plates. At their edges there are cracks and gaps where magma can rise."
+    },
+    {
+      "id": "custom-what-is-008",
+      "type": "truefalse",
+      "concept": "what-is",
+      "tier": 1,
+      "prompt": "A volcano is always a tall mountain.",
+      "answer": false,
+      "hint": "Not every volcano looks the same.",
+      "explanation": "Some volcanoes are low hills, flat openings in the ground, or hidden under the sea."
+    },
+    {
+      "id": "custom-what-is-009",
+      "type": "truefalse",
+      "concept": "what-is",
+      "tier": 1,
+      "prompt": "Lava is very hot.",
+      "answer": true,
+      "hint": "Think about what can melt rock.",
+      "explanation": "Lava is melted rock hotter than 700 degrees Celsius, hot enough to burn almost anything."
+    },
+    {
+      "id": "custom-what-is-010",
+      "type": "truefalse",
+      "concept": "what-is",
+      "tier": 2,
+      "prompt": "Volcanoes can be found under the sea.",
+      "answer": true,
+      "hint": "Think about volcanic islands.",
+      "explanation": "Many volcanoes are on the ocean floor, and some of them grow tall enough to make islands."
+    },
+    {
+      "id": "custom-what-is-011",
+      "type": "steps",
+      "concept": "what-is",
+      "tier": 1,
+      "prompt": "How does a volcano build a mountain? Choose each next step.",
+      "steps": [
+        {
+          "correct": "Magma rises up",
+          "wrong": [
+            "Magma sinks down",
+            "Rain falls down"
+          ]
+        },
+        {
+          "correct": "It erupts as lava",
+          "wrong": [
+            "It turns to ice",
+            "It turns to sand"
+          ]
+        },
+        {
+          "correct": "Lava cools and hardens",
+          "wrong": [
+            "Lava turns to water",
+            "Lava flies away"
+          ]
+        },
+        {
+          "correct": "Layers pile up",
+          "wrong": [
+            "The ground disappears",
+            "Nothing changes"
+          ]
+        }
+      ],
+      "hint": "Think about what happens after lava stops flowing.",
+      "explanation": "Magma rises and erupts as lava. The lava cools into rock, and layer after layer builds a mountain."
+    },
+    {
+      "id": "custom-what-is-012",
+      "type": "order",
+      "concept": "what-is",
+      "tier": 1,
+      "prompt": "Put the layers of Earth in order, from the surface down.",
+      "items": [
+        "Crust",
+        "Mantle",
+        "Outer core",
+        "Inner core"
+      ],
+      "hint": "The crust is the layer we live on.",
+      "explanation": "Earth's layers from the top are the crust, the mantle, the liquid outer core and the solid inner core."
+    },
+    {
+      "id": "custom-inside-001",
+      "type": "mcq",
+      "concept": "inside",
+      "tier": 1,
+      "prompt": "What is melted rock under the ground called?",
+      "answer": "Magma",
+      "distractors": [
+        "Lava",
+        "Ash",
+        "Gravel"
+      ],
+      "hint": "It sits deep below the surface.",
+      "explanation": "Melted rock underground is called magma. When it reaches the surface it is called lava."
+    },
+    {
+      "id": "custom-inside-002",
+      "type": "mcq",
+      "concept": "inside",
+      "tier": 1,
+      "prompt": "What is melted rock called after it flows out of a volcano?",
+      "answer": "Lava",
+      "distractors": [
+        "Magma",
+        "Cement",
+        "Soil"
+      ],
+      "hint": "It is on the surface now.",
+      "explanation": "Magma that reaches Earth's surface is called lava."
+    },
+    {
+      "id": "custom-inside-003",
+      "type": "mcq",
+      "concept": "inside",
+      "tier": 1,
+      "prompt": "What is the bowl-shaped hollow at the top of a volcano?",
+      "answer": "Crater",
+      "distractors": [
+        "Valley",
+        "Tunnel",
+        "Beach"
+      ],
+      "hint": "Think of a big bowl.",
+      "explanation": "The crater is a bowl-shaped hollow at the top of a volcano where material comes out."
+    },
+    {
+      "id": "custom-inside-004",
+      "type": "mcq",
+      "concept": "inside",
+      "tier": 2,
+      "prompt": "What is the long pipe that magma rises through?",
+      "answer": "Vent",
+      "distractors": [
+        "Crater",
+        "Cone",
+        "Shield"
+      ],
+      "hint": "Think of a pipe or chimney.",
+      "explanation": "Magma rises through a long pipe called the vent and leaves the volcano through the crater."
+    },
+    {
+      "id": "custom-inside-005",
+      "type": "mcq",
+      "concept": "inside",
+      "tier": 2,
+      "prompt": "Where does magma collect before an eruption?",
+      "answer": "Magma chamber",
+      "distractors": [
+        "Ash cloud",
+        "Crater rim",
+        "Lava lake"
+      ],
+      "hint": "It is deep underground.",
+      "explanation": "Magma gathers in a big underground pocket called the magma chamber."
+    },
+    {
+      "id": "custom-inside-006",
+      "type": "mcq",
+      "concept": "inside",
+      "tier": 3,
+      "prompt": "Why does magma rise up through the crust?",
+      "answer": "Lighter than rock",
+      "distractors": [
+        "The Moon pulls it up",
+        "Wind pushes it up",
+        "Water attracts it"
+      ],
+      "hint": "Think about what floats in water.",
+      "explanation": "Magma is less dense than the solid rock around it, so it slowly rises."
+    },
+    {
+      "id": "custom-inside-007",
+      "type": "truefalse",
+      "concept": "inside",
+      "tier": 1,
+      "prompt": "Magma is found under the ground.",
+      "answer": true,
+      "hint": "Think about where it is before it erupts.",
+      "explanation": "Magma is melted rock that sits underground. It is called lava once it reaches the surface."
+    },
+    {
+      "id": "custom-inside-008",
+      "type": "truefalse",
+      "concept": "inside",
+      "tier": 1,
+      "prompt": "Lava is liquid rock on the surface.",
+      "answer": true,
+      "hint": "Think about what flows down the side.",
+      "explanation": "Lava is magma that has reached the surface, and it flows as a hot liquid."
+    },
+    {
+      "id": "custom-inside-009",
+      "type": "truefalse",
+      "concept": "inside",
+      "tier": 2,
+      "prompt": "A volcano's crater is at the bottom of the volcano.",
+      "answer": false,
+      "hint": "Think about the shape of a bowl.",
+      "explanation": "The crater is the bowl-shaped hollow at the top of a volcano."
+    },
+    {
+      "id": "custom-inside-010",
+      "type": "truefalse",
+      "concept": "inside",
+      "tier": 3,
+      "prompt": "Gas trapped in magma helps cause eruptions.",
+      "answer": true,
+      "hint": "Think about a shaken fizzy drink.",
+      "explanation": "Gas dissolved in magma expands as the magma rises, and that pushes the magma out in an eruption."
+    },
+    {
+      "id": "custom-inside-011",
+      "type": "steps",
+      "concept": "inside",
+      "tier": 2,
+      "prompt": "Why does magma rise up? Choose each next step.",
+      "steps": [
+        {
+          "correct": "Magma is lighter",
+          "wrong": [
+            "Magma is heavier",
+            "Magma is made of metal"
+          ]
+        },
+        {
+          "correct": "Lighter things rise",
+          "wrong": [
+            "Lighter things sink",
+            "Lighter things stay"
+          ]
+        },
+        {
+          "correct": "It moves up cracks",
+          "wrong": [
+            "It drains away",
+            "It turns to ice"
+          ]
+        },
+        {
+          "correct": "Pressure builds up",
+          "wrong": [
+            "Pressure drops to zero",
+            "The magma goes cold"
+          ]
+        }
+      ],
+      "hint": "Think about what happens to light things in water.",
+      "explanation": "Magma is less dense than the rock around it. It rises through cracks, and pressure builds up as more magma gathers."
+    },
+    {
+      "id": "custom-inside-012",
+      "type": "order",
+      "concept": "inside",
+      "tier": 1,
+      "prompt": "Put these in order, from deep underground up to the sky.",
+      "items": [
+        "Magma chamber",
+        "Vent",
+        "Crater",
+        "Ash cloud"
+      ],
+      "hint": "Start deep in the ground and end in the air.",
+      "explanation": "Magma waits in the chamber, rises through the vent, leaves through the crater and can form an ash cloud above."
+    },
+    {
+      "id": "custom-eruptions-001",
+      "type": "mcq",
+      "concept": "eruptions",
+      "tier": 1,
+      "prompt": "What do we call a volcano blowing out lava and ash?",
+      "answer": "An eruption",
+      "distractors": [
+        "An earthquake",
+        "A tornado",
+        "A flood"
+      ],
+      "hint": "A volcano does this when it wakes up.",
+      "explanation": "When a volcano blows out lava, ash and gas, that is called an eruption."
+    },
+    {
+      "id": "custom-eruptions-002",
+      "type": "mcq",
+      "concept": "eruptions",
+      "tier": 1,
+      "prompt": "What happens to lava as it cools?",
+      "answer": "It hardens into rock",
+      "distractors": [
+        "It turns to water",
+        "It becomes gas",
+        "It turns to ice"
+      ],
+      "hint": "Think about the shape it takes when it stops.",
+      "explanation": "As lava cools it turns solid and forms new rock."
+    },
+    {
+      "id": "custom-eruptions-003",
+      "type": "mcq",
+      "concept": "eruptions",
+      "tier": 1,
+      "prompt": "Which of these can fly out of a volcano and fill the sky?",
+      "answer": "Ash and gas",
+      "distractors": [
+        "Snow and rain",
+        "Birds",
+        "Sand and shells"
+      ],
+      "hint": "It can turn the sky dark.",
+      "explanation": "Eruptions can shoot ash and gas high into the air, where they can form big dark clouds."
+    },
+    {
+      "id": "custom-eruptions-004",
+      "type": "mcq",
+      "concept": "eruptions",
+      "tier": 2,
+      "prompt": "How do scientists help keep people safe near volcanoes?",
+      "answer": "Watch for warnings",
+      "distractors": [
+        "Block the crater",
+        "Pour water in",
+        "Cool lava with ice"
+      ],
+      "hint": "They use special instruments.",
+      "explanation": "Scientists watch for small earthquakes, gas and swelling ground, and warn people before an eruption."
+    },
+    {
+      "id": "custom-eruptions-005",
+      "type": "mcq",
+      "concept": "eruptions",
+      "tier": 2,
+      "prompt": "Why do some farmers like to live near volcanoes?",
+      "answer": "The soil is rich",
+      "distractors": [
+        "The air is cooler",
+        "There is no weather",
+        "Rocks are soft"
+      ],
+      "hint": "Think about growing crops.",
+      "explanation": "Volcanic ash breaks down into soil full of minerals, which helps plants grow well."
+    },
+    {
+      "id": "custom-eruptions-006",
+      "type": "mcq",
+      "concept": "eruptions",
+      "tier": 3,
+      "prompt": "What is a fast cloud of hot gas and ash on a volcano called?",
+      "answer": "Pyroclastic flow",
+      "distractors": [
+        "Lava fountain",
+        "Ash pillow",
+        "Steam wave"
+      ],
+      "hint": "It rushes down the side like an avalanche.",
+      "explanation": "A pyroclastic flow is a fast, very hot avalanche of gas, ash and rock. It is one of the most dangerous volcano hazards."
+    },
+    {
+      "id": "custom-eruptions-007",
+      "type": "truefalse",
+      "concept": "eruptions",
+      "tier": 1,
+      "prompt": "All volcanoes erupt with a huge explosion.",
+      "answer": false,
+      "hint": "Some volcanoes ooze lava slowly.",
+      "explanation": "Some volcanoes explode, but others let runny lava flow out gently."
+    },
+    {
+      "id": "custom-eruptions-008",
+      "type": "truefalse",
+      "concept": "eruptions",
+      "tier": 1,
+      "prompt": "Lava hardens into rock when it cools.",
+      "answer": true,
+      "hint": "Think about what happens when something hot cools down.",
+      "explanation": "Lava turns into solid rock as it cools."
+    },
+    {
+      "id": "custom-eruptions-009",
+      "type": "truefalse",
+      "concept": "eruptions",
+      "tier": 2,
+      "prompt": "Volcanic ash is made of tiny bits of rock and glass.",
+      "answer": true,
+      "hint": "It is not like ash from a campfire.",
+      "explanation": "Volcanic ash is made of tiny, sharp pieces of rock and glass, not burnt wood."
+    },
+    {
+      "id": "custom-eruptions-010",
+      "type": "truefalse",
+      "concept": "eruptions",
+      "tier": 3,
+      "prompt": "A big eruption can change the weather around the world.",
+      "answer": true,
+      "hint": "Think about ash blocking the Sun.",
+      "explanation": "Big eruptions throw ash and gas high into the sky. This can block sunlight and cool Earth for a while."
+    },
+    {
+      "id": "custom-eruptions-011",
+      "type": "steps",
+      "concept": "eruptions",
+      "tier": 3,
+      "prompt": "Why does a volcano erupt? Choose each next step.",
+      "steps": [
+        {
+          "correct": "Gas is in the magma",
+          "wrong": [
+            "Magma has no gas",
+            "Gas comes from the Sun"
+          ]
+        },
+        {
+          "correct": "Pressure drops",
+          "wrong": [
+            "Pressure goes up",
+            "Pressure stays equal"
+          ]
+        },
+        {
+          "correct": "Gas bubbles expand",
+          "wrong": [
+            "Gas bubbles shrink",
+            "Gas disappears"
+          ]
+        },
+        {
+          "correct": "Magma bursts out",
+          "wrong": [
+            "Magma stops moving",
+            "Magma freezes"
+          ]
+        }
+      ],
+      "hint": "Think about opening a shaken fizzy drink.",
+      "explanation": "Gas is trapped in magma. As the magma rises, pressure drops and the gas bubbles expand and push the magma out."
+    },
+    {
+      "id": "custom-eruptions-012",
+      "type": "order",
+      "concept": "eruptions",
+      "tier": 2,
+      "prompt": "Put the steps of an eruption in order.",
+      "items": [
+        "Magma rises",
+        "Pressure builds",
+        "Volcano erupts",
+        "Lava cools"
+      ],
+      "hint": "The eruption comes before the lava cools.",
+      "explanation": "Magma rises and pressure builds. Then the volcano erupts, and finally the lava cools into rock."
+    },
+    {
+      "id": "custom-world-001",
+      "type": "mcq",
+      "concept": "world",
+      "tier": 1,
+      "prompt": "In which country is Mount Fuji?",
+      "answer": "Japan",
+      "distractors": [
+        "Italy",
+        "Peru",
+        "Kenya"
+      ],
+      "hint": "It is an island country in Asia.",
+      "explanation": "Mount Fuji is Japan's highest mountain and a famous volcano."
+    },
+    {
+      "id": "custom-world-002",
+      "type": "mcq",
+      "concept": "world",
+      "tier": 1,
+      "prompt": "Where is the Ring of Fire?",
+      "answer": "Around the Pacific",
+      "distractors": [
+        "Around the Arctic",
+        "Across the Sahara",
+        "Along the Amazon"
+      ],
+      "hint": "It circles the biggest ocean.",
+      "explanation": "The Ring of Fire is a horseshoe of volcanoes and earthquakes around the Pacific Ocean."
+    },
+    {
+      "id": "custom-world-003",
+      "type": "mcq",
+      "concept": "world",
+      "tier": 1,
+      "prompt": "Which of these islands were built by volcanoes?",
+      "answer": "Hawaii",
+      "distractors": [
+        "Greenland",
+        "Cuba",
+        "Sri Lanka"
+      ],
+      "hint": "It is in the middle of the Pacific Ocean.",
+      "explanation": "The Hawaiian islands were built by volcanoes rising from the sea floor."
+    },
+    {
+      "id": "custom-world-004",
+      "type": "mcq",
+      "concept": "world",
+      "tier": 2,
+      "prompt": "Which volcano buried the Roman town of Pompeii?",
+      "answer": "Mount Vesuvius",
+      "distractors": [
+        "Mount Fuji",
+        "Mount Everest",
+        "Krakatoa"
+      ],
+      "hint": "It is in Italy, near Naples.",
+      "explanation": "Mount Vesuvius erupted in 79 CE and buried Pompeii under ash."
+    },
+    {
+      "id": "custom-world-005",
+      "type": "mcq",
+      "concept": "world",
+      "tier": 2,
+      "prompt": "Which country has many volcanoes and geysers?",
+      "answer": "Iceland",
+      "distractors": [
+        "Poland",
+        "Belgium",
+        "Austria"
+      ],
+      "hint": "It is a cold island in the north Atlantic.",
+      "explanation": "Iceland sits on a crack in the sea floor, so it has many volcanoes, hot springs and geysers."
+    },
+    {
+      "id": "custom-world-006",
+      "type": "mcq",
+      "concept": "world",
+      "tier": 3,
+      "prompt": "Why is Mauna Loa in Hawaii called a shield volcano?",
+      "answer": "Wide, gentle slopes",
+      "distractors": [
+        "It blocks lava",
+        "It is made of metal",
+        "It protects towns"
+      ],
+      "hint": "Picture a shield lying flat on the ground.",
+      "explanation": "Shield volcanoes have wide, gently sloping sides built by runny lava, like a warrior's shield lying flat."
+    },
+    {
+      "id": "custom-world-007",
+      "type": "truefalse",
+      "concept": "world",
+      "tier": 1,
+      "prompt": "The Hawaiian islands were built by volcanoes.",
+      "answer": true,
+      "hint": "Think about how an island can rise from the sea.",
+      "explanation": "Hawaii's islands grew from volcanoes that rose from the ocean floor."
+    },
+    {
+      "id": "custom-world-008",
+      "type": "truefalse",
+      "concept": "world",
+      "tier": 1,
+      "prompt": "Mount Fuji is in Italy.",
+      "answer": false,
+      "hint": "Think about the country with cherry blossoms.",
+      "explanation": "Mount Fuji is in Japan, not Italy."
+    },
+    {
+      "id": "custom-world-009",
+      "type": "truefalse",
+      "concept": "world",
+      "tier": 2,
+      "prompt": "Mount Vesuvius is a volcano in Italy.",
+      "answer": true,
+      "hint": "Think about Pompeii.",
+      "explanation": "Vesuvius is a volcano near Naples in Italy."
+    },
+    {
+      "id": "custom-world-010",
+      "type": "truefalse",
+      "concept": "world",
+      "tier": 2,
+      "prompt": "There are no volcanoes in Antarctica.",
+      "answer": false,
+      "hint": "Even the coldest places can have them.",
+      "explanation": "Antarctica has volcanoes, such as Mount Erebus, which has a lava lake."
+    },
+    {
+      "id": "custom-world-011",
+      "type": "steps",
+      "concept": "world",
+      "tier": 1,
+      "prompt": "Mount Fuji is 3,776 m tall. A hill is 1,000 m. How much taller is Fuji?",
+      "steps": [
+        {
+          "correct": "Subtract the heights",
+          "wrong": [
+            "Add the heights",
+            "Multiply the heights"
+          ]
+        },
+        {
+          "correct": "3,776 - 1,000",
+          "wrong": [
+            "1,000 - 3,776",
+            "3,776 + 1,000"
+          ]
+        },
+        {
+          "correct": "= 2,776",
+          "wrong": [
+            "= 2,676",
+            "= 4,776"
+          ]
+        },
+        {
+          "correct": "2,776 m taller",
+          "wrong": [
+            "2,776 km taller",
+            "2,776 m shorter"
+          ]
+        }
+      ],
+      "hint": "How much more means subtract.",
+      "explanation": "3,776 - 1,000 = 2,776, so Mount Fuji is 2,776 m taller than the hill."
+    },
+    {
+      "id": "custom-world-012",
+      "type": "order",
+      "concept": "world",
+      "tier": 2,
+      "prompt": "Put these eruptions in order, earliest first.",
+      "items": [
+        "Pompeii buried",
+        "Krakatoa erupts",
+        "Mount St. Helens",
+        "Iceland ash cloud"
+      ],
+      "hint": "They run from 79 CE to 2010.",
+      "explanation": "Vesuvius buried Pompeii in 79 CE, Krakatoa erupted in 1883, Mount St. Helens in 1980 and an Icelandic volcano sent up an ash cloud in 2010."
+    },
+    { "id": "custom-what-is-013", "type": "classify", "concept": "what-is", "tier": 1,
+      "prompt": "Step only on things that can come out of a volcano.",
+      "items": [
+        {"label": "Lava", "fits": true},
+        {"label": "Ash", "fits": true},
+        {"label": "Gas", "fits": true},
+        {"label": "Rocks", "fits": true},
+        {"label": "Steam", "fits": true},
+        {"label": "Fish", "fits": false},
+        {"label": "Ice cream", "fits": false},
+        {"label": "Pizza", "fits": false},
+        {"label": "Teddy bears", "fits": false},
+        {"label": "Soap bubbles", "fits": false}
+      ],
+      "hint": "Think of what an eruption looks like.",
+      "explanation": "Volcanoes throw out lava, ash, gas, rocks and steam. Fish, ice cream, pizza, teddy bears and soap bubbles do not come out of a volcano." },
+    { "id": "custom-inside-013", "type": "classify", "concept": "inside", "tier": 1,
+      "prompt": "Step only on parts of a volcano.",
+      "items": [
+        {"label": "Crater", "fits": true},
+        {"label": "Vent", "fits": true},
+        {"label": "Magma chamber", "fits": true},
+        {"label": "Cone", "fits": true},
+        {"label": "Wing", "fits": false},
+        {"label": "Engine", "fits": false},
+        {"label": "Keyboard", "fits": false},
+        {"label": "Steering wheel", "fits": false},
+        {"label": "Windmill", "fits": false}
+      ],
+      "hint": "A volcano has a chamber, a pipe and a top.",
+      "explanation": "A volcano has a magma chamber below, a vent that carries magma up, a cone and a crater at the top. The others are parts of machines." },
+    { "id": "custom-eruptions-013", "type": "classify", "concept": "eruptions", "tier": 2,
+      "prompt": "Step only on warning signs of an eruption.",
+      "items": [
+        {"label": "Small earthquakes", "fits": true},
+        {"label": "Swelling ground", "fits": true},
+        {"label": "More gas and steam", "fits": true},
+        {"label": "Hot ground", "fits": true},
+        {"label": "A full moon", "fits": false},
+        {"label": "Birds singing", "fits": false},
+        {"label": "Strong wind", "fits": false},
+        {"label": "Snow falling", "fits": false},
+        {"label": "Fireworks", "fits": false}
+      ],
+      "hint": "Scientists measure the ground and the gas.",
+      "explanation": "Before an eruption the ground shakes, swells and heats up, and more gas and steam escape. The moon, birds, wind and snow tell us nothing about it." },
+    { "id": "custom-world-013", "type": "classify", "concept": "world", "tier": 2,
+      "prompt": "Step only on volcanoes.",
+      "items": [
+        {"label": "Mount Fuji", "fits": true},
+        {"label": "Vesuvius", "fits": true},
+        {"label": "Etna", "fits": true},
+        {"label": "Krakatoa", "fits": true},
+        {"label": "Mount St. Helens", "fits": true},
+        {"label": "Mount Everest", "fits": false},
+        {"label": "K2", "fits": false},
+        {"label": "Mont Blanc", "fits": false},
+        {"label": "Matterhorn", "fits": false},
+        {"label": "Table Mountain", "fits": false}
+      ],
+      "hint": "Some mountains are volcanoes and some are not.",
+      "explanation": "Mount Fuji, Vesuvius, Etna, Krakatoa and Mount St. Helens are volcanoes. Everest, K2, Mont Blanc, the Matterhorn and Table Mountain were pushed up or carved by other forces." }
+  ],
+  "topic": {
+    "query": "Volcanoes",
+    "level": "easy"
+  },
+  "generated": {
+    "model": "hand-written",
+    "createdAt": "2026-10-15T00:00:00.000Z",
+    "packKey": "easy:volcanoes"
+  }
+}

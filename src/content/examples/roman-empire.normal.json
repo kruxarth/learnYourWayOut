@@ -1,0 +1,846 @@
+{
+  "id": "custom",
+  "name": "Roman Empire",
+  "color": "#C79BFF",
+  "concepts": [
+    {
+      "id": "rise",
+      "name": "Founding & rise",
+      "facts": [
+        "Tradition says Rome was founded in 753 BCE by Romulus.",
+        "Rome was a republic before it became an empire.",
+        "Augustus became the first Roman emperor in 27 BCE."
+      ]
+    },
+    {
+      "id": "daily-life",
+      "name": "Daily life",
+      "facts": [
+        "Roman cities had public baths where people met and relaxed.",
+        "Romans built long, straight roads across their empire.",
+        "Latin was the language of Rome."
+      ]
+    },
+    {
+      "id": "army-rule",
+      "name": "Army & government",
+      "facts": [
+        "A Roman legion had about 5,000 soldiers.",
+        "The Senate advised Rome's leaders and debated its laws.",
+        "Roman soldiers also built roads, bridges and forts."
+      ]
+    },
+    {
+      "id": "decline",
+      "name": "Decline & legacy",
+      "facts": [
+        "The western Roman Empire fell in 476 CE.",
+        "The eastern Roman Empire lasted until 1453.",
+        "Many European languages grew out of Latin."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "custom-rise-001",
+      "type": "mcq",
+      "concept": "rise",
+      "tier": 1,
+      "prompt": "According to legend, who founded the city of Rome?",
+      "answer": "Romulus",
+      "distractors": [
+        "Augustus",
+        "Nero",
+        "Hannibal"
+      ],
+      "hint": "He and his twin brother were raised by a wolf.",
+      "explanation": "Legend says Romulus founded Rome in 753 BCE after a quarrel with his twin brother Remus."
+    },
+    {
+      "id": "custom-rise-002",
+      "type": "mcq",
+      "concept": "rise",
+      "tier": 1,
+      "prompt": "Which river flows through the city of Rome?",
+      "answer": "Tiber",
+      "distractors": [
+        "Nile",
+        "Rhine",
+        "Danube"
+      ],
+      "hint": "It is a river in central Italy.",
+      "explanation": "Rome grew up on the banks of the Tiber river in central Italy."
+    },
+    {
+      "id": "custom-rise-003",
+      "type": "mcq",
+      "concept": "rise",
+      "tier": 1,
+      "prompt": "Who became the first Roman emperor?",
+      "answer": "Augustus",
+      "distractors": [
+        "Julius Caesar",
+        "Nero",
+        "Constantine"
+      ],
+      "hint": "He was Julius Caesar's adopted heir.",
+      "explanation": "Augustus became emperor in 27 BCE. Julius Caesar was a dictator but never an emperor."
+    },
+    {
+      "id": "custom-rise-004",
+      "type": "mcq",
+      "concept": "rise",
+      "tier": 2,
+      "prompt": "Which system ruled Rome from 509 BCE until Augustus?",
+      "answer": "Republic",
+      "distractors": [
+        "Monarchy",
+        "Democracy",
+        "Theocracy"
+      ],
+      "hint": "Citizens elected officials called consuls.",
+      "explanation": "From 509 BCE Rome was a republic run by elected officials. Augustus ended it by becoming emperor."
+    },
+    {
+      "id": "custom-rise-005",
+      "type": "mcq",
+      "concept": "rise",
+      "tier": 2,
+      "prompt": "Which wars did Rome fight against Carthage?",
+      "answer": "Punic Wars",
+      "distractors": [
+        "Gallic Wars",
+        "Trojan War",
+        "Persian Wars"
+      ],
+      "hint": "Hannibal crossed the Alps in one of them.",
+      "explanation": "Rome fought Carthage in the three Punic Wars (264 to 146 BCE) and finally destroyed the city."
+    },
+    {
+      "id": "custom-rise-006",
+      "type": "mcq",
+      "concept": "rise",
+      "tier": 3,
+      "prompt": "What did Julius Caesar do in 49 BCE that began a civil war?",
+      "answer": "Crossed the Rubicon",
+      "distractors": [
+        "Burned Carthage",
+        "Sailed to Britain",
+        "Captured Athens"
+      ],
+      "hint": "It was a small river on the border of Italy.",
+      "explanation": "Caesar led his army across the Rubicon river in 49 BCE. This broke Roman law and began a civil war."
+    },
+    {
+      "id": "custom-rise-007",
+      "type": "truefalse",
+      "concept": "rise",
+      "tier": 1,
+      "prompt": "Roman tradition says Rome was founded in 753 BCE.",
+      "answer": true,
+      "hint": "Think about the old legend of Rome's start.",
+      "explanation": "Romans dated the founding of their city to 753 BCE. The date comes from legend, not hard proof."
+    },
+    {
+      "id": "custom-rise-008",
+      "type": "truefalse",
+      "concept": "rise",
+      "tier": 2,
+      "prompt": "Julius Caesar was the first Roman emperor.",
+      "answer": false,
+      "hint": "Think about his adopted heir.",
+      "explanation": "Caesar was a dictator. His heir Augustus became the first emperor."
+    },
+    {
+      "id": "custom-rise-009",
+      "type": "truefalse",
+      "concept": "rise",
+      "tier": 1,
+      "prompt": "Rome began as a small city in Italy.",
+      "answer": true,
+      "hint": "Think about where great empires start.",
+      "explanation": "Rome started as a small settlement on the Tiber and slowly grew into a huge empire."
+    },
+    {
+      "id": "custom-rise-010",
+      "type": "steps",
+      "concept": "rise",
+      "tier": 3,
+      "prompt": "How did the Roman Republic become an empire? Choose each next step.",
+      "steps": [
+        {
+          "correct": "Caesar is dictator",
+          "wrong": [
+            "Crowned emperor",
+            "Caesar retires"
+          ]
+        },
+        {
+          "correct": "Caesar is murdered",
+          "wrong": [
+            "Caesar dies of old age",
+            "Caesar is exiled"
+          ]
+        },
+        {
+          "correct": "Octavian wins war",
+          "wrong": [
+            "Brutus becomes ruler",
+            "Rome is conquered"
+          ]
+        },
+        {
+          "correct": "Becomes Augustus",
+          "wrong": [
+            "Republic returns",
+            "Hannibal returns"
+          ]
+        }
+      ],
+      "hint": "Think about who ruled after Caesar was killed.",
+      "explanation": "Caesar became dictator, was murdered in 44 BCE, and his heir Octavian won the civil wars. In 27 BCE he took the name Augustus."
+    },
+    {
+      "id": "custom-rise-011",
+      "type": "order",
+      "concept": "rise",
+      "tier": 1,
+      "prompt": "Put these events in order, earliest first.",
+      "items": [
+        "Rome founded (legend)",
+        "Republic begins",
+        "Caesar crosses Rubicon",
+        "Augustus is emperor"
+      ],
+      "hint": "All of these dates are BCE, so the biggest number comes first.",
+      "explanation": "Legend dates Rome to 753 BCE, the republic began in 509 BCE, Caesar crossed the Rubicon in 49 BCE and Augustus became emperor in 27 BCE."
+    },
+    {
+      "id": "custom-daily-life-001",
+      "type": "mcq",
+      "concept": "daily-life",
+      "tier": 1,
+      "prompt": "What was the Colosseum mainly used for?",
+      "answer": "Public shows",
+      "distractors": [
+        "Grain storage",
+        "A royal palace",
+        "A horse market"
+      ],
+      "hint": "Crowds came to watch.",
+      "explanation": "The Colosseum hosted gladiator fights and other shows for tens of thousands of people."
+    },
+    {
+      "id": "custom-daily-life-002",
+      "type": "mcq",
+      "concept": "daily-life",
+      "tier": 1,
+      "prompt": "Which language did the Romans speak?",
+      "answer": "Latin",
+      "distractors": [
+        "Greek",
+        "Italian",
+        "Etruscan"
+      ],
+      "hint": "French and Spanish grew out of it.",
+      "explanation": "Latin was the language of Rome. French, Spanish and Italian later grew out of it."
+    },
+    {
+      "id": "custom-daily-life-003",
+      "type": "mcq",
+      "concept": "daily-life",
+      "tier": 1,
+      "prompt": "What did Romans build to bring fresh water to towns?",
+      "answer": "Aqueducts",
+      "distractors": [
+        "Pyramids",
+        "Lighthouses",
+        "Moats"
+      ],
+      "hint": "Many were tall stone bridges with arches.",
+      "explanation": "Aqueducts carried water from hills into Roman towns, often over arched stone bridges."
+    },
+    {
+      "id": "custom-daily-life-004",
+      "type": "mcq",
+      "concept": "daily-life",
+      "tier": 2,
+      "prompt": "What were Roman public baths used for?",
+      "answer": "Washing and meeting",
+      "distractors": [
+        "Storing weapons",
+        "Training soldiers",
+        "Holding trials"
+      ],
+      "hint": "Think about relaxing and talking.",
+      "explanation": "Baths were social places where Romans washed, exercised and chatted with friends."
+    },
+    {
+      "id": "custom-daily-life-005",
+      "type": "mcq",
+      "concept": "daily-life",
+      "tier": 2,
+      "prompt": "What did the saying 'bread and circuses' describe?",
+      "answer": "Free food and shows",
+      "distractors": [
+        "A tax on bakers",
+        "A military drill",
+        "A religious feast"
+      ],
+      "hint": "Rulers wanted the poor to stay happy.",
+      "explanation": "Rulers gave the poor cheap grain and exciting shows to keep them content and calm."
+    },
+    {
+      "id": "custom-daily-life-006",
+      "type": "mcq",
+      "concept": "daily-life",
+      "tier": 3,
+      "prompt": "Roman concrete used volcanic ash. What could it do?",
+      "answer": "Set underwater",
+      "distractors": [
+        "Glow at night",
+        "Stretch like rubber",
+        "Float on water"
+      ],
+      "hint": "Think of harbours and piers.",
+      "explanation": "Concrete made with volcanic ash could harden underwater, so many Roman harbours and piers survive today."
+    },
+    {
+      "id": "custom-daily-life-007",
+      "type": "truefalse",
+      "concept": "daily-life",
+      "tier": 1,
+      "prompt": "Roman gladiators fought in arenas such as the Colosseum.",
+      "answer": true,
+      "hint": "Think about famous shows in Rome.",
+      "explanation": "Gladiators fought in arenas in front of crowds, and the Colosseum was the biggest one."
+    },
+    {
+      "id": "custom-daily-life-008",
+      "type": "truefalse",
+      "concept": "daily-life",
+      "tier": 1,
+      "prompt": "Everyone in the Roman Empire had equal rights.",
+      "answer": false,
+      "hint": "Think about slaves and free people.",
+      "explanation": "Rome had slaves, free citizens and non-citizens, and their rights were very different."
+    },
+    {
+      "id": "custom-daily-life-009",
+      "type": "truefalse",
+      "concept": "daily-life",
+      "tier": 2,
+      "prompt": "Romans heated some buildings with hot air under the floor.",
+      "answer": true,
+      "hint": "Think about warm baths in cold places.",
+      "explanation": "A system called the hypocaust sent hot air under floors and through walls to heat baths and rich homes."
+    },
+    {
+      "id": "custom-daily-life-010",
+      "type": "truefalse",
+      "concept": "daily-life",
+      "tier": 3,
+      "prompt": "Roman numerals have a symbol for zero.",
+      "answer": false,
+      "hint": "Look at I, V, X, L, C, D and M.",
+      "explanation": "Roman numerals have no zero. They use only the letters I, V, X, L, C, D and M."
+    },
+    {
+      "id": "custom-daily-life-011",
+      "type": "steps",
+      "concept": "daily-life",
+      "tier": 2,
+      "prompt": "Write 14 in Roman numerals. Choose each step.",
+      "steps": [
+        {
+          "correct": "14 = 10 + 4",
+          "wrong": [
+            "14 = 10 + 5",
+            "14 = 1 + 4"
+          ]
+        },
+        {
+          "correct": "10 is X",
+          "wrong": [
+            "10 is L",
+            "10 is V"
+          ]
+        },
+        {
+          "correct": "4 is IV",
+          "wrong": [
+            "4 is IIII",
+            "4 is VI"
+          ],
+          "why": "IV means 1 before 5."
+        },
+        {
+          "correct": "14 is XIV",
+          "wrong": [
+            "14 is IVX",
+            "14 is XVI"
+          ]
+        }
+      ],
+      "hint": "Split the number into tens and ones.",
+      "explanation": "14 is 10 plus 4. X is 10 and IV is 4, so 14 is written XIV."
+    },
+    {
+      "id": "custom-daily-life-012",
+      "type": "order",
+      "concept": "daily-life",
+      "tier": 1,
+      "prompt": "Put these Roman numerals in order, smallest first.",
+      "items": [
+        "IX",
+        "XIV",
+        "XL",
+        "C"
+      ],
+      "hint": "Turn each numeral into a number first.",
+      "explanation": "IX is 9, XIV is 14, XL is 40 and C is 100."
+    },
+    {
+      "id": "custom-army-rule-001",
+      "type": "mcq",
+      "concept": "army-rule",
+      "tier": 1,
+      "prompt": "What was the main unit of the Roman army called?",
+      "answer": "Legion",
+      "distractors": [
+        "Phalanx",
+        "Horde",
+        "Squadron"
+      ],
+      "hint": "About 5,000 soldiers made one.",
+      "explanation": "A legion had roughly 5,000 soldiers. A phalanx was a Greek battle formation."
+    },
+    {
+      "id": "custom-army-rule-002",
+      "type": "mcq",
+      "concept": "army-rule",
+      "tier": 1,
+      "prompt": "What was the Roman Senate?",
+      "answer": "Council of leaders",
+      "distractors": [
+        "Group of priests",
+        "Gladiator school",
+        "City police force"
+      ],
+      "hint": "Powerful men met to debate laws.",
+      "explanation": "The Senate was a council of senior Romans that debated laws and advised Rome's officials."
+    },
+    {
+      "id": "custom-army-rule-003",
+      "type": "mcq",
+      "concept": "army-rule",
+      "tier": 1,
+      "prompt": "How many consuls led the Roman Republic each year?",
+      "answer": "Two",
+      "distractors": [
+        "One",
+        "Five",
+        "Twelve"
+      ],
+      "hint": "Power was shared so one man could not rule alone.",
+      "explanation": "Romans elected two consuls each year, so no single person held all the power."
+    },
+    {
+      "id": "custom-army-rule-004",
+      "type": "mcq",
+      "concept": "army-rule",
+      "tier": 2,
+      "prompt": "What did Roman soldiers also do besides fighting?",
+      "answer": "Build roads and forts",
+      "distractors": [
+        "Perform in plays",
+        "Teach in schools",
+        "Work as bakers"
+      ],
+      "hint": "Think about what a legion left behind.",
+      "explanation": "Legions built roads, bridges, walls and forts, which also helped spread Roman rule."
+    },
+    {
+      "id": "custom-army-rule-005",
+      "type": "mcq",
+      "concept": "army-rule",
+      "tier": 2,
+      "prompt": "What did Hadrian's Wall defend?",
+      "answer": "Roman Britain",
+      "distractors": [
+        "Egypt",
+        "Spain",
+        "Germany"
+      ],
+      "hint": "It crosses northern England.",
+      "explanation": "Hadrian's Wall marked the northern frontier of Roman Britain. Building began around 122 CE."
+    },
+    {
+      "id": "custom-army-rule-006",
+      "type": "mcq",
+      "concept": "army-rule",
+      "tier": 3,
+      "prompt": "In the Roman army, what was 'decimation' as a punishment?",
+      "answer": "Executing 1 in 10",
+      "distractors": [
+        "Ten years in exile",
+        "A fine of ten coins",
+        "Ten more drill days"
+      ],
+      "hint": "Think of the Latin word for ten.",
+      "explanation": "Decimation meant that one soldier in every ten, chosen by lot, was executed to punish a whole unit."
+    },
+    {
+      "id": "custom-army-rule-007",
+      "type": "truefalse",
+      "concept": "army-rule",
+      "tier": 1,
+      "prompt": "A Roman legion had about 5,000 soldiers.",
+      "answer": true,
+      "hint": "Think of a big group of soldiers.",
+      "explanation": "A legion was a large unit of roughly 5,000 soldiers."
+    },
+    {
+      "id": "custom-army-rule-008",
+      "type": "truefalse",
+      "concept": "army-rule",
+      "tier": 1,
+      "prompt": "The Senate helped govern Rome.",
+      "answer": true,
+      "hint": "Think about who debated Rome's laws.",
+      "explanation": "The Senate was a council of leading Romans that advised officials and shaped Rome's laws."
+    },
+    {
+      "id": "custom-army-rule-009",
+      "type": "truefalse",
+      "concept": "army-rule",
+      "tier": 2,
+      "prompt": "Roman emperors were chosen by a public vote every year.",
+      "answer": false,
+      "hint": "Think about who chose the consuls.",
+      "explanation": "Emperors ruled for life. Power passed by inheritance, adoption or force. Consuls were the ones elected each year."
+    },
+    {
+      "id": "custom-army-rule-010",
+      "type": "truefalse",
+      "concept": "army-rule",
+      "tier": 3,
+      "prompt": "Julius Caesar was killed by Roman senators.",
+      "answer": true,
+      "hint": "Think about the Ides of March.",
+      "explanation": "A group of senators stabbed Caesar in 44 BCE because they feared he wanted to be king."
+    },
+    {
+      "id": "custom-army-rule-011",
+      "type": "steps",
+      "concept": "army-rule",
+      "tier": 1,
+      "prompt": "Rome has 3 legions of 5,000 soldiers. How many soldiers is that?",
+      "steps": [
+        {
+          "correct": "Multiply: 3 x 5,000",
+          "wrong": [
+            "Add: 3 + 5,000",
+            "Divide: 5,000 / 3"
+          ]
+        },
+        {
+          "correct": "3 x 5 = 15",
+          "wrong": [
+            "3 x 5 = 8",
+            "3 x 5 = 12"
+          ]
+        },
+        {
+          "correct": "Add three zeros",
+          "wrong": [
+            "Add two zeros",
+            "Add no zeros"
+          ]
+        },
+        {
+          "correct": "15,000 soldiers",
+          "wrong": [
+            "1,500 soldiers",
+            "150,000 soldiers"
+          ]
+        }
+      ],
+      "hint": "Equal groups means multiply.",
+      "explanation": "3 legions of 5,000 soldiers is 3 x 5,000 = 15,000 soldiers."
+    },
+    {
+      "id": "custom-army-rule-012",
+      "type": "order",
+      "concept": "army-rule",
+      "tier": 2,
+      "prompt": "Put these events in order, earliest first.",
+      "items": [
+        "Punic Wars begin",
+        "Caesar is murdered",
+        "Hadrian's Wall begun",
+        "Edict of Caracalla"
+      ],
+      "hint": "They run from 264 BCE to 212 CE.",
+      "explanation": "The Punic Wars began in 264 BCE, Caesar was murdered in 44 BCE, Hadrian's Wall was begun around 122 CE and Caracalla's edict came in 212 CE."
+    },
+    {
+      "id": "custom-decline-001",
+      "type": "mcq",
+      "concept": "decline",
+      "tier": 1,
+      "prompt": "In which year is the fall of the Western Roman Empire usually dated?",
+      "answer": "476 CE",
+      "distractors": [
+        "27 BCE",
+        "330 CE",
+        "1066 CE"
+      ],
+      "hint": "It was long after Rome's golden age.",
+      "explanation": "In 476 CE the last western emperor, Romulus Augustulus, was removed by the leader Odoacer."
+    },
+    {
+      "id": "custom-decline-002",
+      "type": "mcq",
+      "concept": "decline",
+      "tier": 1,
+      "prompt": "Which city became the capital of the eastern Roman Empire?",
+      "answer": "Constantinople",
+      "distractors": [
+        "Athens",
+        "Alexandria",
+        "Carthage"
+      ],
+      "hint": "Today it is called Istanbul.",
+      "explanation": "Emperor Constantine made Constantinople, now Istanbul, a new capital in 330 CE."
+    },
+    {
+      "id": "custom-decline-003",
+      "type": "mcq",
+      "concept": "decline",
+      "tier": 1,
+      "prompt": "Which group of languages grew out of Latin?",
+      "answer": "Romance languages",
+      "distractors": [
+        "Germanic languages",
+        "Slavic languages",
+        "Celtic languages"
+      ],
+      "hint": "Spanish and French belong to it.",
+      "explanation": "French, Spanish, Italian, Portuguese and Romanian all grew out of Latin."
+    },
+    {
+      "id": "custom-decline-004",
+      "type": "mcq",
+      "concept": "decline",
+      "tier": 2,
+      "prompt": "Which group sacked Rome in 410 CE?",
+      "answer": "Visigoths",
+      "distractors": [
+        "Vikings",
+        "Mongols",
+        "Carthaginians"
+      ],
+      "hint": "Their leader was called Alaric.",
+      "explanation": "In 410 CE the Visigoths under Alaric entered Rome and plundered the city."
+    },
+    {
+      "id": "custom-decline-005",
+      "type": "mcq",
+      "concept": "decline",
+      "tier": 2,
+      "prompt": "Which emperor made Christianity legal in the Roman Empire?",
+      "answer": "Constantine",
+      "distractors": [
+        "Nero",
+        "Hadrian",
+        "Augustus"
+      ],
+      "hint": "He ruled in the early 300s.",
+      "explanation": "Constantine and Licinius issued the Edict of Milan in 313 CE, ending the persecution of Christians."
+    },
+    {
+      "id": "custom-decline-006",
+      "type": "mcq",
+      "concept": "decline",
+      "tier": 3,
+      "prompt": "The West fell in 476 CE. What happened to the Eastern Empire?",
+      "answer": "It lasted until 1453",
+      "distractors": [
+        "It fell in 476 too",
+        "It ended in 800 CE",
+        "It ended in 1066"
+      ],
+      "hint": "Its capital was Constantinople.",
+      "explanation": "The eastern empire, later called Byzantine, lasted nearly 1,000 years more, until the Ottomans took Constantinople in 1453."
+    },
+    {
+      "id": "custom-decline-007",
+      "type": "truefalse",
+      "concept": "decline",
+      "tier": 1,
+      "prompt": "The Western Roman Empire fell in 476 CE.",
+      "answer": true,
+      "hint": "Think about the late 400s.",
+      "explanation": "The last western emperor was removed in 476 CE, the usual date for the fall of the West."
+    },
+    {
+      "id": "custom-decline-008",
+      "type": "truefalse",
+      "concept": "decline",
+      "tier": 1,
+      "prompt": "Latin is still the everyday language of Italy today.",
+      "answer": false,
+      "hint": "Think about what Italians speak now.",
+      "explanation": "Italians speak Italian. It grew out of Latin, but Latin itself is no longer an everyday language."
+    },
+    {
+      "id": "custom-decline-009",
+      "type": "truefalse",
+      "concept": "decline",
+      "tier": 2,
+      "prompt": "The Eastern Roman Empire ended at the same time as the Western one.",
+      "answer": false,
+      "hint": "Think about Constantinople.",
+      "explanation": "The eastern empire lasted until 1453, nearly 1,000 years after the West fell."
+    },
+    {
+      "id": "custom-decline-010",
+      "type": "truefalse",
+      "concept": "decline",
+      "tier": 3,
+      "prompt": "Roman arches and domes still inspire modern buildings.",
+      "answer": true,
+      "hint": "Think about government buildings today.",
+      "explanation": "Roman builders perfected the arch and the dome, and architects still use both ideas today."
+    },
+    {
+      "id": "custom-decline-011",
+      "type": "steps",
+      "concept": "decline",
+      "tier": 2,
+      "prompt": "How many years passed between the fall of the West (476) and the East (1453)?",
+      "steps": [
+        {
+          "correct": "Later - earlier year",
+          "wrong": [
+            "Earlier - later year",
+            "Add the two years"
+          ]
+        },
+        {
+          "correct": "1453 - 476",
+          "wrong": [
+            "476 - 1453",
+            "1453 + 476"
+          ]
+        },
+        {
+          "correct": "= 977",
+          "wrong": [
+            "= 987",
+            "= 1,929"
+          ]
+        },
+        {
+          "correct": "977 years",
+          "wrong": [
+            "977 months",
+            "9,770 years"
+          ],
+          "why": "The answer is in years."
+        }
+      ],
+      "hint": "Take the earlier date from the later date.",
+      "explanation": "1453 - 476 = 977, so the East lasted 977 years longer than the West."
+    },
+    {
+      "id": "custom-decline-012",
+      "type": "order",
+      "concept": "decline",
+      "tier": 2,
+      "prompt": "Put these events in order, earliest first.",
+      "items": [
+        "Edict of Milan",
+        "Constantinople capital",
+        "Visigoths sack Rome",
+        "Western Empire falls"
+      ],
+      "hint": "They run from 313 CE to 476 CE.",
+      "explanation": "The Edict of Milan was in 313, Constantinople became a capital in 330, the Visigoths sacked Rome in 410 and the West fell in 476."
+    },
+    { "id": "custom-rise-012", "type": "classify", "concept": "rise", "tier": 2,
+      "prompt": "Step only on Roman emperors.",
+      "items": [
+        {"label": "Augustus", "fits": true},
+        {"label": "Nero", "fits": true},
+        {"label": "Trajan", "fits": true},
+        {"label": "Hadrian", "fits": true},
+        {"label": "Constantine", "fits": true},
+        {"label": "Julius Caesar", "fits": false},
+        {"label": "Cicero", "fits": false},
+        {"label": "Spartacus", "fits": false},
+        {"label": "Hannibal", "fits": false},
+        {"label": "Pompey", "fits": false}
+      ],
+      "hint": "An emperor ruled after the Republic ended.",
+      "explanation": "Augustus, Nero, Trajan, Hadrian and Constantine were emperors. Caesar was a dictator, Cicero a speaker, Spartacus a gladiator, Hannibal a Carthaginian, Pompey a general." },
+    { "id": "custom-daily-life-013", "type": "classify", "concept": "daily-life", "tier": 1,
+      "prompt": "Step only on things the ancient Romans had.",
+      "items": [
+        {"label": "Public baths", "fits": true},
+        {"label": "Aqueducts", "fits": true},
+        {"label": "Concrete", "fits": true},
+        {"label": "Roman numerals", "fits": true},
+        {"label": "Underfloor heating", "fits": true},
+        {"label": "Potatoes", "fits": false},
+        {"label": "Printing press", "fits": false},
+        {"label": "Telephone", "fits": false},
+        {"label": "Gunpowder", "fits": false},
+        {"label": "Steam trains", "fits": false}
+      ],
+      "hint": "Think of what existed about 2000 years ago.",
+      "explanation": "The Romans had public baths, aqueducts, concrete, Roman numerals and underfloor heating (the hypocaust). Potatoes came from the Americas and the rest were invented much later." },
+    { "id": "custom-army-rule-013", "type": "classify", "concept": "army-rule", "tier": 2,
+      "prompt": "Step only on Roman jobs and ranks.",
+      "items": [
+        {"label": "Centurion", "fits": true},
+        {"label": "Legionary", "fits": true},
+        {"label": "Senator", "fits": true},
+        {"label": "Consul", "fits": true},
+        {"label": "Tribune", "fits": true},
+        {"label": "Pharaoh", "fits": false},
+        {"label": "Samurai", "fits": false},
+        {"label": "Hoplite", "fits": false},
+        {"label": "Knight", "fits": false},
+        {"label": "Viking", "fits": false}
+      ],
+      "hint": "Pharaohs, samurai and knights belong to other places.",
+      "explanation": "Centurions and legionaries served in the army; senators, consuls and tribunes held office in Rome. A pharaoh was Egyptian, a hoplite Greek, a samurai Japanese." },
+    { "id": "custom-decline-013", "type": "classify", "concept": "decline", "tier": 3,
+      "prompt": "Step only on events after the fall of Western Rome (476 CE).",
+      "items": [
+        {"label": "Charlemagne crowned", "fits": true},
+        {"label": "Norman conquest", "fits": true},
+        {"label": "Black Death", "fits": true},
+        {"label": "First Crusade", "fits": true},
+        {"label": "Magna Carta", "fits": true},
+        {"label": "Colosseum opened", "fits": false},
+        {"label": "Death of Augustus", "fits": false},
+        {"label": "Vesuvius erupts", "fits": false},
+        {"label": "Hadrian's Wall built", "fits": false},
+        {"label": "Constantine's rule", "fits": false}
+      ],
+      "hint": "Western Rome fell in 476 CE. Look at each date.",
+      "explanation": "Charlemagne (800), the Normans (1066), the First Crusade (1096), Magna Carta (1215) and the Black Death (1347) came later. The others were in the Roman period." }
+  ],
+  "topic": {
+    "query": "Roman Empire",
+    "level": "normal"
+  },
+  "generated": {
+    "model": "hand-written",
+    "createdAt": "2026-10-15T00:00:00.000Z",
+    "packKey": "normal:roman empire"
+  }
+}
