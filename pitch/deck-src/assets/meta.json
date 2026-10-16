@@ -1,0 +1,72 @@
+{
+ "doorrush": {
+  "w": 1892,
+  "h": 1104,
+  "pad": 36,
+  "cardW": 1820,
+  "cardH": 1032
+ },
+ "maze": {
+  "w": 1492,
+  "h": 880,
+  "pad": 36,
+  "cardW": 1420,
+  "cardH": 808
+ },
+ "tiledrop": {
+  "w": 1192,
+  "h": 711,
+  "pad": 36,
+  "cardW": 1120,
+  "cardH": 639
+ },
+ "steps": {
+  "w": 1192,
+  "h": 711,
+  "pad": 36,
+  "cardW": 1120,
+  "cardH": 639
+ },
+ "bridge": {
+  "w": 1192,
+  "h": 711,
+  "pad": 36,
+  "cardW": 1120,
+  "cardH": 639
+ },
+ "doorgrid": {
+  "w": 1192,
+  "h": 711,
+  "pad": 36,
+  "cardW": 1120,
+  "cardH": 639
+ },
+ "hub": {
+  "w": 1492,
+  "h": 880,
+  "pad": 36,
+  "cardW": 1420,
+  "cardH": 808
+ },
+ "detour": {
+  "w": 1292,
+  "h": 767,
+  "pad": 36,
+  "cardW": 1220,
+  "cardH": 695
+ },
+ "slimegate": {
+  "w": 1192,
+  "h": 711,
+  "pad": 36,
+  "cardW": 1120,
+  "cardH": 639
+ },
+ "results": {
+  "w": 992,
+  "h": 1125,
+  "pad": 36,
+  "cardW": 920,
+  "cardH": 1053
+ }
+}
