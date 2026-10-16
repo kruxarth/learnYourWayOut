@@ -280,3 +280,5 @@ Each cell is slime@end for the perfect bot (short route) / P(elim) for the 60% p
 | Hard | 0.298 / 55% / 100% | 0.343 / 53% / 98% |
 
 These are within the targets (Easy 0.006/0/0, Normal 0.15/30/88, Hard 0.30/53/100), so there was no retune. A 60-seed bot sweep over both lanes passes.
+- Low chase cam in maze segments (CHASE_* in tuning.ts, blended in CameraRig); yaw still player-driven because movement is camera-relative, so no auto-follow of heading.
+- Quiz mazes prefer junctions whose right corridor does not run north (QUIZ_NORTH_PENALTY); the HUD chip hides the question text for rooms that show it on a world board.

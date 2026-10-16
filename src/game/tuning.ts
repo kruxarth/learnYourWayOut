@@ -12,6 +12,10 @@ export const T = {
 
   // camera
   CAM_DIST: 10, CAM_HEIGHT: 8, CAM_TARGET_Y: 1.0, CAM_FOV: 55, CAM_LERP: 10, CAM_YAW_SENS: 0.005,
+  // low chase cam inside mazes: blends from the high follow view over CHASE_EASE (1/s)
+  CHASE_DIST: 5.5, CHASE_HEIGHT: 2.9, CHASE_TARGET_Y: 1.3, CHASE_FOV: 68, CHASE_EASE: 3,
+  // quiz mazes: how many path cells a junction whose right corridor runs north counts as farther from its target, so the answer is not always "up"
+  QUIZ_NORTH_PENALTY: 2,
 
   // geometry
   CELL: 4, WALL_T: 0.6, OPENING_HALF: 1.7,

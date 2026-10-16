@@ -225,6 +225,11 @@ export function junctionCandidates(m: Maze, path: Cell[], minBranch: number): Qu
   return out;
 }
 
+/** Distance to the target path index, worse when the right corridor runs north (the camera's "up"). */
+function northScore(c: QuizJunction, target: number): number {
+  return Math.abs(c.pathIndex - target) + (c.forward[1] === 1 ? T.QUIZ_NORTH_PENALTY : 0);
+}
+
 /** Pick k candidates spread along the path, at least 2 path cells apart. Null if impossible. */
 function spread(cands: QuizJunction[], k: number, pathLen: number): QuizJunction[] | null {
   const out: QuizJunction[] = [];
@@ -237,7 +242,7 @@ function spread(cands: QuizJunction[], k: number, pathLen: number): QuizJunction
       // leave room for the junctions still to place
       const later = cands.filter((x) => x.pathIndex >= c.pathIndex + 2).length;
       if (later < k - j - 1) continue;
-      if (!best || Math.abs(c.pathIndex - target) < Math.abs(best.pathIndex - target)) best = c;
+      if (!best || northScore(c, target) < northScore(best, target)) best = c;
     }
     if (!best) return null;
     out.push(best);

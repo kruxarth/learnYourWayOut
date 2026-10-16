@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Vector3 } from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
 import { engine } from '../game/engine';
 import { T } from '../game/tuning';
+import { inMazeSegment } from '../game/loop/visibility';
 import { useUI } from '../ui/store';
 
 /** Third-person follow camera (spec §7.3, §8.8). Writes the R3F camera. */
@@ -12,6 +13,7 @@ export default function CameraRig() {
   const target = useRef(new Vector3());
   const desired = useRef(new Vector3());
   const shakeNow = useRef(0);
+  const chase = useRef(0);
 
   useEffect(() => {
     const off = engine.events.on((e) => {
@@ -31,9 +33,19 @@ export default function CameraRig() {
     const dt = Math.min(dtRaw, 0.1);
     const p = engine.player, cs = engine.camera;
     const t = target.current, d = desired.current;
-    t.set(p.pos.x, p.pos.y + T.CAM_TARGET_Y, p.pos.z);
-    d.set(t.x + Math.sin(cs.yaw) * T.CAM_DIST, t.y + T.CAM_HEIGHT, t.z + Math.cos(cs.yaw) * T.CAM_DIST);
-    if (snap.current !== cs.snapVersion) {
+    const run = engine.mode === 'run' ? engine.run : null;
+    const want = run && inMazeSegment(run) ? 1 : 0;
+    const snapNow = snap.current !== cs.snapVersion;
+    chase.current = snapNow ? want : chase.current + (want - chase.current) * (1 - Math.exp(-T.CHASE_EASE * dt));
+    const k0 = chase.current;
+    const dist = T.CAM_DIST + (T.CHASE_DIST - T.CAM_DIST) * k0;
+    const height = T.CAM_HEIGHT + (T.CHASE_HEIGHT - T.CAM_HEIGHT) * k0;
+    const ty = T.CAM_TARGET_Y + (T.CHASE_TARGET_Y - T.CAM_TARGET_Y) * k0;
+    const fov = T.CAM_FOV + (T.CHASE_FOV - T.CAM_FOV) * k0;
+    if (camera instanceof PerspectiveCamera && Math.abs(camera.fov - fov) > 0.01) { camera.fov = fov; camera.updateProjectionMatrix(); }
+    t.set(p.pos.x, p.pos.y + ty, p.pos.z);
+    d.set(t.x + Math.sin(cs.yaw) * dist, t.y + height, t.z + Math.cos(cs.yaw) * dist);
+    if (snapNow) {
       camera.position.copy(d);
       snap.current = cs.snapVersion;
     } else {
