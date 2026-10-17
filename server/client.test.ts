@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { LlmError, OpenAiCompatClient } from './llm/client';
+import { FallbackClient, HttpStatusError, LlmError, OpenAiCompatClient, type LlmClient } from './llm/client';
 
 const REQ = { system: 's', user: 'u', maxTokens: 100 };
 const ok = (content: string) => new Response(JSON.stringify({ choices: [{ message: { content } }] }), { status: 200 });
@@ -28,14 +28,14 @@ describe('OpenAiCompatClient (fake fetch)', () => {
     const body = JSON.parse(calls[0].init.body as string);
     expect(body).toMatchObject({ model: 'review-model', max_tokens: 100, temperature: 0, response_format: { type: 'json_object' } });
     expect(body.messages.map((m: { role: string }) => m.role)).toEqual(['system', 'user']);
-    expect(body.thinking).toBeUndefined();
+    expect(body.reasoning).toBeUndefined();
   });
 
   it('turns reasoning off when asked', async () => {
     const calls: RequestInit[] = [];
     const f = (async (_u: string, init: RequestInit) => { calls.push(init); return ok('{"a":1}'); }) as unknown as typeof fetch;
     await new OpenAiCompatClient({ baseUrl: 'https://x', apiKey: 'k', model: 'm', fetch: f, disableThinking: true }).json(REQ);
-    expect(JSON.parse(calls[0].body as string).thinking).toEqual({ type: 'disabled' });
+    expect(JSON.parse(calls[0].body as string).reasoning).toEqual({ enabled: false });
   });
 
   it('retries once on 429 and 5xx, with backoff', async () => {
@@ -67,5 +67,38 @@ describe('OpenAiCompatClient (fake fetch)', () => {
     })) as unknown as typeof fetch;
     const c = new OpenAiCompatClient({ baseUrl: 'https://x', apiKey: 'k', model: 'm', fetch: hang, timeoutMs: 10 });
     await expect(c.json(REQ)).rejects.toMatchObject({ code: 'timeout' });
+  });
+});
+
+describe('FallbackClient', () => {
+  const failing = (code: LlmError['code']): LlmClient => ({ json: async () => { throw new LlmError('x', code); } });
+  const answering = (v: unknown): LlmClient & { n: number } => { const c = { n: 0, json: async () => { c.n++; return v; } }; return c; };
+
+  it('moves to the next model on failure and skips a rate-limited one until the cooldown ends', async () => {
+    let t = 0;
+    const a = { n: 0, json: async () => { a.n++; throw new HttpStatusError(429); } };
+    const b = answering({ ok: 1 });
+    const f = new FallbackClient([{ model: 'a', client: a }, { model: 'b', client: b }], () => t);
+    expect(await f.json(REQ)).toEqual({ ok: 1 });
+    expect(await f.json(REQ)).toEqual({ ok: 1 });
+    expect(a.n).toBe(1); // second call skipped it
+    t = 61_000;
+    await f.json(REQ);
+    expect(a.n).toBe(2);
+  });
+
+  it('a bad reply tries the next model without a cooldown, and the last error is thrown when all fail', async () => {
+    const a = { n: 0, json: async () => { a.n++; throw new LlmError('bad', 'bad-json'); } };
+    const f = new FallbackClient([{ model: 'a', client: a }, { model: 'b', client: failing('bad-json') }]);
+    await expect(f.json(REQ)).rejects.toThrow('x');
+    await expect(f.json(REQ)).rejects.toThrow('x');
+    expect(a.n).toBe(2);
+  });
+
+  it('tries every model even while all are cooling down, and a preferred model goes first', async () => {
+    const a = answering({ from: 'a' });
+    const b = answering({ from: 'b' });
+    const f = new FallbackClient([{ model: 'a', client: a }, { model: 'b', client: b }]);
+    expect(await f.json({ ...REQ, model: 'b' })).toEqual({ from: 'b' });
   });
 });

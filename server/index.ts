@@ -10,7 +10,7 @@ import { createApi } from './api';
 import { PackCache } from './cache';
 import { loadEnvFile, readEnv } from './env';
 import { JobStore } from './jobs';
-import { OpenAiCompatClient } from './llm/client';
+import { buildLlm } from './llm/client';
 import { attachMultiplayer, lanUrls } from './mp/ws';
 import {
   NEW_PACKS_PER_WINDOW, NEW_PACKS_WINDOW_MS, POLLS_PER_WINDOW, POLLS_WINDOW_MS, RateLimiter,
@@ -18,13 +18,13 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url));
 loadEnvFile(join(here, '.env'));
-loadEnvFile(join(here, '..', '.env')); // root .env: DEEPSEEK_API
+loadEnvFile(join(here, '..', '.env')); // root .env: OPENROUTER_KEY
 const env = readEnv();
 const dataDir = join(here, 'data');
 const distDir = resolve(here, '..', 'dist');
 
 const llm = env.llmEnabled
-  ? new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model: env.llmModel, disableThinking: env.disableThinking })
+  ? buildLlm(env, (model, e) => console.warn(`LLM ${model} failed (${e.message}); trying the next model`))
   : null;
 
 const api = createApi({
@@ -111,7 +111,7 @@ attachMultiplayer(server);
 
 server.listen(env.port, () => {
   console.log(`Learn Your Way Out server on http://localhost:${env.port}`);
-  console.log(env.llmEnabled ? `Any Topic: ON (model ${env.llmModel})` : 'Any Topic: OFF (no DEEPSEEK_API in .env or LLM_API_KEY in server/.env)');
+  console.log(env.llmEnabled ? `Any Topic: ON (${env.llmModels.length} models, first ${env.llmModel})` : 'Any Topic: OFF (no OPENROUTER_KEY in .env or LLM_API_KEY in server/.env)');
   console.log('Multiplayer: ON (/ws)');
   for (const u of lanUrls(env.port)) console.log(`  Other laptops on this network can open ${u}`);
   if (existsSync(distDir)) console.log('Serving the built game from dist/');

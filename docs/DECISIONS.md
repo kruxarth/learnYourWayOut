@@ -311,3 +311,5 @@ These are within the targets (Easy 0.006/0/0, Normal 0.15/30/88, Hard 0.30/53/10
 - Slime plane is 110 segments (2 m quads, on its snap grid) instead of 64: near floor level its wave crests broke through as flat green octagons.
 - Key Hunt key labels are depth-tested: drawn through hedges they floated with nothing tying them to their dead end.
 - Lifeline bar keeps the safe-area inset at the bottom.
+- Any Topic now runs on free OpenRouter models (`OPENROUTER_KEY`) behind a `FallbackClient` (`server/llm/client.ts`): on an HTTP error, timeout or bad JSON it tries the next model, and a rate-limited or unavailable model is skipped for 1 or 10 minutes. DeepSeek and OpenCode Zen are dropped: Zen's free tier refuses calls from outside OpenCode, and DeepSeek costs money. Default chain is in `server/env.ts`; `LLM_MODELS` overrides it.
+- Requests send `reasoning: {enabled: false}` (replaces DeepSeek's `thinking` flag): on the free models a tiny reply took 16-31 s with reasoning on, 2 s with it off. Verified: "Volcanoes" easy makes a valid pack in about 66 s using 16 requests.

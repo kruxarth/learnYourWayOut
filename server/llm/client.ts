@@ -39,14 +39,16 @@ export interface OpenAiCompatOptions {
   baseUrl: string;
   apiKey: string;
   model: string;
-  /** Add `thinking: {type: "disabled"}` to every request (DeepSeek: reasoning would eat max_tokens). */
+  /** Add `reasoning: {enabled: false}` to every request (reasoning eats max_tokens and slows free models a lot). */
   disableThinking?: boolean;
+  /** Retries after a 429 or 5xx. Default 1; a FallbackClient sets 0 and moves to the next model instead. */
+  retries?: number;
   timeoutMs?: number;
   fetch?: typeof fetch;
   sleep?: (ms: number) => Promise<void>;
 }
 
-/** Posts to `${baseUrl}/chat/completions`. Works with DeepSeek, OpenCode Zen, OpenRouter and other compatible hosts. */
+/** Posts to `${baseUrl}/chat/completions`. Works with OpenRouter and other compatible hosts. */
 export class OpenAiCompatClient implements LlmClient {
   private readonly fetchFn: typeof fetch;
   private readonly sleep: (ms: number) => Promise<void>;
@@ -57,14 +59,15 @@ export class OpenAiCompatClient implements LlmClient {
     this.timeoutMs = opts.timeoutMs ?? 45_000;
   }
 
-  /** One retry, only on 429 and 5xx, after a short backoff. */
+  /** Retries (default one) only on 429 and 5xx, after a short backoff. */
   async json(req: LlmRequest): Promise<unknown> {
-    try {
-      return await this.once(req);
-    } catch (e) {
-      if (!(e instanceof HttpStatusError) || !(e.status === 429 || e.status >= 500)) throw e;
-      await this.sleep(1500);
-      return this.once(req);
+    for (let left = this.opts.retries ?? 1; ; left--) {
+      try {
+        return await this.once(req);
+      } catch (e) {
+        if (left <= 0 || !(e instanceof HttpStatusError) || !(e.status === 429 || e.status >= 500)) throw e;
+        await this.sleep(1500);
+      }
     }
   }
 
@@ -81,7 +84,7 @@ export class OpenAiCompatClient implements LlmClient {
           max_tokens: req.maxTokens,
           temperature: req.temperature ?? 0.7,
           response_format: { type: 'json_object' },
-          ...(this.opts.disableThinking ? { thinking: { type: 'disabled' } } : {}),
+          ...(this.opts.disableThinking ? { reasoning: { enabled: false } } : {}),
         }),
         signal: ctrl.signal,
       });
@@ -100,8 +103,60 @@ export class OpenAiCompatClient implements LlmClient {
   }
 }
 
-class HttpStatusError extends LlmError {
+export class HttpStatusError extends LlmError {
   constructor(readonly status: number) {
     super(`HTTP ${status}`, 'http');
   }
+}
+
+/** Cooldowns after a failure: rate limits and outages are short, a model that is gone or a key problem is long. */
+export const COOLDOWN_SHORT_MS = 60_000;
+export const COOLDOWN_LONG_MS = 600_000;
+
+export interface FallbackEntry { model: string; client: LlmClient }
+
+/**
+ * Tries each model in order. A model that fails with an HTTP error, timeout or network error is skipped for a while;
+ * a bad or empty reply just moves on to the next model. Throws the last error when every model failed.
+ */
+export class FallbackClient implements LlmClient {
+  private readonly coolUntil = new Map<string, number>();
+  constructor(private readonly entries: FallbackEntry[], private readonly now: () => number = Date.now, private readonly onFallback?: (model: string, e: LlmError) => void) {}
+
+  async json(req: LlmRequest): Promise<unknown> {
+    const order = this.entries.slice();
+    const preferred = order.findIndex((e) => e.model === req.model);
+    if (preferred > 0) order.unshift(...order.splice(preferred, 1));
+    const ready = order.filter((e) => (this.coolUntil.get(e.model) ?? 0) <= this.now());
+    let last: unknown = new LlmError('no models configured', 'empty');
+    for (const entry of ready.length ? ready : order) {
+      try {
+        return await entry.client.json({ ...req, model: entry.model });
+      } catch (e) {
+        last = e;
+        if (e instanceof LlmError) {
+          this.onFallback?.(entry.model, e);
+          const cool = this.cooldownFor(e);
+          if (cool > 0) this.coolUntil.set(entry.model, this.now() + cool);
+        }
+      }
+    }
+    throw last;
+  }
+
+  private cooldownFor(e: LlmError): number {
+    if (e instanceof HttpStatusError) return e.status === 429 || e.status >= 500 ? COOLDOWN_SHORT_MS : COOLDOWN_LONG_MS;
+    return e.code === 'timeout' || e.code === 'network' ? COOLDOWN_SHORT_MS : 0;
+  }
+}
+
+/** One OpenAiCompatClient per configured model, wrapped so a failing model hands over to the next. */
+export function buildLlm(
+  env: { llmBaseUrl: string; llmApiKey: string; llmModels: string[]; disableThinking: boolean },
+  onFallback?: (model: string, e: LlmError) => void,
+): LlmClient {
+  return new FallbackClient(env.llmModels.map((model) => ({
+    model,
+    client: new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model, disableThinking: env.disableThinking, retries: 0 }),
+  })), Date.now, onFallback);
 }

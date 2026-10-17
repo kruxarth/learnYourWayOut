@@ -4,11 +4,11 @@ import { fileURLToPath } from 'node:url';
 import { validateDomainPack } from '../../src/content/validate';
 import type { Difficulty } from '../../src/game/types';
 import { loadEnvFile, readEnv } from '../env';
-import { OpenAiCompatClient } from '../llm/client';
+import { buildLlm } from '../llm/client';
 import { generatePack } from '../llm/pipeline';
 
 loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '.env'));
-loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '..', '.env')); // root .env: DEEPSEEK_API
+loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '..', '.env')); // root .env: OPENROUTER_KEY
 const env = readEnv();
 const [topic, levelArg = 'normal'] = process.argv.slice(2);
 if (!topic || !['easy', 'normal', 'hard'].includes(levelArg)) {
@@ -16,11 +16,11 @@ if (!topic || !['easy', 'normal', 'hard'].includes(levelArg)) {
   process.exit(2);
 }
 if (!env.llmEnabled) {
-  console.error('No key. Set DEEPSEEK_API in .env (see .env.example) or LLM_API_KEY in server/.env.');
+  console.error('No key. Set OPENROUTER_KEY in .env (see .env.example) or LLM_API_KEY in server/.env.');
   process.exit(2);
 }
 
-const llm = new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model: env.llmModel, disableThinking: env.disableThinking });
+const llm = buildLlm(env, (model, e) => console.error(`[${model} failed: ${e.message}]`));
 try {
   const pack = await generatePack(topic, levelArg as Difficulty, llm, (stage, p) => console.error(`[${stage}] ${Math.round(p * 100)}%`), {
     model: env.llmModel, reviewModel: env.reviewModel,

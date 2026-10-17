@@ -11,7 +11,7 @@ A browser 3D game (three.js / React Three Fiber). Run a hedge maze; answer by mo
 Walk onto the pink **Any Topic** pad in the hub (or press the **Any Topic** button), type a topic such as "Roman Empire", pick Easy / Medium / Hard, and a server-side AI writes a full question set. The game works without the server: the built-in domains and the two example packs (Roman Empire, Volcanoes) play offline. Recent topics (the last 6) replay without the server too.
 
 Run the game server (needs an OpenAI-compatible API key; the key never reaches the browser):
-1. DeepSeek: `cp .env.example .env` and set `DEEPSEEK_API` to your key; nothing else is needed. Other providers (OpenCode Zen, OpenRouter, any OpenAI-compatible host): `cp server/.env.example server/.env` and fill in `LLM_API_KEY`, `LLM_BASE_URL` and `LLM_MODEL` (`LLM_API_KEY` wins over `DEEPSEEK_API`). Both `.env` files are gitignored.
+1. Any Topic uses free OpenRouter models: `cp .env.example .env` and set `OPENROUTER_KEY`. If a model fails or is rate-limited, the server moves to the next one in the list (`LLM_MODELS` in `server/.env` changes the list; default in `server/env.ts`). Free keys are capped at 50 requests a day (about 3 packs); $10 of OpenRouter credit raises that to 1000. Both `.env` files are gitignored.
 2. `npm run dev:all` runs Vite and the server together (Vite proxies `/api` to port 8787). `npm run server` runs the server alone. After `npm run build`, the server also serves `dist/`, so one laptop can host the whole game on a LAN.
 3. `npm run gen-pack -- "Roman Empire" normal` prints a generated pack as JSON (a human should review every question before it is committed).
 
