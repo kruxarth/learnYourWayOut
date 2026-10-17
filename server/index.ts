@@ -8,7 +8,7 @@ import { dirname, extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createApi } from './api';
 import { PackCache } from './cache';
-import { chainForKey, loadEnvFile, providerOfKey, readEnv } from './env';
+import { chainForKey, isGroqKey, loadEnvFile, readEnv } from './env';
 import { JobStore } from './jobs';
 import { buildLlm } from './llm/client';
 import { attachMultiplayer, lanUrls } from './mp/ws';
@@ -18,7 +18,7 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url));
 loadEnvFile(join(here, '.env'));
-loadEnvFile(join(here, '..', '.env')); // root .env: GROQ_API, OPENROUTER_KEY
+loadEnvFile(join(here, '..', '.env')); // root .env: GROQ_API
 const env = readEnv();
 const dataDir = join(here, 'data');
 const distDir = resolve(here, '..', 'dist');
@@ -30,8 +30,7 @@ const llm = env.llmEnabled
 const api = createApi({
   env, llm,
   clientForKey: (key) => {
-    const provider = providerOfKey(key);
-    return provider ? buildLlm({ llmChain: chainForKey(provider, key) }) : null;
+    return isGroqKey(key) ? buildLlm({ llmChain: chainForKey(key) }) : null;
   },
   cache: new PackCache({ dir: join(dataDir, 'packs') }),
   jobs: new JobStore(),
@@ -115,7 +114,7 @@ attachMultiplayer(server);
 
 server.listen(env.port, () => {
   console.log(`Learn Your Way Out server on http://localhost:${env.port}`);
-  console.log(env.llmEnabled ? `Any Topic: ON (${env.llmChain.length} models, first ${env.llmModel})` : 'Any Topic: OFF (no GROQ_API or OPENROUTER_KEY in .env or LLM_API_KEY in server/.env)');
+  console.log(env.llmEnabled ? `Any Topic: ON (${env.llmChain.length} models, first ${env.llmModel})` : 'Any Topic: OFF (no GROQ_API in .env)');
   console.log('Multiplayer: ON (/ws)');
   for (const u of lanUrls(env.port)) console.log(`  Other laptops on this network can open ${u}`);
   if (existsSync(distDir)) console.log('Serving the built game from dist/');

@@ -26,34 +26,19 @@ export function loadEnvFile(path: string): void {
   if (existsSync(path)) process.loadEnvFile(path);
 }
 
-export type Provider = 'groq' | 'openrouter' | 'cerebras';
+const GROQ_URL = 'https://api.groq.com/openai/v1';
+/** Free Groq models, best first. `reasoning_effort: low` keeps hidden reasoning from eating max_tokens. */
+const MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
+const NO_THINK = { reasoning_effort: 'low' };
 
-/** Free models per provider, best first. Groq is fast; OpenRouter's are slow and capped at 50 requests a day, so they come last. */
-const PROVIDERS: Record<Provider, { baseUrl: string; noThink: Record<string, unknown>; models: string[]; keyPrefix: string }> = {
-  groq: {
-    baseUrl: 'https://api.groq.com/openai/v1', noThink: { reasoning_effort: 'low' }, keyPrefix: 'gsk_',
-    models: ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'],
-  },
-  openrouter: {
-    baseUrl: 'https://openrouter.ai/api/v1', noThink: { reasoning: { enabled: false } }, keyPrefix: 'sk-or-',
-    models: ['nvidia/nemotron-3-super-120b-a12b:free', 'google/gemma-4-31b-it:free', 'nvidia/nemotron-3.5-super-vl:free'],
-  },
-  cerebras: {
-    baseUrl: 'https://api.cerebras.ai/v1', noThink: { reasoning_effort: 'low' }, keyPrefix: 'csk-',
-    models: ['gpt-oss-120b', 'qwen-3.8-27b'],
-  },
-};
-const DEFAULT_PROVIDERS: Provider[] = ['groq', 'openrouter'];
-
-/** Which provider a pasted key belongs to, by its prefix; null when it is none of ours. */
-export function providerOfKey(key: string): Provider | null {
+/** True for something that looks like a Groq key (`gsk_…`). */
+export function isGroqKey(key: string): boolean {
   const k = key.trim();
-  return (Object.keys(PROVIDERS) as Provider[]).find((p) => k.startsWith(PROVIDERS[p].keyPrefix) && k.length >= 20 && k.length <= 200) ?? null;
+  return k.startsWith('gsk_') && k.length >= 20 && k.length <= 200;
 }
 
-export function chainForKey(provider: Provider, apiKey: string, noThink = true): ChainEntry[] {
-  const p = PROVIDERS[provider];
-  return p.models.map((model) => ({ baseUrl: p.baseUrl, apiKey: apiKey.trim(), model, ...(noThink ? { extraBody: p.noThink } : {}) }));
+export function chainForKey(apiKey: string, noThink = true): ChainEntry[] {
+  return MODELS.map((model) => ({ baseUrl: GROQ_URL, apiKey: apiKey.trim(), model, ...(noThink ? { extraBody: NO_THINK } : {}) }));
 }
 
 const real = (v: string | undefined): string => {
@@ -64,22 +49,9 @@ const real = (v: string | undefined): string => {
 export function readEnv(source: Record<string, string | undefined> = process.env): ServerEnv {
   const port = Number.parseInt(source.PORT ?? '', 10);
   const noThink = (source.LLM_THINKING ?? '').trim().toLowerCase() !== 'on';
-  const customKey = real(source.LLM_API_KEY);
-  const listed = (source.LLM_MODELS ?? '').split(',').map((s) => s.trim()).filter(Boolean);
-  let chain: ChainEntry[];
-  if (customKey || listed.length) {
-    // one provider of your own: LLM_BASE_URL + LLM_API_KEY (+ LLM_MODELS)
-    const baseUrl = ((source.LLM_BASE_URL ?? '').trim() || PROVIDERS.openrouter.baseUrl).replace(/\/+$/, '');
-    const apiKey = customKey || real(source.OPENROUTER_KEY);
-    const noThinkBody = Object.values(PROVIDERS).find((p) => p.baseUrl === baseUrl)?.noThink;
-    chain = (listed.length ? listed : PROVIDERS.openrouter.models)
-      .map((model) => ({ baseUrl, apiKey, model, ...(noThink && noThinkBody ? { extraBody: noThinkBody } : {}) }));
-  } else {
-    const keys: Record<Provider, string> = { groq: real(source.GROQ_API), openrouter: real(source.OPENROUTER_KEY), cerebras: '' };
-    chain = DEFAULT_PROVIDERS.flatMap((p) => (keys[p] ? chainForKey(p, keys[p], noThink) : []));
-  }
-  chain = chain.filter((e) => e.apiKey);
-  const model = chain[0]?.model ?? PROVIDERS.groq.models[0];
+  const key = real(source.GROQ_API);
+  const chain = key ? chainForKey(key, noThink) : [];
+  const model = chain[0]?.model ?? MODELS[0];
   return {
     port: Number.isInteger(port) && port > 0 && port < 65536 ? port : 8787,
     llmChain: chain,

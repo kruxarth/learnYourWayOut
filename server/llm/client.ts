@@ -48,7 +48,7 @@ export interface OpenAiCompatOptions {
   sleep?: (ms: number) => Promise<void>;
 }
 
-/** Posts to `${baseUrl}/chat/completions`. Works with OpenRouter and other compatible hosts. */
+/** Posts to `${baseUrl}/chat/completions`. Works with Groq and other compatible hosts. */
 export class OpenAiCompatClient implements LlmClient {
   private readonly fetchFn: typeof fetch;
   private readonly sleep: (ms: number) => Promise<void>;

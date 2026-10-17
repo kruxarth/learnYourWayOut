@@ -57,7 +57,7 @@ export function createApi(deps: ApiDeps) {
     // the player's own key (never logged or stored) replaces ours for this one pack
     const ownKey = typeof apiKey === 'string' && apiKey.trim() ? apiKey.trim() : null;
     const llm = ownKey ? (deps.clientForKey?.(ownKey) ?? null) : deps.llm;
-    if (ownKey && !llm) return reply(400, { error: 'bad-key', message: "That key isn't one I know. Use a Groq (gsk_…), OpenRouter (sk-or-…) or Cerebras (csk-…) key." });
+    if (ownKey && !llm) return reply(400, { error: 'bad-key', message: "That doesn't look like a Groq key. It should start with gsk_." });
     if (!llm) return reply(503, { error: 'llm-disabled', message: 'Any Topic is not set up on this server.' });
     const active = deps.jobs.findActive(key);
     if (active) return reply(202, { jobId: active.id });

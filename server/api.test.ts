@@ -7,7 +7,7 @@ import { PackCache } from './cache';
 import { JobStore } from './jobs';
 import { RateLimiter } from './ratelimit';
 import { cleanHandler, FakeLlm } from './testing/fakeLlm';
-import { providerOfKey, readEnv } from './env';
+import { isGroqKey, readEnv } from './env';
 import type { LlmClient } from './llm/client';
 
 const dirs: string[] = [];
@@ -75,12 +75,11 @@ describe('api', () => {
     expect((await s.call('POST', '/api/packs', { topic: 'Volcanoes', level: 'easy', apiKey: 'gsk_abcdefghijklmnopqrstu' })).body).toMatchObject({ error: 'bad-key' });
   });
 
-  it('recognises keys by prefix', () => {
-    expect(providerOfKey('gsk_abcdefghijklmnopqrstu')).toBe('groq');
-    expect(providerOfKey('sk-or-v1-abcdefghijklmnop')).toBe('openrouter');
-    expect(providerOfKey('csk-abcdefghijklmnopqrstu')).toBe('cerebras');
-    expect(providerOfKey('sk-abcdefghijklmnopqrstuvwxyz')).toBeNull();
-    expect(providerOfKey('gsk_short')).toBeNull();
+  it('recognises Groq keys by prefix', () => {
+    expect(isGroqKey('gsk_abcdefghijklmnopqrstu')).toBe(true);
+    expect(isGroqKey(' gsk_abcdefghijklmnopqrstu ')).toBe(true);
+    expect(isGroqKey('sk-or-v1-abcdefghijklmnop')).toBe(false);
+    expect(isGroqKey('gsk_short')).toBe(false);
   });
 
   it('starts a job, polls it to done, then serves the pack from the cache', async () => {
@@ -222,17 +221,15 @@ describe('rate limiter and env', () => {
   });
   it('reads env with defaults and disables the LLM without a key', () => {
     expect(readEnv({})).toMatchObject({ port: 8787, llmEnabled: false, llmChain: [], allowedOrigins: ['http://localhost:5173'] });
-    expect(readEnv({ LLM_API_KEY: 'k', LLM_BASE_URL: 'https://h/v1', LLM_MODELS: 'm, n', LLM_REVIEW_MODEL: 'r', PORT: '9000', ALLOWED_ORIGINS: 'a, b' }))
-      .toMatchObject({ port: 9000, llmEnabled: true, llmModel: 'm', reviewModel: 'r', allowedOrigins: ['a', 'b'] });
-    expect(readEnv({ LLM_API_KEY: '...' }).llmEnabled).toBe(false);
+    expect(readEnv({ GROQ_API: 'k', LLM_REVIEW_MODEL: 'r', PORT: '9000', ALLOWED_ORIGINS: 'a, b' }))
+      .toMatchObject({ port: 9000, llmEnabled: true, reviewModel: 'r', allowedOrigins: ['a', 'b'] });
+    expect(readEnv({ GROQ_API: '...' }).llmEnabled).toBe(false);
   });
-  it('builds the chain from the keys present: Groq first, OpenRouter after, reasoning off by default', () => {
-    const both = readEnv({ GROQ_API: 'g', OPENROUTER_KEY: 'o' });
-    expect(both.llmChain[0]).toMatchObject({ model: 'openai/gpt-oss-120b', apiKey: 'g', extraBody: { reasoning_effort: 'low' } });
-    expect(both.llmChain.at(-1)).toMatchObject({ apiKey: 'o', extraBody: { reasoning: { enabled: false } } });
-    expect(readEnv({ OPENROUTER_KEY: 'o' }).llmChain.every((e) => e.apiKey === 'o')).toBe(true);
-    expect(readEnv({ GROQ_API: 'g' }).llmChain.every((e) => e.apiKey === 'g')).toBe(true);
+  it('builds the Groq chain from GROQ_API, reasoning off by default', () => {
+    const e = readEnv({ GROQ_API: 'g' });
+    expect(e.llmChain.map((c) => c.model)).toEqual(['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b']);
+    expect(e.llmChain[0]).toMatchObject({ apiKey: 'g', extraBody: { reasoning_effort: 'low' } });
+    expect(e.llmModel).toBe('openai/gpt-oss-120b');
     expect(readEnv({ GROQ_API: 'g', LLM_THINKING: 'on' }).llmChain[0].extraBody).toBeUndefined();
-    expect(readEnv({ GROQ_API: 'g' }).llmModel).toBe('openai/gpt-oss-120b');
   });
 });

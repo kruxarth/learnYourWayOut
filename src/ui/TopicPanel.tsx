@@ -132,11 +132,11 @@ function TopicPanelBody() {
               <summary>Busy or failing? Use your own free API key</summary>
               <input
                 className="topic-input" type="password" autoComplete="off" spellCheck={false} maxLength={200}
-                value={apiKey} disabled={working} placeholder="gsk_… (Groq), sk-or-… (OpenRouter) or csk-… (Cerebras)"
+                value={apiKey} disabled={working} placeholder="gsk_… (your free Groq key)"
                 aria-label="Your API key"
                 onChange={(e) => { setApiKey(e.target.value); if (phase.kind === 'error') setPhase({ kind: 'idle' }); }}
               />
-              <div className="topic-note">Sent only to make this one maze. It is never saved and not shown again. Free keys come from console.groq.com, openrouter.ai or cloud.cerebras.ai.</div>
+              <div className="topic-note">Sent only to make this one maze. It is never saved and not shown again. A free key comes from console.groq.com.</div>
             </details>
 
             {working && (
