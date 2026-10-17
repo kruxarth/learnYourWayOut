@@ -8,7 +8,7 @@ import { buildLlm } from '../llm/client';
 import { generatePack } from '../llm/pipeline';
 
 loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '.env'));
-loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '..', '.env')); // root .env: OPENROUTER_KEY
+loadEnvFile(join(dirname(fileURLToPath(import.meta.url)), '..', '..', '.env')); // root .env: GROQ_API, OPENROUTER_KEY
 const env = readEnv();
 const [topic, levelArg = 'normal'] = process.argv.slice(2);
 if (!topic || !['easy', 'normal', 'hard'].includes(levelArg)) {
@@ -16,7 +16,7 @@ if (!topic || !['easy', 'normal', 'hard'].includes(levelArg)) {
   process.exit(2);
 }
 if (!env.llmEnabled) {
-  console.error('No key. Set OPENROUTER_KEY in .env (see .env.example) or LLM_API_KEY in server/.env.');
+  console.error('No key. Set GROQ_API or OPENROUTER_KEY in .env (see .env.example) or LLM_API_KEY in server/.env.');
   process.exit(2);
 }
 

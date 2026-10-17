@@ -18,7 +18,7 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url));
 loadEnvFile(join(here, '.env'));
-loadEnvFile(join(here, '..', '.env')); // root .env: OPENROUTER_KEY
+loadEnvFile(join(here, '..', '.env')); // root .env: GROQ_API, OPENROUTER_KEY
 const env = readEnv();
 const dataDir = join(here, 'data');
 const distDir = resolve(here, '..', 'dist');
@@ -111,7 +111,7 @@ attachMultiplayer(server);
 
 server.listen(env.port, () => {
   console.log(`Learn Your Way Out server on http://localhost:${env.port}`);
-  console.log(env.llmEnabled ? `Any Topic: ON (${env.llmModels.length} models, first ${env.llmModel})` : 'Any Topic: OFF (no OPENROUTER_KEY in .env or LLM_API_KEY in server/.env)');
+  console.log(env.llmEnabled ? `Any Topic: ON (${env.llmChain.length} models, first ${env.llmModel})` : 'Any Topic: OFF (no GROQ_API or OPENROUTER_KEY in .env or LLM_API_KEY in server/.env)');
   console.log('Multiplayer: ON (/ws)');
   for (const u of lanUrls(env.port)) console.log(`  Other laptops on this network can open ${u}`);
   if (existsSync(distDir)) console.log('Serving the built game from dist/');

@@ -39,8 +39,8 @@ export interface OpenAiCompatOptions {
   baseUrl: string;
   apiKey: string;
   model: string;
-  /** Add `reasoning: {enabled: false}` to every request (reasoning eats max_tokens and slows free models a lot). */
-  disableThinking?: boolean;
+  /** Extra body fields for every request, e.g. the provider's switch for turning hidden reasoning off. */
+  extraBody?: Record<string, unknown>;
   /** Retries after a 429 or 5xx. Default 1; a FallbackClient sets 0 and moves to the next model instead. */
   retries?: number;
   timeoutMs?: number;
@@ -84,11 +84,11 @@ export class OpenAiCompatClient implements LlmClient {
           max_tokens: req.maxTokens,
           temperature: req.temperature ?? 0.7,
           response_format: { type: 'json_object' },
-          ...(this.opts.disableThinking ? { reasoning: { enabled: false } } : {}),
+          ...this.opts.extraBody,
         }),
         signal: ctrl.signal,
       });
-      if (!res.ok) throw new HttpStatusError(res.status);
+      if (!res.ok) throw new HttpStatusError(res.status, Number.parseFloat(res.headers.get('retry-after') ?? '') * 1000 || undefined);
       const body = (await res.json()) as { choices?: { message?: { content?: unknown } }[] };
       const content = body?.choices?.[0]?.message?.content;
       if (typeof content !== 'string' || !content.trim()) throw new LlmError('empty reply', 'empty');
@@ -104,7 +104,8 @@ export class OpenAiCompatClient implements LlmClient {
 }
 
 export class HttpStatusError extends LlmError {
-  constructor(readonly status: number) {
+  /** From the `retry-after` header, when the provider sent one. */
+  constructor(readonly status: number, readonly retryAfterMs?: number) {
     super(`HTTP ${status}`, 'http');
   }
 }
@@ -112,51 +113,74 @@ export class HttpStatusError extends LlmError {
 /** Cooldowns after a failure: rate limits and outages are short, a model that is gone or a key problem is long. */
 export const COOLDOWN_SHORT_MS = 60_000;
 export const COOLDOWN_LONG_MS = 600_000;
+/** When every model is cooling down, wait for the soonest one if it is back within this long. */
+export const MAX_WAIT_MS = 30_000;
+/** One call never waits longer than this in total for rate limits to clear (the game gives up after 5 minutes). */
+export const MAX_TOTAL_WAIT_MS = 90_000;
 
 export interface FallbackEntry { model: string; client: LlmClient }
 
 /**
- * Tries each model in order. A model that fails with an HTTP error, timeout or network error is skipped for a while;
- * a bad or empty reply just moves on to the next model. Throws the last error when every model failed.
+ * Tries each model in order. A model that fails with an HTTP error, timeout or network error is skipped for a while
+ * (a 429 for as long as the provider's `retry-after` says); a bad or empty reply just moves on to the next model.
+ * When every model is rate-limited it waits for the soonest one, until MAX_TOTAL_WAIT_MS has passed. Throws the last error.
  */
 export class FallbackClient implements LlmClient {
   private readonly coolUntil = new Map<string, number>();
-  constructor(private readonly entries: FallbackEntry[], private readonly now: () => number = Date.now, private readonly onFallback?: (model: string, e: LlmError) => void) {}
+  constructor(
+    private readonly entries: FallbackEntry[],
+    private readonly now: () => number = Date.now,
+    private readonly onFallback?: (model: string, e: LlmError) => void,
+    private readonly sleep: (ms: number) => Promise<void> = (ms) => new Promise((r) => setTimeout(r, ms)),
+  ) {}
 
   async json(req: LlmRequest): Promise<unknown> {
     const order = this.entries.slice();
     const preferred = order.findIndex((e) => e.model === req.model);
     if (preferred > 0) order.unshift(...order.splice(preferred, 1));
-    const ready = order.filter((e) => (this.coolUntil.get(e.model) ?? 0) <= this.now());
     let last: unknown = new LlmError('no models configured', 'empty');
-    for (const entry of ready.length ? ready : order) {
-      try {
-        return await entry.client.json({ ...req, model: entry.model });
-      } catch (e) {
-        last = e;
-        if (e instanceof LlmError) {
+    const started = this.now();
+    for (;;) {
+      let ready = order.filter((e) => (this.coolUntil.get(e.model) ?? 0) <= this.now());
+      if (!ready.length) {
+        const soonest = Math.min(...order.map((e) => this.coolUntil.get(e.model) ?? 0)) - this.now();
+        if (soonest > MAX_WAIT_MS) ready = order; // nothing is coming back soon: try them all anyway
+        else { await this.sleep(Math.max(soonest, 0) + 250); ready = order.filter((e) => (this.coolUntil.get(e.model) ?? 0) <= this.now()); }
+      }
+      let limited = false;
+      for (const entry of ready) {
+        try {
+          return await entry.client.json({ ...req, model: entry.model });
+        } catch (e) {
+          last = e;
+          if (!(e instanceof LlmError)) continue;
           this.onFallback?.(entry.model, e);
+          if (e instanceof HttpStatusError && e.status === 429) limited = true;
           const cool = this.cooldownFor(e);
           if (cool > 0) this.coolUntil.set(entry.model, this.now() + cool);
         }
       }
+      if (!limited || this.now() - started > MAX_TOTAL_WAIT_MS) break;
     }
     throw last;
   }
 
   private cooldownFor(e: LlmError): number {
-    if (e instanceof HttpStatusError) return e.status === 429 || e.status >= 500 ? COOLDOWN_SHORT_MS : COOLDOWN_LONG_MS;
+    if (e instanceof HttpStatusError) {
+      if (e.status === 429) return Math.min(e.retryAfterMs ?? COOLDOWN_SHORT_MS, COOLDOWN_SHORT_MS);
+      return e.status >= 500 ? COOLDOWN_SHORT_MS : COOLDOWN_LONG_MS;
+    }
     return e.code === 'timeout' || e.code === 'network' ? COOLDOWN_SHORT_MS : 0;
   }
 }
 
-/** One OpenAiCompatClient per configured model, wrapped so a failing model hands over to the next. */
+/** One OpenAiCompatClient per chain entry, wrapped so a failing model hands over to the next. */
 export function buildLlm(
-  env: { llmBaseUrl: string; llmApiKey: string; llmModels: string[]; disableThinking: boolean },
+  env: { llmChain: { baseUrl: string; apiKey: string; model: string; extraBody?: Record<string, unknown> }[] },
   onFallback?: (model: string, e: LlmError) => void,
 ): LlmClient {
-  return new FallbackClient(env.llmModels.map((model) => ({
-    model,
-    client: new OpenAiCompatClient({ baseUrl: env.llmBaseUrl, apiKey: env.llmApiKey, model, disableThinking: env.disableThinking, retries: 0 }),
+  return new FallbackClient(env.llmChain.map((e) => ({
+    model: e.model,
+    client: new OpenAiCompatClient({ ...e, retries: 0 }),
   })), Date.now, onFallback);
 }

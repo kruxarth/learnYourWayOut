@@ -34,7 +34,7 @@ describe('OpenAiCompatClient (fake fetch)', () => {
   it('turns reasoning off when asked', async () => {
     const calls: RequestInit[] = [];
     const f = (async (_u: string, init: RequestInit) => { calls.push(init); return ok('{"a":1}'); }) as unknown as typeof fetch;
-    await new OpenAiCompatClient({ baseUrl: 'https://x', apiKey: 'k', model: 'm', fetch: f, disableThinking: true }).json(REQ);
+    await new OpenAiCompatClient({ baseUrl: 'https://x', apiKey: 'k', model: 'm', fetch: f, extraBody: { reasoning: { enabled: false } } }).json(REQ);
     expect(JSON.parse(calls[0].body as string).reasoning).toEqual({ enabled: false });
   });
 
@@ -100,5 +100,15 @@ describe('FallbackClient', () => {
     const b = answering({ from: 'b' });
     const f = new FallbackClient([{ model: 'a', client: a }, { model: 'b', client: b }]);
     expect(await f.json({ ...REQ, model: 'b' })).toEqual({ from: 'b' });
+  });
+
+  it('waits for the provider\'s retry-after when every model is rate-limited, then succeeds', async () => {
+    let t = 0;
+    const slept: number[] = [];
+    let calls = 0;
+    const a: LlmClient = { json: async () => { if (calls++ < 1) throw new HttpStatusError(429, 4000); return { ok: 1 }; } };
+    const f = new FallbackClient([{ model: 'a', client: a }], () => t, undefined, async (ms) => { slept.push(ms); t += ms; });
+    expect(await f.json(REQ)).toEqual({ ok: 1 });
+    expect(slept).toEqual([4250]);
   });
 });

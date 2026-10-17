@@ -59,7 +59,7 @@ export function createCustomClient(opts: ClientOptions = {}) {
   const doFetch: typeof fetch = opts.fetch ?? ((...a) => fetch(...a));
   const sleep = opts.sleep ?? defaultSleep;
   const pollMs = opts.pollMs ?? 1000;
-  const maxWaitMs = opts.maxWaitMs ?? 150_000;
+  const maxWaitMs = opts.maxWaitMs ?? 300_000;
   const now = opts.now ?? Date.now;
 
   async function call(path: string, init: RequestInit | undefined): Promise<{ status: number; body: Json }> {
