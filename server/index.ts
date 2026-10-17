@@ -8,7 +8,7 @@ import { dirname, extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createApi } from './api';
 import { PackCache } from './cache';
-import { loadEnvFile, readEnv } from './env';
+import { chainForKey, loadEnvFile, providerOfKey, readEnv } from './env';
 import { JobStore } from './jobs';
 import { buildLlm } from './llm/client';
 import { attachMultiplayer, lanUrls } from './mp/ws';
@@ -29,6 +29,10 @@ const llm = env.llmEnabled
 
 const api = createApi({
   env, llm,
+  clientForKey: (key) => {
+    const provider = providerOfKey(key);
+    return provider ? buildLlm({ llmChain: chainForKey(provider, key) }) : null;
+  },
   cache: new PackCache({ dir: join(dataDir, 'packs') }),
   jobs: new JobStore(),
   packLimiter: new RateLimiter(NEW_PACKS_PER_WINDOW, NEW_PACKS_WINDOW_MS),

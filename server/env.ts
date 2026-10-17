@@ -26,20 +26,35 @@ export function loadEnvFile(path: string): void {
   if (existsSync(path)) process.loadEnvFile(path);
 }
 
-const GROQ_URL = 'https://api.groq.com/openai/v1';
-const OPENROUTER_URL = 'https://openrouter.ai/api/v1';
-const GROQ_NO_THINK = { reasoning_effort: 'low' };
-const OPENROUTER_NO_THINK = { reasoning: { enabled: false } };
+export type Provider = 'groq' | 'openrouter' | 'cerebras';
 
-/** Free models, best first. Groq is fast; OpenRouter's free models are slow and capped at 50 requests a day, so they come last. */
-const DEFAULT_CHAIN = [
-  { provider: 'groq', model: 'openai/gpt-oss-120b' },
-  { provider: 'groq', model: 'qwen/qwen3.8-27b' },
-  { provider: 'groq', model: 'openai/gpt-oss-20b' },
-  { provider: 'openrouter', model: 'nvidia/nemotron-3-super-120b-a12b:free' },
-  { provider: 'openrouter', model: 'google/gemma-4-31b-it:free' },
-  { provider: 'openrouter', model: 'nvidia/nemotron-3.5-super-vl:free' },
-] as const;
+/** Free models per provider, best first. Groq is fast; OpenRouter's are slow and capped at 50 requests a day, so they come last. */
+const PROVIDERS: Record<Provider, { baseUrl: string; noThink: Record<string, unknown>; models: string[]; keyPrefix: string }> = {
+  groq: {
+    baseUrl: 'https://api.groq.com/openai/v1', noThink: { reasoning_effort: 'low' }, keyPrefix: 'gsk_',
+    models: ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'],
+  },
+  openrouter: {
+    baseUrl: 'https://openrouter.ai/api/v1', noThink: { reasoning: { enabled: false } }, keyPrefix: 'sk-or-',
+    models: ['nvidia/nemotron-3-super-120b-a12b:free', 'google/gemma-4-31b-it:free', 'nvidia/nemotron-3.5-super-vl:free'],
+  },
+  cerebras: {
+    baseUrl: 'https://api.cerebras.ai/v1', noThink: { reasoning_effort: 'low' }, keyPrefix: 'csk-',
+    models: ['gpt-oss-120b', 'qwen-3.8-27b'],
+  },
+};
+const DEFAULT_PROVIDERS: Provider[] = ['groq', 'openrouter'];
+
+/** Which provider a pasted key belongs to, by its prefix; null when it is none of ours. */
+export function providerOfKey(key: string): Provider | null {
+  const k = key.trim();
+  return (Object.keys(PROVIDERS) as Provider[]).find((p) => k.startsWith(PROVIDERS[p].keyPrefix) && k.length >= 20 && k.length <= 200) ?? null;
+}
+
+export function chainForKey(provider: Provider, apiKey: string, noThink = true): ChainEntry[] {
+  const p = PROVIDERS[provider];
+  return p.models.map((model) => ({ baseUrl: p.baseUrl, apiKey: apiKey.trim(), model, ...(noThink ? { extraBody: p.noThink } : {}) }));
+}
 
 const real = (v: string | undefined): string => {
   const t = (v ?? '').trim();
@@ -54,21 +69,17 @@ export function readEnv(source: Record<string, string | undefined> = process.env
   let chain: ChainEntry[];
   if (customKey || listed.length) {
     // one provider of your own: LLM_BASE_URL + LLM_API_KEY (+ LLM_MODELS)
-    const baseUrl = ((source.LLM_BASE_URL ?? '').trim() || OPENROUTER_URL).replace(/\/+$/, '');
+    const baseUrl = ((source.LLM_BASE_URL ?? '').trim() || PROVIDERS.openrouter.baseUrl).replace(/\/+$/, '');
     const apiKey = customKey || real(source.OPENROUTER_KEY);
-    chain = (listed.length ? listed : DEFAULT_CHAIN.filter((e) => e.provider === 'openrouter').map((e) => e.model))
-      .map((model) => ({ baseUrl, apiKey, model, ...(noThink ? { extraBody: baseUrl === GROQ_URL ? GROQ_NO_THINK : OPENROUTER_NO_THINK } : {}) }));
+    const noThinkBody = Object.values(PROVIDERS).find((p) => p.baseUrl === baseUrl)?.noThink;
+    chain = (listed.length ? listed : PROVIDERS.openrouter.models)
+      .map((model) => ({ baseUrl, apiKey, model, ...(noThink && noThinkBody ? { extraBody: noThinkBody } : {}) }));
   } else {
-    const keys = { groq: real(source.GROQ_API), openrouter: real(source.OPENROUTER_KEY) };
-    chain = DEFAULT_CHAIN.filter((e) => keys[e.provider]).map((e) => ({
-      baseUrl: e.provider === 'groq' ? GROQ_URL : OPENROUTER_URL,
-      apiKey: keys[e.provider],
-      model: e.model,
-      ...(noThink ? { extraBody: e.provider === 'groq' ? GROQ_NO_THINK : OPENROUTER_NO_THINK } : {}),
-    }));
+    const keys: Record<Provider, string> = { groq: real(source.GROQ_API), openrouter: real(source.OPENROUTER_KEY), cerebras: '' };
+    chain = DEFAULT_PROVIDERS.flatMap((p) => (keys[p] ? chainForKey(p, keys[p], noThink) : []));
   }
   chain = chain.filter((e) => e.apiKey);
-  const model = chain[0]?.model ?? DEFAULT_CHAIN[0].model;
+  const model = chain[0]?.model ?? PROVIDERS.groq.models[0];
   return {
     port: Number.isInteger(port) && port > 0 && port < 65536 ? port : 8787,
     llmChain: chain,

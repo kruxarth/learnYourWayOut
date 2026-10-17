@@ -150,6 +150,12 @@ describe('customClient with a fake fetch', () => {
 
   it('a cache hit returns the pack at once; a broken pack is rejected', async () => {
     expect((await make([json(200, { pack })]).client.requestPack('Volcanoes', 'easy')).id).toBe('custom');
+    const own = make([json(200, { pack })]);
+    await own.client.requestPack('Volcanoes', 'easy', () => {}, undefined, 'gsk_mine');
+    expect(JSON.parse(own.calls[0].init?.body as string)).toMatchObject({ apiKey: 'gsk_mine' });
+    const plain = make([json(200, { pack })]);
+    await plain.client.requestPack('Volcanoes', 'easy');
+    expect(JSON.parse(plain.calls[0].init?.body as string)).not.toHaveProperty('apiKey');
     const broken = make([json(200, { pack: { ...pack, questions: [] } })]);
     await expect(broken.client.requestPack('Volcanoes', 'easy')).rejects.toMatchObject({ code: 'bad-pack' });
   });

@@ -12,6 +12,8 @@ export interface ApiDeps {
   env: Pick<ServerEnv, 'llmEnabled' | 'llmModel' | 'reviewModel'>;
   /** null when no LLM key is configured. */
   llm: LlmClient | null;
+  /** A client that uses the player's own API key; null when the key is not one we recognise. Omitted in tests that don't use it. */
+  clientForKey?: (apiKey: string) => LlmClient | null;
   cache: PackCache;
   jobs: JobStore;
   packLimiter: RateLimiter;
@@ -36,7 +38,7 @@ export function createApi(deps: ApiDeps) {
   async function postPack(req: ApiRequest): Promise<ApiResponse> {
     const b = req.body;
     if (typeof b !== 'object' || b === null) return reply(400, { error: 'bad-request', message: 'Send { topic, level }.' });
-    const { topic: rawTopic, level } = b as { topic?: unknown; level?: unknown };
+    const { topic: rawTopic, level, apiKey } = b as { topic?: unknown; level?: unknown; apiKey?: unknown };
     if (typeof rawTopic !== 'string' || !LEVELS.includes(level as Difficulty)) {
       return reply(400, { error: 'bad-request', message: 'Send { topic: string, level: "easy" | "normal" | "hard" }.' });
     }
@@ -52,7 +54,11 @@ export function createApi(deps: ApiDeps) {
 
     const cached = deps.cache.get(key);
     if (cached) return reply(200, { pack: cached });
-    if (!deps.llm) return reply(503, { error: 'llm-disabled', message: 'Any Topic is not set up on this server.' });
+    // the player's own key (never logged or stored) replaces ours for this one pack
+    const ownKey = typeof apiKey === 'string' && apiKey.trim() ? apiKey.trim() : null;
+    const llm = ownKey ? (deps.clientForKey?.(ownKey) ?? null) : deps.llm;
+    if (ownKey && !llm) return reply(400, { error: 'bad-key', message: "That key isn't one I know. Use a Groq (gsk_…), OpenRouter (sk-or-…) or Cerebras (csk-…) key." });
+    if (!llm) return reply(503, { error: 'llm-disabled', message: 'Any Topic is not set up on this server.' });
     const active = deps.jobs.findActive(key);
     if (active) return reply(202, { jobId: active.id });
     if (!deps.packLimiter.allow(req.ip)) {
@@ -60,11 +66,11 @@ export function createApi(deps: ApiDeps) {
     }
 
     // the safety gate runs before any job starts, so unsafe topics get a 400 right away
-    const llm = deps.llm;
     let gate;
     try {
       gate = await checkTopic(topic, llm);
     } catch {
+      if (ownKey) return reply(400, { error: 'bad-key', message: "That API key didn't work, or its free limit is used up. Check it or try again later." });
       return reply(502, { error: 'llm-error', message: 'The question writer had a problem. Please try again.' });
     }
     if (gate.verdict !== 'ok') {
@@ -82,7 +88,7 @@ export function createApi(deps: ApiDeps) {
     const p = (async () => {
       try {
         const pack = await generatePack(topic, lvl, llm, (stage, progress) => { job.stage = stage; job.progress = progress; }, {
-          gated: gate, model: deps.env.llmModel, reviewModel: deps.env.reviewModel, now: deps.now,
+          gated: gate, model: ownKey ? 'player-key' : deps.env.llmModel, reviewModel: deps.env.reviewModel, now: deps.now,
         });
         deps.cache.set(cleanKey, pack);
         job.pack = pack; job.stage = 'done'; job.progress = 1;

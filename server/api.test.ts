@@ -7,19 +7,20 @@ import { PackCache } from './cache';
 import { JobStore } from './jobs';
 import { RateLimiter } from './ratelimit';
 import { cleanHandler, FakeLlm } from './testing/fakeLlm';
-import { readEnv } from './env';
+import { providerOfKey, readEnv } from './env';
+import type { LlmClient } from './llm/client';
 
 const dirs: string[] = [];
 afterEach(() => { for (const d of dirs.splice(0)) rmSync(d, { recursive: true, force: true }); });
 
-function setup(opts: { llm?: FakeLlm | null; clock?: { t: number }; cacheDir?: string; packsPerWindow?: number } = {}) {
+function setup(opts: { clientForKey?: (k: string) => LlmClient | null; llm?: FakeLlm | null; clock?: { t: number }; cacheDir?: string; packsPerWindow?: number } = {}) {
   const clock = opts.clock ?? { t: 1_000_000 };
   const llm = opts.llm === undefined ? new FakeLlm(cleanHandler()) : opts.llm;
   const reports: string[] = [];
   const cache = new PackCache({ dir: opts.cacheDir ?? null });
   const api = createApi({
     env: { llmEnabled: llm !== null, llmModel: 'fake', reviewModel: 'fake' },
-    llm, cache,
+    llm, cache, clientForKey: opts.clientForKey,
     jobs: new JobStore(() => clock.t),
     packLimiter: new RateLimiter(opts.packsPerWindow ?? 6, 10 * 60_000, () => clock.t),
     pollLimiter: new RateLimiter(60, 60_000, () => clock.t),
@@ -54,6 +55,32 @@ describe('api', () => {
     expect((await s.call('POST', '/api/packs', { topic: 'Volcanoes', level: 'insane' })).status).toBe(400);
     expect((await s.call('POST', '/api/packs', null)).status).toBe(400);
     expect((await s.call('GET', '/api/nope')).status).toBe(404);
+  });
+
+  it("uses a player's own key instead of the server's, even when the server has no key", async () => {
+    const mine = new FakeLlm(cleanHandler());
+    const seen: string[] = [];
+    const s = setup({ llm: null, clientForKey: (k) => { seen.push(k); return k.startsWith('gsk_') ? mine : null; } });
+    expect((await s.call('POST', '/api/packs', { topic: 'Volcanoes', level: 'easy', apiKey: 'nope' })).body).toMatchObject({ error: 'bad-key' });
+    const start = await s.call('POST', '/api/packs', { topic: 'Volcanoes', level: 'easy', apiKey: ' gsk_abcdefghijklmnopqrstu ' });
+    expect(start.status).toBe(202);
+    expect(seen).toEqual(['nope', 'gsk_abcdefghijklmnopqrstu']);
+    await s.api.idle();
+    expect(mine.calls.length).toBeGreaterThan(0);
+    expect(JSON.stringify(s.cache.get('easy:volcanoes'))).not.toContain('gsk_');
+  });
+
+  it('a key that fails the first call says so instead of a generic error', async () => {
+    const s = setup({ clientForKey: () => ({ json: async () => { throw new Error('401'); } }) });
+    expect((await s.call('POST', '/api/packs', { topic: 'Volcanoes', level: 'easy', apiKey: 'gsk_abcdefghijklmnopqrstu' })).body).toMatchObject({ error: 'bad-key' });
+  });
+
+  it('recognises keys by prefix', () => {
+    expect(providerOfKey('gsk_abcdefghijklmnopqrstu')).toBe('groq');
+    expect(providerOfKey('sk-or-v1-abcdefghijklmnop')).toBe('openrouter');
+    expect(providerOfKey('csk-abcdefghijklmnopqrstu')).toBe('cerebras');
+    expect(providerOfKey('sk-abcdefghijklmnopqrstuvwxyz')).toBeNull();
+    expect(providerOfKey('gsk_short')).toBeNull();
   });
 
   it('starts a job, polls it to done, then serves the pack from the cache', async () => {

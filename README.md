@@ -15,7 +15,7 @@ Run the game server (needs an OpenAI-compatible API key; the key never reaches t
 2. `npm run dev:all` runs Vite and the server together (Vite proxies `/api` to port 8787). `npm run server` runs the server alone. After `npm run build`, the server also serves `dist/`, so one laptop can host the whole game on a LAN.
 3. `npm run gen-pack -- "Roman Empire" normal` prints a generated pack as JSON (a human should review every question before it is committed).
 
-Without a key the server starts with Any Topic switched off (`/api/health` says `llm:false`) and the panel points players to the examples. AI-made questions can be wrong: they pass validation and a second review pass, are marked "AI-made", and every question has a "Looks wrong?" button. Only the topic text and level are ever sent to the model. Optional client setting: `VITE_SERVER_URL` (empty means same origin).
+Without a key the server starts with Any Topic switched off (`/api/health` says `llm:false`) and the panel points players to the examples. AI-made questions can be wrong: they pass validation and a second review pass, are marked "AI-made", and every question has a "Looks wrong?" button. Only the topic text and level are ever sent to the model. Visitors can also paste their own free Groq, OpenRouter or Cerebras key under "Busy or failing?" in the Any Topic panel: it is sent with that one request, used for that pack only, and never stored or logged. Optional client setting: `VITE_SERVER_URL` (empty means same origin).
 
 ## Multiplayer (race friends, one laptop each)
 2 to 8 players race the same course at the same time and see each other as see-through avatars (no collisions). Everyone plays their own run; the first to qualify wins.

@@ -2,13 +2,13 @@ import type { Difficulty } from '../game/types';
 import type { DomainPack } from './schema';
 import { validateDomainPack } from './validate';
 
-/** Talks to the game server for Any Topic. The browser never sees an LLM key: only the topic and level are sent. */
+/** Talks to the game server for Any Topic. The browser never sees the server's LLM key: only the topic and level are sent, plus a key the player chose to paste. */
 
 export type ReportReason = 'wrong' | 'confusing' | 'unsuitable';
 
 export type TopicErrorCode =
   | 'server-down' | 'llm-disabled' | 'too-short' | 'too-long' | 'unsafe' | 'not-a-topic' | 'too-broad'
-  | 'rate-limited' | 'failed' | 'expired' | 'timeout' | 'bad-pack';
+  | 'rate-limited' | 'bad-key' | 'failed' | 'expired' | 'timeout' | 'bad-pack';
 
 export class TopicError extends Error {
   readonly code: TopicErrorCode;
@@ -85,7 +85,7 @@ export function createCustomClient(opts: ClientOptions = {}) {
     if (status === 429) return new TopicError('rate-limited', message);
     if (status === 404) return new TopicError('expired', message);
     const code = body.error;
-    const known: TopicErrorCode[] = ['too-short', 'too-long', 'unsafe', 'not-a-topic', 'too-broad', 'failed'];
+    const known: TopicErrorCode[] = ['too-short', 'too-long', 'unsafe', 'not-a-topic', 'too-broad', 'bad-key', 'failed'];
     if (typeof code === 'string' && (known as string[]).includes(code)) return new TopicError(code as TopicErrorCode, message, suggestions);
     return new TopicError('failed', message, suggestions);
   }
@@ -109,11 +109,11 @@ export function createCustomClient(opts: ClientOptions = {}) {
       }
     },
 
-    /** Starts a job (or gets a cached pack), then polls it once a second. Rejects with TopicError, or an AbortError if `signal` aborts. */
-    async requestPack(topic: string, level: Difficulty, onProgress: ProgressFn = () => {}, signal?: AbortSignal): Promise<DomainPack> {
+    /** Starts a job (or gets a cached pack), then polls it once a second. `apiKey` is the player's own key: sent once, never stored here. Rejects with TopicError, or an AbortError if `signal` aborts. */
+    async requestPack(topic: string, level: Difficulty, onProgress: ProgressFn = () => {}, signal?: AbortSignal, apiKey?: string): Promise<DomainPack> {
       onProgress('checking', 0);
       const start = await call('/api/packs', {
-        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ topic, level }), signal,
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ topic, level, ...(apiKey ? { apiKey } : {}) }), signal,
       });
       if (start.status === 200) { onProgress('done', 1); return checkedPack(start.body.pack); }
       if (start.status !== 202 || typeof start.body.jobId !== 'string') throw errorFrom(start.status, start.body);

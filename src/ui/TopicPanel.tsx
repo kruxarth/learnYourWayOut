@@ -44,6 +44,7 @@ function TopicPanelBody() {
   const [level, setLevel] = useState<Difficulty>(() => useUI.getState().topicLevel);
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const [server, setServer] = useState<Server>('checking');
+  const [apiKey, setApiKey] = useState(''); // kept in memory only, never saved
   const [recent, setRecent] = useState<DomainPack[]>(() => loadRecent());
   const abort = useRef<AbortController | null>(null);
   const root = useRef<HTMLDivElement>(null);
@@ -58,11 +59,13 @@ function TopicPanelBody() {
 
   const close = () => { abort.current?.abort(); useUI.setState({ topicOpen: false }); };
   const working = phase.kind === 'working';
-  const canMake = server === 'up' && topic.trim().length >= 3 && !working;
+  const hasKey = apiKey.trim().length > 0;
+  const serverOk = server === 'up' || (server === 'no-llm' && hasKey);
+  const canMake = serverOk && topic.trim().length >= 3 && !working;
 
   const make = async (text = topic) => {
     const t = text.trim();
-    if (t.length < 3 || server !== 'up') return;
+    if (t.length < 3 || !serverOk) return;
     abort.current?.abort();
     const ctrl = new AbortController();
     abort.current = ctrl;
@@ -70,7 +73,7 @@ function TopicPanelBody() {
     try {
       const pack = await customClient.requestPack(t, level, (stage, progress) => {
         if (!ctrl.signal.aborted) setPhase({ kind: 'working', stage, progress });
-      }, ctrl.signal);
+      }, ctrl.signal, apiKey.trim() || undefined);
       if (ctrl.signal.aborted) return;
       saveRecent(pack);
       setRecent(loadRecent());
@@ -89,7 +92,7 @@ function TopicPanelBody() {
   };
 
   const err = phase.kind === 'error' ? phase.error : null;
-  const serverMsg = server === 'down' || server === 'no-llm' ? 'Any Topic needs the game server. Try an example below!' : null;
+  const serverMsg = server === 'down' || (server === 'no-llm' && !hasKey) ? 'Any Topic needs the game server. Try an example below!' : null;
 
   return (
     <div className="modal-back" role="dialog" aria-modal="true" aria-label="Any Topic" onKeyDown={onKey}>
@@ -107,6 +110,9 @@ function TopicPanelBody() {
               onChange={(e) => { setTopic(e.target.value); if (phase.kind === 'error') setPhase({ kind: 'idle' }); }}
               onKeyDown={(e) => { if (e.key === 'Enter' && canMake) void make(); }}
             />
+            <div className="topic-note">
+              Free demo: questions are written by free AI models, so it can be slow or fail when busy. Please don't use it for long play sessions.
+            </div>
             <div className="chips topic-chips" aria-label="Topic ideas">
               {SUGGESTIONS.map((s) => (
                 <button key={s} type="button" className="chip" disabled={working} onClick={() => pickSuggestion(s)}>{s}</button>
@@ -121,6 +127,17 @@ function TopicPanelBody() {
                 </button>
               ))}
             </div>
+
+            <details className="topic-key">
+              <summary>Busy or failing? Use your own free API key</summary>
+              <input
+                className="topic-input" type="password" autoComplete="off" spellCheck={false} maxLength={200}
+                value={apiKey} disabled={working} placeholder="gsk_… (Groq), sk-or-… (OpenRouter) or csk-… (Cerebras)"
+                aria-label="Your API key"
+                onChange={(e) => { setApiKey(e.target.value); if (phase.kind === 'error') setPhase({ kind: 'idle' }); }}
+              />
+              <div className="topic-note">Sent only to make this one maze. It is never saved and not shown again. Free keys come from console.groq.com, openrouter.ai or cloud.cerebras.ai.</div>
+            </details>
 
             {working && (
               <div className="topic-progress" role="status" aria-live="polite">
